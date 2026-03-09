@@ -42,10 +42,6 @@ export function Lesson() {
   return (
     <div className="h-full overflow-y-auto pb-20">
       <div className="max-w-4xl mx-auto px-8 py-12">
-        <div className="mb-2 text-sm text-gray-500">
-          {lesson.title} — Slide {slideIndex + 1} of {lesson.slides.length}
-        </div>
-
         <div className="prose prose-lg max-w-none">
           <SlideContent content={slide.content} />
         </div>

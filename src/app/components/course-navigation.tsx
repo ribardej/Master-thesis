@@ -53,7 +53,7 @@ export function CourseNavigation() {
   };
 
   const progressPercent = totalSlides > 1
-    ? ((slideIndex) / (totalSlides - 1)) * 100
+    ? ((slideIndex+1) / (totalSlides )) * 100
     : 100;
 
   return (
