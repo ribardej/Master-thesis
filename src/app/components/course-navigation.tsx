@@ -7,7 +7,7 @@ import {
   getAllLessons,
 } from "../data/course-data";
 
-export function CourseNavigation() {
+export function CourseNavigation({ sidebarOpen = true }: { sidebarOpen?: boolean }) {
   const { lessonId } = useParams();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -57,7 +57,7 @@ export function CourseNavigation() {
     : 100;
 
   return (
-    <div className="fixed bottom-0 left-80 right-0 bg-white border-t border-gray-200 z-10">
+    <div className={`fixed bottom-0 right-0 bg-white border-t border-gray-200 z-10 transition-all duration-300 ${sidebarOpen ? 'left-80' : 'left-12'}`}>
       {/* Progress bar */}
       <div className="h-1 bg-gray-100">
         <div

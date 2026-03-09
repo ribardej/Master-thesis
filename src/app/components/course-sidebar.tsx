@@ -1,9 +1,14 @@
-import { ChevronDown, ChevronRight, CheckCircle2, Circle, Play } from "lucide-react";
+import { ChevronDown, ChevronRight, CheckCircle2, Circle, Play, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { useState } from "react";
 import { Link, useParams } from "react-router";
 import { courseData, getAllLessons, type Module, type Lesson } from "../data/course-data";
 
-export function CourseSidebar() {
+interface CourseSidebarProps {
+  isOpen: boolean;
+  onToggle: () => void;
+}
+
+export function CourseSidebar({ isOpen, onToggle }: CourseSidebarProps) {
   const { lessonId } = useParams();
   // If no lessonId in URL, use the first lesson
   const currentLessonId = lessonId || getAllLessons()[0]?.id;
@@ -25,11 +30,36 @@ export function CourseSidebar() {
     return false;
   };
 
+  if (!isOpen) {
+    return (
+      <div className="flex flex-col items-center pt-4 w-12 bg-white border-r border-gray-200 h-full flex-shrink-0">
+        <button
+          onClick={onToggle}
+          className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-500"
+          aria-label="Open sidebar"
+        >
+          <PanelLeftOpen className="w-5 h-5" />
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="w-80 bg-white border-r border-gray-200 flex flex-col h-full">
+    <div className="w-80 bg-white border-r border-gray-200 flex flex-col h-full flex-shrink-0">
       <div className="p-6 border-b border-gray-200">
-        <h2 className="font-semibold text-lg mb-1">{courseData.title}</h2>
-        <p className="text-sm text-gray-600">{courseData.description}</p>
+        <div className="flex items-start justify-between gap-2">
+          <div className="min-w-0">
+            <h2 className="font-semibold text-lg mb-1">{courseData.title}</h2>
+            <p className="text-sm text-gray-600">{courseData.description}</p>
+          </div>
+          <button
+            onClick={onToggle}
+            className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors text-gray-500 flex-shrink-0 mt-0.5"
+            aria-label="Close sidebar"
+          >
+            <PanelLeftClose className="w-5 h-5" />
+          </button>
+        </div>
       </div>
       
       <div className="flex-1 overflow-y-auto">
