@@ -1,10 +1,10 @@
-import { createBrowserRouter } from "react-router";
+import { createHashRouter } from "react-router";
 import { CourseLayout } from "./pages/course-layout";
 import { Lesson } from "./pages/lesson";
 import { OldCourseRedirect } from "./pages/old-course-redirect";
 import { NotFound } from "./pages/not-found";
 
-export const router = createBrowserRouter([
+export const router = createHashRouter([
   {
     path: "/",
     Component: CourseLayout,
