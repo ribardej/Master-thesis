@@ -5,10 +5,10 @@ import { module2 } from "./module-2";
 import { module3 } from "./module-3";
 
 export const courseData: Course = {
-  id: "intro-to-web-dev",
-  title: "Introduction to Web Development",
+  id: "quantum-cryptography",
+  title: "Quantum-Safe Cryptography",
   description:
-    "Learn the fundamentals of web development including HTML, CSS, and JavaScript",
+    "A comprehensive guide to cryptographic fundamentals, quantum threats, and post-quantum solutions for secure communication",
   modules: [module1, module2, module3],
 };
 
