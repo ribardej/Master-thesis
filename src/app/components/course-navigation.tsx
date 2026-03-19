@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate, useParams, useSearchParams } from "react-router";
 import {
@@ -51,6 +52,32 @@ export function CourseNavigation({ sidebarOpen = true }: { sidebarOpen?: boolean
       goTo(nextLesson.id, 1);
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't intercept if user is typing in an input
+      if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) {
+        return;
+      }
+
+      if (e.key === 'ArrowRight') {
+        const event = new CustomEvent('slide-next', { cancelable: true });
+        window.dispatchEvent(event);
+        if (!event.defaultPrevented && canGoNext) {
+          handleNext();
+        }
+      } else if (e.key === 'ArrowLeft') {
+        const event = new CustomEvent('slide-prev', { cancelable: true });
+        window.dispatchEvent(event);
+        if (!event.defaultPrevented && canGoPrev) {
+          handlePrevious();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleNext, handlePrevious, canGoNext, canGoPrev]);
 
   const progressPercent = totalSlides > 1
     ? ((slideIndex+1) / (totalSlides )) * 100

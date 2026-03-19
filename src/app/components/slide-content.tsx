@@ -1,4 +1,7 @@
 import React from "react";
+import { SymmetricEncryptionAnimation } from "./animations/symmetric-encryption";
+import { RSAKeyDistributionAnimation } from "./animations/rsa-key-distribution";
+import { DHKeyDistributionAnimation } from "./animations/dh-key-distribution";
 
 export function SlideContent({ content }: { content: string }) {
   const lines = content.trim().split("\n");
@@ -22,7 +25,8 @@ export function SlideContent({ content }: { content: string }) {
   };
 
   for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
+    const rawLine = lines[i];
+    const line = rawLine.trimStart();
 
     if (line.startsWith("```")) {
       if (inCodeBlock) {
@@ -35,7 +39,7 @@ export function SlideContent({ content }: { content: string }) {
     }
 
     if (inCodeBlock) {
-      currentCodeBlock.push(line);
+      currentCodeBlock.push(rawLine);
       continue;
     }
 
@@ -76,6 +80,20 @@ export function SlideContent({ content }: { content: string }) {
           {line.slice(2, -2)}
         </p>
       );
+    } else if (line.startsWith("[COMPONENT: ")) {
+      // Extract component name from [COMPONENT: Name]
+      const match = line.match(/\[COMPONENT:\s*([a-zA-Z0-9_]+)\s*\]/);
+      if (match && match[1]) {
+        const componentName = match[1];
+        if (componentName === "SymmetricEncryption") {
+          elements.push(<SymmetricEncryptionAnimation key={key++} />);
+        } else if (componentName === "RSAKeyDistribution") {
+          elements.push(<RSAKeyDistributionAnimation key={key++} />);
+        } else if (componentName === "DHKeyDistribution") {
+          elements.push(<DHKeyDistributionAnimation key={key++} />);
+        }
+        // Additional components can be registered here in the future
+      }
     } else if (line.trim() === "") {
       continue;
     } else {
