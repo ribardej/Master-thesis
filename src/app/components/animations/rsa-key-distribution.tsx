@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { User, KeyRound, Lock, Unlock, EyeOff, FileLock2, RefreshCw, Pause, Play, Package } from "lucide-react";
+import { User, KeyRound, Lock, Unlock, EyeOff, FileLock2, RefreshCw, Pause, Play, Package, UserSearch } from "lucide-react";
 
 export function RSAKeyDistributionAnimation() {
   const [step, setStep] = useState(0);
@@ -164,13 +164,13 @@ export function RSAKeyDistributionAnimation() {
 
         {/* Attacker (Middle) */}
         <div className="relative z-10 flex flex-col items-center gap-2 mt-32">
-          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
-            <EyeOff size={28} className="text-red-600" />
+          <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
+            <UserSearch size={36} className="text-red-600" />
           </div>
           <div className="text-center">
             <p className="font-bold text-gray-800 text-sm">Attacker</p>
             <p className="text-xs text-gray-500 max-w-[120px]">
-              {step === 1 ? "Sees Public Key (useless alone)" : step === 3 ? "Sees encrypted Shared Key" : "-"}
+              {step === 1 ? "Sees Public Key (useless alone)" : step === 3 ? "Sees encrypted Shared Key" : ""}
             </p>
           </div>
         </div>

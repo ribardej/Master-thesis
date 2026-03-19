@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { User, KeyRound, FileText, Lock, EyeOff, FileLock2, RefreshCw, Pause, Play, Ban } from "lucide-react";
+import { User, KeyRound, FileText, Lock, EyeOff, FileLock2, RefreshCw, Pause, Play, Ban, UserSearch } from "lucide-react";
 
 export function SymmetricEncryptionAnimation() {
   const [step, setStep] = useState(0);
@@ -156,8 +156,8 @@ export function SymmetricEncryptionAnimation() {
 
         {/* Attacker (Middle) */}
         <div className="relative z-10 flex flex-col items-center gap-2 mt-32">
-          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
-            <EyeOff size={28} className="text-red-600" />
+          <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
+            <UserSearch size={36} className="text-red-600" />
           </div>
           <div className="text-center">
             <p className="font-bold text-gray-800 text-sm">Attacker</p>

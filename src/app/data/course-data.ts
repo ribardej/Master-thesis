@@ -2,14 +2,13 @@ export type { Slide, Lesson, Module, Course } from "./types";
 import type { Course, Lesson } from "./types";
 import { module1 } from "./module-1";
 import { module2 } from "./module-2";
-import { module3 } from "./module-3";
 
 export const courseData: Course = {
   id: "quantum-cryptography",
   title: "Quantum-Safe Cryptography",
   description:
     "A comprehensive guide to cryptographic fundamentals, quantum threats, and post-quantum solutions for secure communication",
-  modules: [module1, module2, module3],
+  modules: [module1, module2],
 };
 
 // Helper function to get all lessons in order

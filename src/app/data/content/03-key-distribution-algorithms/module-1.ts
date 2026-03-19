@@ -6,7 +6,7 @@ export const lesson3: Lesson = {
   slides: [
     {
       title: "Key Distribution Algorithms",
-      content: `## But if the confidentiality of the communication relies entirely on a shared secret key, how can the parties agree on this key using only the insecure channel they wish to protect? \n\n
+      content: `## But what about the symmetric key? 
        - To transmit the key securely, you essentially need an existing encrypted channel
        - However, to establish that encrypted channel, you first need the key
        - In pre-digital eras, this deadlock was resolved via physical couriers or trusted meetings

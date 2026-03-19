@@ -7,7 +7,8 @@ export const lesson2: Lesson = {
     {
       title: "Symmetric Encryption",
       content: `## Symmetric Encryption ensures that if an attacker is able to intercept your conversation, he will not be able to read the messages.\n\n
-      It is called symmetric, because the same key has to be used for both encryption and decryption.`,
+      - The same key has to be used for both encryption and decryption (therefore "symmetric")
+      - It is much faster than assymetric encryption`,
     },
     {
       title: "Visualizing the Flow",

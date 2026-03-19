@@ -11,7 +11,7 @@ import { lesson9 } from "./content/09-quantum-safe-public-channel-establishment/
 
 export const module2: Module = {
   id: "module-2",
-  title: "General Explanation",
+  title: "Detailed Explanation",
   lessons: [
     lesson1,
     lesson2,
