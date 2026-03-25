@@ -74,7 +74,7 @@ export function SymmetricEncryptionAnimation() {
               Restart
             </button>
           </div>
-          <AnimationSpeedControl baseTimeMs={3500} />
+          <AnimationSpeedControl baseTimeMs={3000} />
         </div>
       </div>
 

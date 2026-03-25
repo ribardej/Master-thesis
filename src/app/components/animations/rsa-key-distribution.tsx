@@ -82,19 +82,19 @@ export function RSAKeyDistributionAnimation() {
 
         {/* Sender (Alice) */}
         <div className="relative z-10 flex flex-col items-center gap-3">
-          <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
-            <User size={36} className="text-indigo-600" />
+          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
+            <User size={36} className="text-green-600" />
           </div>
           <div className="text-center">
             <p className="font-bold text-gray-800">Sender</p>
             <div className="flex flex-col items-center mt-1 min-h-[3rem]">
               {step >= 1 && (
-                <div className="flex items-center gap-1 text-xs text-green-600 font-medium">
+                <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 mt-1 ${step === 2 || step === 1? "text-green-600 scale-120 drop-shadow-md" : "text-green-600"}`}>
                   <Unlock size={12} /> Public Key
                 </div>
               )}
               {step >= 2 && (
-                <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 mt-1 ${step === 2 || step === 5 ? "text-amber-600 scale-110 drop-shadow-md" : "text-amber-500"}`}>
+                <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 mt-1 ${step === 2 || step === 5 ? "text-amber-600 scale-120 drop-shadow-md" : "text-amber-600"}`}>
                   <KeyRound size={12} /> Shared Key
                 </div>
               )}
@@ -188,14 +188,14 @@ export function RSAKeyDistributionAnimation() {
           <div className="text-center">
             <p className="font-bold text-gray-800">Receiver</p>
             <div className="flex flex-col items-center mt-1 min-h-[3rem]">
-              <div className="flex items-center gap-1 text-xs text-green-600 font-medium">
+              <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 mt-1 ${step === 1 || step === 0 ? "text-green-600 scale-120 drop-shadow-md" : "text-green-600"}`}>
                 <Unlock size={12} /> Public Key
               </div>
-              <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 mt-1 ${step === 4 ? "text-red-600 scale-110 drop-shadow-md" : "text-red-500"}`}>
+              <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 mt-1 ${step === 4 || step === 0 ? "text-red-600 scale-120 drop-shadow-md" : "text-red-600"}`}>
                 <Lock size={12} /> Private Key
               </div>
               {step >= 4 && (
-                <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 mt-1 ${step === 5 ? "text-amber-600 scale-110 drop-shadow-md" : "text-amber-500 animate-fade-in"}`}>
+                <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 mt-1 ${step === 5 ? "text-amber-600 scale-120 drop-shadow-md" : "text-amber-600 animate-fade-in"}`}>
                   <KeyRound size={12} /> Shared Key
                 </div>
               )}

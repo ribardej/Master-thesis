@@ -16,8 +16,10 @@ export const lesson3: Lesson = {
     },
     {
       title: "RSA Key Distribution",
-      content: `## Option 1 - Asymmetric Encryption (RSA)
-      
+      content: `# Option 1 - Asymmetric Encryption (RSA)
+
+
+
       - One way to solve the key distribution problem is to use a pair of **mathematically linked** keys 
       -> **Public** Key and a **Private** Key 
 
@@ -31,9 +33,14 @@ export const lesson3: Lesson = {
     },
     {
       title: "Diffie-Hellman Key Exchange",
-      content: `## Option 2 - Key Exchange (Diffie-Hellman)\n\n
-      - Unlike RSA which transports a locked key, Diffie-Hellman allows both parties to independently mathematically build the exact same shared key without ever sending the key itself over the internet
-      - The famous "Color Mixing" analogy is often used to visually represent the irreversible modular arithmetic happening in the background`
+      content: `# Option 2 - Key Exchange (Diffie-Hellman)
+
+
+
+
+      - Unlike RSA which transports a locked key, Diffie-Hellman allows both parties to independently mathematically build the exact same shared key **without** ever sending the key itself over the internet
+
+      - The **color mixing** analogy can be used to visually represent the principle of irreversible modular arithmetic happening in the background`
     },
     {
       title: "Visualizing DH",

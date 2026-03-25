@@ -54,7 +54,7 @@ export function DHKeyDistributionAnimation() {
   return (
     <div className="w-full max-w-3xl mx-auto p-8 bg-gray-50 rounded-xl border border-gray-200 my-8 shadow-sm">
       <div className="flex justify-between items-start mb-12">
-        <h3 className="text-xl font-bold text-gray-800 m-0 pt-1">Analogy for Diffie-Hellman Key Exchange Principle</h3>
+        <h3 className="text-xl font-bold text-gray-800 m-0 pt-1">Analogy for Diffie-Hellman Key Exchange</h3>
         <div className="flex flex-col gap-2">
           <div className="flex gap-2">
             <button 
@@ -72,7 +72,7 @@ export function DHKeyDistributionAnimation() {
               Restart
             </button>
           </div>
-          <AnimationSpeedControl baseTimeMs={3500} />
+          <AnimationSpeedControl baseTimeMs={3000} />
         </div>
       </div>
 
@@ -82,17 +82,17 @@ export function DHKeyDistributionAnimation() {
 
         {/* Sender (Alice) */}
         <div className="relative z-10 flex flex-col items-center gap-3">
-          <div className="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
-            <User size={36} className="text-indigo-600" />
+          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
+            <User size={36} className="text-green-600" />
           </div>
           <div className="text-center w-28">
             <p className="font-bold text-gray-800">Alice</p>
             <div className="flex flex-col items-center mt-1 min-h-[5rem] space-y-1">
-              <div className="flex items-center gap-1 text-xs text-yellow-600 font-medium">
+              <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 0 || step === 2? "text-yellow-600 scale-120 drop-shadow-md" : "text-yellow-600"}`}>
                 <PaintBucket size={12} /> Common Paint
               </div>
               {step >= 1 && (
-                <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 1 || step === 4 ? "text-red-500 scale-110 drop-shadow-md" : "text-red-400"}`}>
+                <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 1 || step === 4  || step === 2? "text-red-600 scale-120 drop-shadow-md" : "text-red-600"}`}>
                   <Droplet size={12} fill="currentColor" /> Secret Paint
                 </div>
               )}
@@ -133,7 +133,7 @@ export function DHKeyDistributionAnimation() {
           {/* Step 2: Mixing happening on both sides */}
           {step === 2 && (
             <>
-              <div className="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-orange-300 flex flex-col items-center">
+              <div className="absolute top-1/4 left-[10%]  -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-orange-300 flex flex-col items-center">
                 <div className="flex items-center gap-1">
                   <Droplet size={16} className="text-yellow-500" fill="currentColor" />
                   <span className="text-gray-400">+</span>
@@ -143,7 +143,7 @@ export function DHKeyDistributionAnimation() {
                 </div>
                 <span className="text-xs font-medium text-orange-600 mt-1 animate-pulse">Mixing...</span>
               </div>
-              <div className="absolute top-1/2 left-full -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-cyan-300 flex flex-col items-center">
+              <div className="absolute top-1/4 left-[90%] -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-cyan-300 flex flex-col items-center">
                 <div className="flex items-center gap-1">
                   <Droplets size={20} className="text-cyan-500" fill="currentColor" />
                   <span className="text-gray-400">=</span>
@@ -171,7 +171,7 @@ export function DHKeyDistributionAnimation() {
           {/* Step 4: Final mixing at destinations */}
           {step === 4 && (
             <>
-              <div className="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-amber-800 flex flex-col items-center">
+              <div className="absolute top-1/4 left-[10%] -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-amber-800 flex flex-col items-center">
                 <div className="flex items-center gap-1">
                   <Droplets size={16} className="text-cyan-500" fill="currentColor" />
                   <span className="text-gray-400">+</span>
@@ -180,7 +180,7 @@ export function DHKeyDistributionAnimation() {
                   <Droplets size={20} className="text-amber-800" fill="currentColor" />
                 </div>
               </div>
-              <div className="absolute top-1/2 left-full -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-amber-800 flex flex-col items-center">
+              <div className="absolute top-1/4 left-[90%] -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-amber-800 flex flex-col items-center">
                 <div className="flex items-center gap-1">
                   <Droplets size={20} className="text-amber-800" fill="currentColor" />
                   <span className="text-gray-400">=</span>
@@ -214,11 +214,11 @@ export function DHKeyDistributionAnimation() {
           <div className="text-center w-28">
             <p className="font-bold text-gray-800">Bob</p>
             <div className="flex flex-col items-center mt-1 min-h-[5rem] space-y-1">
-              <div className="flex items-center gap-1 text-xs text-yellow-600 font-medium">
+              <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 0 || step === 2? "text-yellow-600 scale-120 drop-shadow-md" : "text-yellow-600"}`}>
                 <PaintBucket size={12} /> Common Paint
               </div>
               {step >= 1 && (
-                <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 1 || step === 4 ? "text-blue-500 scale-110 drop-shadow-md" : "text-blue-400"}`}>
+                <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 1 || step === 4  || step === 2? "text-blue-600 scale-120 drop-shadow-md" : "text-blue-600"}`}>
                   <Droplet size={12} fill="currentColor" /> Secret Paint
                 </div>
               )}
