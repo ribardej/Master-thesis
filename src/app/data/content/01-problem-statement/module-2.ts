@@ -6,15 +6,11 @@ export const lesson1: Lesson = {
   slides: [
     {
       title: "Problem Statement",
-      content: `# Problem Statement\n\nContent placeholder for "Problem Statement".`,
+      content: `# Chapter 1: Problem Statement in Detail`,
     },
     {
-      title: "Key Points",
-      content: `## Key Points\n\nKey points placeholder for "Problem Statement".`,
-    },
-    {
-      title: "Summary",
-      content: `## Summary\n\nSummary placeholder for "Problem Statement".`,
+      title: "Problem Statement",
+      content: `Je to problem`,
     },
   ],
 };

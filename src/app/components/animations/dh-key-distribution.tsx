@@ -11,18 +11,18 @@ export function DHKeyDistributionAnimation() {
   useEffect(() => {
     if (isPaused) return;
 
-    const timer = setInterval(() => {
+    const timer = setTimeout(() => {
       setStep((prev) => (prev + 1) % maxSteps);
     }, 5000 / speed);
-    return () => clearInterval(timer);
-  }, [isPaused, speed]);
+    return () => clearTimeout(timer);
+  }, [isPaused, speed, step]);
 
   useEffect(() => {
     const handleNext = (e: Event) => {
       if (step < maxSteps - 1) {
         e.preventDefault();
         setStep((prev) => prev + 1);
-        setIsPaused(true);
+        //setIsPaused(true);
       }
     };
 
@@ -30,20 +30,30 @@ export function DHKeyDistributionAnimation() {
       if (step > 0) {
         e.preventDefault();
         setStep((prev) => prev - 1);
-        setIsPaused(true);
+        //setIsPaused(true);
       }
+    };
+
+    const handleSpace = (e: Event) => {
+      e.preventDefault();
+      setIsPaused((p) => !p);
     };
 
     window.addEventListener('slide-next', handleNext);
     window.addEventListener('slide-prev', handlePrev);
+    window.addEventListener('slide-space', handleSpace);
 
     return () => {
       window.removeEventListener('slide-next', handleNext);
       window.removeEventListener('slide-prev', handlePrev);
+      window.removeEventListener('slide-space', handleSpace);
     };
   }, [step]);
 
-  const reset = () => setStep(0);
+  const reset = () => {
+    setStep(0);
+    setIsPaused(false);
+  };
   const togglePause = () => {
     if (isPaused) {
       setStep((prev) => (prev + 1) % maxSteps);
@@ -78,7 +88,7 @@ export function DHKeyDistributionAnimation() {
 
       <div className="relative flex justify-between items-center h-56">
         {/* Connection Line */}
-        <div className="absolute top-1/2 left-12 right-12 h-1 bg-gray-300 -translate-y-1/2 border-t border-b border-gray-400 border-dashed z-0" />
+        <div className="absolute top-2/5 left-12 right-12 h-1 bg-gray-300 -translate-y-1/2 border-t border-b border-gray-400 border-dashed z-0" />
 
         {/* Sender (Alice) */}
         <div className="relative z-10 flex flex-col items-center gap-3">
@@ -92,7 +102,7 @@ export function DHKeyDistributionAnimation() {
                 <PaintBucket size={12} /> Common Paint
               </div>
               {step >= 1 && (
-                <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 1 || step === 4  || step === 2? "text-red-600 scale-120 drop-shadow-md" : "text-red-600"}`}>
+                <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 1 || step === 4  || step === 2? "text-red-600 scale-120 ease-in-out drop-shadow-md" : "text-red-600"}`}>
                   <Droplet size={12} fill="currentColor" /> Secret Paint
                 </div>
               )}
@@ -278,7 +288,6 @@ export function DHKeyDistributionAnimation() {
             key={s}
             onClick={() => {
               setStep(s);
-              setIsPaused(true);
             }}
             className={`flex-1 h-2 rounded-full transition-all duration-300 cursor-pointer ${
               step === s

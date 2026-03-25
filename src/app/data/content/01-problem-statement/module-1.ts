@@ -6,7 +6,7 @@ export const lesson1: Lesson = {
   slides: [
     {
       title: "Problem Statement",
-      content: `# Chapter 1: Problem Statement`,
+      content: `# Chapter 1: Problem Statement Overview`,
     },
     {
       title: "Problem Statement",

@@ -11,18 +11,18 @@ export function RSAKeyDistributionAnimation() {
   useEffect(() => {
     if (isPaused) return;
 
-    const timer = setInterval(() => {
+    const timer = setTimeout(() => {
       setStep((prev) => (prev + 1) % maxSteps);
     }, 5000 / speed);
-    return () => clearInterval(timer);
-  }, [isPaused, speed]);
+    return () => clearTimeout(timer);
+  }, [isPaused, speed, step]);
 
   useEffect(() => {
     const handleNext = (e: Event) => {
       if (step < maxSteps - 1) {
         e.preventDefault();
         setStep((prev) => prev + 1);
-        setIsPaused(true);
+        //setIsPaused(true);
       }
     };
 
@@ -30,20 +30,30 @@ export function RSAKeyDistributionAnimation() {
       if (step > 0) {
         e.preventDefault();
         setStep((prev) => prev - 1);
-        setIsPaused(true);
+        //setIsPaused(true);
       }
+    };
+
+    const handleSpace = (e: Event) => {
+      e.preventDefault();
+      setIsPaused((p) => !p);
     };
 
     window.addEventListener('slide-next', handleNext);
     window.addEventListener('slide-prev', handlePrev);
+    window.addEventListener('slide-space', handleSpace);
 
     return () => {
       window.removeEventListener('slide-next', handleNext);
       window.removeEventListener('slide-prev', handlePrev);
+      window.removeEventListener('slide-space', handleSpace);
     };
   }, [step]);
 
-  const reset = () => setStep(0);
+  const reset = () => {
+    setStep(0);
+    setIsPaused(false);
+  };
   const togglePause = () => {
     if (isPaused) {
       setStep((prev) => (prev + 1) % maxSteps);
@@ -78,10 +88,10 @@ export function RSAKeyDistributionAnimation() {
 
       <div className="relative flex justify-between items-center h-48">
         {/* Connection Line */}
-        <div className="absolute top-1/2 left-12 right-12 h-1 bg-gray-300 -translate-y-1/2 border-t border-b border-gray-400 border-dashed z-0" />
+        <div className="absolute top-47/100 left-12 right-12 h-1 bg-gray-300 -translate-y-1/2 border-t border-b border-gray-400 border-dashed z-0" />
 
         {/* Sender (Alice) */}
-        <div className="relative z-10 flex flex-col items-center gap-3">
+        <div className="relative z-3 flex flex-col items-center gap-3">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
             <User size={36} className="text-green-600" />
           </div>
@@ -103,7 +113,7 @@ export function RSAKeyDistributionAnimation() {
         </div>
 
         {/* Message Flow Animation */}
-        <div className="absolute top-1/2 left-[15%] right-[15%] h-20 -translate-y-1/2 z-20 pointer-events-none">
+        <div className="absolute top-1/2 left-[15%] right-[15%] h-20 -translate-y-1/2 z-5 pointer-events-none">
           <style>
             {`
               @keyframes slideLeft {
@@ -168,20 +178,28 @@ export function RSAKeyDistributionAnimation() {
         </div>
 
         {/* Attacker (Middle) */}
-        <div className="relative z-10 flex flex-col items-center gap-2 mt-32">
+        <div className="relative z-10 flex top-[0%] flex-col items-center gap-2 mt-32">
           <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
             <UserSearch size={36} className="text-red-600" />
           </div>
           <div className="text-center">
             <p className="font-bold text-gray-800 text-sm">Attacker</p>
-            <p className="text-xs text-gray-500 max-w-[120px]">
+            <div className="flex flex-col items-center mt-1 min-h-[3rem]">
+              {step >= 1 && (
+                <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 mt-1 ${step === 2 || step === 1? "text-green-600 scale-120 drop-shadow-md" : "text-green-600"}`}>
+                  <Unlock size={12} /> Public Key
+                </div>
+              )}
+              <p className="text-xs text-gray-500 max-w-[120px]">
               {step === 1 ? "Sees Public Key (useless alone)" : step === 3 ? "Sees encrypted Shared Key" : ""}
-            </p>
+              </p>
+            </div>
+            
           </div>
         </div>
 
         {/* Receiver (Bob) */}
-        <div className="relative z-10 flex flex-col items-center gap-3">
+        <div className="relative z-3 flex flex-col items-center gap-3">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
             <User size={36} className="text-green-600" />
           </div>
@@ -222,7 +240,6 @@ export function RSAKeyDistributionAnimation() {
             key={s}
             onClick={() => {
               setStep(s);
-              setIsPaused(true);
             }}
             className={`flex-1 h-2 rounded-full transition-all duration-300 cursor-pointer ${
               step === s

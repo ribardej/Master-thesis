@@ -11,18 +11,18 @@ export function MITMDHKeyDistributionAnimation() {
   useEffect(() => {
     if (isPaused) return;
 
-    const timer = setInterval(() => {
+    const timer = setTimeout(() => {
       setStep((prev) => (prev + 1) % maxSteps);
     }, 5000 / speed);
-    return () => clearInterval(timer);
-  }, [isPaused, speed]);
+    return () => clearTimeout(timer);
+  }, [isPaused, speed, step]);
 
   useEffect(() => {
     const handleNext = (e: Event) => {
       if (step < maxSteps - 1) {
         e.preventDefault();
         setStep((prev) => prev + 1);
-        setIsPaused(true);
+        //setIsPaused(true);
       }
     };
 
@@ -30,20 +30,30 @@ export function MITMDHKeyDistributionAnimation() {
       if (step > 0) {
         e.preventDefault();
         setStep((prev) => prev - 1);
-        setIsPaused(true);
+        //setIsPaused(true);
       }
+    };
+
+    const handleSpace = (e: Event) => {
+      e.preventDefault();
+      setIsPaused((p) => !p);
     };
 
     window.addEventListener('slide-next', handleNext);
     window.addEventListener('slide-prev', handlePrev);
+    window.addEventListener('slide-space', handleSpace);
 
     return () => {
       window.removeEventListener('slide-next', handleNext);
       window.removeEventListener('slide-prev', handlePrev);
+      window.removeEventListener('slide-space', handleSpace);
     };
   }, [step]);
 
-  const reset = () => setStep(0);
+  const reset = () => {
+    setStep(0);
+    setIsPaused(false);
+  };
   const togglePause = () => {
     if (isPaused) {
       setStep((prev) => (prev + 1) % maxSteps);
@@ -192,9 +202,6 @@ export function MITMDHKeyDistributionAnimation() {
               <div className="absolute top-[80%] animate-slide-left-mid bg-cyan-50 p-2 rounded-full shadow-md border border-cyan-200">
                 <Droplets size={24} className="text-cyan-500" fill="currentColor" />
               </div>
-              <div className="absolute top-[90%] left-[50%] -translate-x-1/2 bg-red-100 text-red-700 px-3 py-1 text-xs font-bold rounded-full animate-bounce z-[50]">
-                Intercepted!
-              </div>
             </>
           )}
 
@@ -239,7 +246,7 @@ export function MITMDHKeyDistributionAnimation() {
         </div>
 
         {/* Attacker (Middle) */}
-        <div className="relative z-30 flex flex-col items-center gap-3">
+        <div className="relative z-51 flex flex-col items-center gap-3">
           <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center border-4 border-red-300 shadow-lg relative">
             <UserSearch size={36} className="text-red-600" />
           </div>
@@ -345,7 +352,6 @@ export function MITMDHKeyDistributionAnimation() {
             key={s}
             onClick={() => {
               setStep(s);
-              setIsPaused(true);
             }}
             className={`flex-1 h-2 rounded-full transition-all duration-300 cursor-pointer ${
               step === s

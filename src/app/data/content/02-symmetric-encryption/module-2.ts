@@ -6,7 +6,7 @@ export const lesson2: Lesson = {
   slides: [
     {
       title: "Symmetric Encryption",
-      content: `# Symmetric Encryption\n\nContent placeholder for "Symmetric Encryption".`,
+      content: `# Chapter 2: Symmetric Encryption in Detail`,
     },
     {
       title: "Key Points",

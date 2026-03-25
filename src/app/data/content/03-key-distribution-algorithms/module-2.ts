@@ -6,7 +6,7 @@ export const lesson3: Lesson = {
   slides: [
     {
       title: "Key Distribution Algorithms",
-      content: `# Key Distribution Algorithms\n\nContent placeholder for "Key Distribution Algorithms".`,
+      content: `# Chapter 3: Key Distribution Algorithms in Detail`,
     },
     {
       title: "Key Points",

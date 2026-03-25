@@ -11,18 +11,18 @@ export function ProblemStatementAnimation() {
   useEffect(() => {
     if (isPaused) return;
 
-    const timer = setInterval(() => {
+    const timer = setTimeout(() => {
       setStep((prev) => (prev + 1) % maxSteps);
     }, 5000 / speed);
-    return () => clearInterval(timer);
-  }, [isPaused, speed]);
+    return () => clearTimeout(timer);
+  }, [isPaused, speed, step]);
 
   useEffect(() => {
     const handleNext = (e: Event) => {
       if (step < maxSteps - 1) {
         e.preventDefault();
         setStep((prev) => prev + 1);
-        setIsPaused(true);
+        //setIsPaused(true);
       }
     };
 
@@ -30,20 +30,30 @@ export function ProblemStatementAnimation() {
       if (step > 0) {
         e.preventDefault();
         setStep((prev) => prev - 1);
-        setIsPaused(true);
+        //setIsPaused(true);
       }
+    };
+
+    const handleSpace = (e: Event) => {
+      e.preventDefault();
+      setIsPaused((p) => !p);
     };
 
     window.addEventListener('slide-next', handleNext);
     window.addEventListener('slide-prev', handlePrev);
+    window.addEventListener('slide-space', handleSpace);
 
     return () => {
       window.removeEventListener('slide-next', handleNext);
       window.removeEventListener('slide-prev', handlePrev);
+      window.removeEventListener('slide-space', handleSpace);
     };
   }, [step]);
 
-  const reset = () => setStep(0);
+  const reset = () => {
+    setStep(0);
+    setIsPaused(false);
+  };
   const togglePause = () => {
     if (isPaused) {
       setStep((prev) => (prev + 1) % maxSteps);
@@ -55,7 +65,7 @@ export function ProblemStatementAnimation() {
     <div className="w-full max-w-4xl mx-auto p-8 bg-gray-50 rounded-xl border border-gray-200 my-8 shadow-sm">
       <div className="flex justify-between items-start mb-12">
         <div className="flex items-center gap-2">
-          <h3 className="text-xl font-bold text-gray-800 m-0 pt-1">The Dangers of Insecure Channels</h3>
+          <h3 className="text-xl font-bold text-gray-800 m-0 pt-1">What is this all about?</h3>
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex gap-2">
@@ -81,7 +91,7 @@ export function ProblemStatementAnimation() {
       <div className="relative flex justify-between items-start pt-6 h-72">
         {/* Connection Line */}
         <div className="absolute top-[4rem] left-12 right-12 h-1 bg-gray-300 border-t border-b border-gray-400 border-dashed z-0" />
-        <div className="absolute top-[2rem] left-1/2 -translate-x-1/2 text-gray-400 font-mono text-sm tracking-widest z-0">PUBLIC INTERNET</div>
+        <div className="absolute top-[1.7rem] left-1/2 -translate-x-1/2 text-gray-400 font-mono text-sm tracking-widest z-0">PUBLIC INTERNET</div>
 
         {/* Sender (Alice) */}
         <div className="relative z-10 flex flex-col items-center gap-3">
@@ -94,7 +104,7 @@ export function ProblemStatementAnimation() {
         </div>
 
         {/* Message Flow Animation */}
-        <div className="absolute top-[4rem] left-0 right-0 h-20 -translate-y-1/2 z-40 pointer-events-none">
+        <div className="absolute top-[4rem] left-0 right-0 h-20 -translate-y-1/2 z-5 pointer-events-none">
           <style>
             {`
               @keyframes slideAliceToMid {
@@ -136,7 +146,7 @@ export function ProblemStatementAnimation() {
         </div>
 
         {/* Attacker (Middle) */}
-        <div className="relative z-10 flex flex-col items-center gap-2 mt-15">
+        <div className="relative z-10 flex flex-col top-[-8%] items-center gap-2 mt-15">
             <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
             <UserSearch size={36} className="text-red-600" />
             </div>
@@ -168,10 +178,10 @@ export function ProblemStatementAnimation() {
 
       {/* State explanations */}
       <div className="mt-8 bg-white p-4 rounded-lg border text-sm text-gray-600 text-center min-h-[4rem] flex items-center justify-center shadow-sm relative z-20">
-        {step === 0 && <p> The Internet is an open network. You and your friend want to communicate, but attackers can easily listen</p>}
+        {step === 0 && <p> The Internet is an open network. You and your friend want to communicate, but attackers can easily listen.</p>}
         {step === 1 && <p> When you send a plain text message, it travels over the public internet infrastructure.</p>}
         {step === 2 && <p className="text-red-700"> Anyone on the internet (the Attacker) can easily read the message as it passes by.</p>}
-        {step === 3 && <p className="text-red-700"> An active Attacker can also inject a forged message into the network, pretending to be your friend.</p>}
+        {step === 3 && <p className="text-red-700"> Furthermore, an active Attacker could also inject a forged message into the network, pretending to be your friend.</p>}
         {step === 4 && <p className="text-red-700"> Upon receiving the fake message, you fully believe it is from your friend, because there is no way to verify the sender's identity!</p>}
       </div>
 
@@ -183,7 +193,6 @@ export function ProblemStatementAnimation() {
             key={s}
             onClick={() => {
               setStep(s);
-              setIsPaused(true);
             }}
             className={`flex-1 h-2 rounded-full transition-all duration-300 cursor-pointer ${
               step === s

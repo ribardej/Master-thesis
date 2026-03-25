@@ -12,18 +12,18 @@ export function SymmetricEncryptionAnimation() {
   useEffect(() => {
     if (isPaused) return;
 
-    const timer = setInterval(() => {
+    const timer = setTimeout(() => {
       setStep((prev) => (prev + 1) % maxSteps);
     }, 5000 / speed);
-    return () => clearInterval(timer);
-  }, [isPaused, speed]);
+    return () => clearTimeout(timer);
+  }, [isPaused, speed, step]);
 
   useEffect(() => {
     const handleNext = (e: Event) => {
       if (step < maxSteps - 1) {
         e.preventDefault();
         setStep((prev) => prev + 1);
-        setIsPaused(true);
+        //setIsPaused(true);
       }
     };
 
@@ -31,20 +31,30 @@ export function SymmetricEncryptionAnimation() {
       if (step > 0) {
         e.preventDefault();
         setStep((prev) => prev - 1);
-        setIsPaused(true);
+        //setIsPaused(true);
       }
+    };
+
+    const handleSpace = (e: Event) => {
+      e.preventDefault();
+      setIsPaused((p) => !p);
     };
 
     window.addEventListener('slide-next', handleNext);
     window.addEventListener('slide-prev', handlePrev);
+    window.addEventListener('slide-space', handleSpace);
 
     return () => {
       window.removeEventListener('slide-next', handleNext);
       window.removeEventListener('slide-prev', handlePrev);
+      window.removeEventListener('slide-space', handleSpace);
     };
   }, [step]);
 
-  const reset = () => setStep(0);
+  const reset = () => {
+    setStep(0);
+    setIsPaused(false);
+  };
   const togglePause = () => {
     if (isPaused) {
       // Immediately move to next step when resuming
@@ -96,7 +106,7 @@ export function SymmetricEncryptionAnimation() {
         </div>
 
         {/* Message Flow Animation */}
-        <div className="absolute top-1/2 left-[15%] right-[15%] h-20 -translate-y-1/2 z-20 pointer-events-none">
+        <div className="absolute top-1/2 left-[15%] right-[15%] h-20 -translate-y-1/2 z-5 pointer-events-none">
           <style>
             {`
               @keyframes slideRight {
@@ -203,7 +213,6 @@ export function SymmetricEncryptionAnimation() {
             key={s}
             onClick={() => {
               setStep(s);
-              setIsPaused(true);
             }}
             className={`flex-1 h-2 rounded-full transition-all duration-300 cursor-pointer ${
               step === s

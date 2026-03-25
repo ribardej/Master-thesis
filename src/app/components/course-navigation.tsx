@@ -72,6 +72,13 @@ export function CourseNavigation({ sidebarOpen = true }: { sidebarOpen?: boolean
         if (!event.defaultPrevented && canGoPrev) {
           handlePrevious();
         }
+      } else if (e.code === 'Space') {
+        e.preventDefault(); // Prevent page scroll
+        const event = new CustomEvent('slide-space', { cancelable: true });
+        window.dispatchEvent(event);
+        if (!event.defaultPrevented && canGoNext) {
+          handleNext();
+        }
       }
     };
 
@@ -98,7 +105,7 @@ export function CourseNavigation({ sidebarOpen = true }: { sidebarOpen?: boolean
         <button
           onClick={handlePrevious}
           disabled={!canGoPrev}
-          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
         >
           <ChevronLeft className="w-4 h-4" />
           Previous
@@ -111,7 +118,7 @@ export function CourseNavigation({ sidebarOpen = true }: { sidebarOpen?: boolean
         <button
           onClick={handleNext}
           disabled={!canGoNext}
-          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
         >
           Next
           <ChevronRight className="w-4 h-4" />

@@ -6,21 +6,21 @@ export const lesson3: Lesson = {
   slides: [
     {
       title: "Key Distribution Algorithms",
-      content: `# Chapter 3: Key Distribution Algorithms`,
+      content: `# Chapter 3: Key Distribution Algorithms Overview`,
     },
     {
       title: "Key Distribution Algorithms",
-      content: `## To transmit the key securely, you essentially need an existing encrypted channel
-       - ## However, to establish that encrypted channel, you first need the key`
+      content: `## To transmit the key securely, you essentially need an existing encrypted channel\n\n\n\n\n
+       - However, to establish that encrypted channel, you **first** need the key`
     },
     {
       title: "Key Distribution Algorithms",
-      content: `## In pre-digital eras, this deadlock was resolved via physical couriers or trusted meetings
-       - ## For digital communication over the internet, a mathematical solution is required to break the cycle`
+      content: `## In pre-digital eras, this deadlock was resolved via physical couriers or trusted meetings\n\n\n\n\n
+       - For digital communication over the internet, a **mathematical** solution is required to break the cycle`
     },
     {
       title: "RSA Key Distribution",
-      content: `# Option 1 - Asymmetric Encryption (RSA)
+      content: `# Option 1 - Asymmetric Encryption (RSA)\n\n\n\n
 
 
 
@@ -37,7 +37,7 @@ export const lesson3: Lesson = {
     },
     {
       title: "Diffie-Hellman Key Exchange",
-      content: `# Option 2 - Key Exchange (Diffie-Hellman)
+      content: `# Option 2 - Key Exchange (Diffie-Hellman)\n\n\n\n
 
 
 
@@ -53,16 +53,19 @@ export const lesson3: Lesson = {
     },
     {
       title: "Summary",
-      content: `## If you combine a key distribution algorithm (RSA/D-H) with symmetric encryption, you are fully protected against passive attackers
+      content: `## If you combine a key distribution algorithm (RSA / D-H) with symmetric encryption, you are fully protected against passive attackers\n\n\n\n\n
+      - That sounds great, unfortunately not every attacker stays **passive**
       `
     },
     {
       title: "Summary",
-      content: `## But what if the attacker can operate as a proxy (Active attacker)?
+      content: `## So what if the attacker can operate as a proxy (Active attacker)?\n\n\n\n\n\n\n
 
 
-      - This would mean he can not only read your conversation, but also intercept, drop and replace your messages
+      - This would mean he can not only intercept your conversation, but also **drop** and **replace** your messages
+
       - Active attacker could establish two different sets of keys (one for each Alice and Bob)
+
       - Consequently decrypt, **read the contents** and re-encrypt all your conversation **without** you even noticing`
     },
     {
@@ -72,9 +75,9 @@ export const lesson3: Lesson = {
     },
     {
       title: "Summary",
-      content: `## So how can you distinguish an attacker from your friend?
+      content: `## Is it possible to distinguish an attacker from your friend?
 
-      ### You need to introduce digital signatures ->`
+      - Yes, but you need to introduce **digital signatures** ->`
     },
   ],
 };
