@@ -2,6 +2,7 @@ import React from "react";
 import { SymmetricEncryptionAnimation } from "./animations/symmetric-encryption";
 import { RSAKeyDistributionAnimation } from "./animations/rsa-key-distribution";
 import { DHKeyDistributionAnimation } from "./animations/dh-key-distribution";
+import { MITMDHKeyDistributionAnimation } from "./animations/mitm-dh-key-distribution";
 
 export function SlideContent({ content }: { content: string }) {
   const lines = content.trim().split("\n");
@@ -109,6 +110,8 @@ export function SlideContent({ content }: { content: string }) {
           elements.push(<RSAKeyDistributionAnimation key={key++} />);
         } else if (componentName === "DHKeyDistribution") {
           elements.push(<DHKeyDistributionAnimation key={key++} />);
+        } else if (componentName === "MITMDHKeyDistribution") {
+          elements.push(<MITMDHKeyDistributionAnimation key={key++} />);
         }
         // Additional components can be registered here in the future
       }

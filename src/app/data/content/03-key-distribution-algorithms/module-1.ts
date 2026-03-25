@@ -49,8 +49,28 @@ export const lesson3: Lesson = {
     },
     {
       title: "Summary",
-      content: `## This combination of encryption with symmetric key and the key distribution protects users fully against passive attackers, but what if the attacker can operate as a proxy?
-      - This would mean he can read write`
+      content: `## In combination with symmetric encryption, the key distribution fully protects users against passive attackers.
+      `
+    },
+    {
+      title: "Summary",
+      content: `## But what if the attacker can operate as a proxy (Active attacker)?
+
+
+      - This would mean he can not only read your conversation, but also intercept and replace your messages
+      - Active attacker could establish two different sets of keys (one for each Alice and Bob)
+      - Consequently decrypt, **read** and re-encrypt all your conversation **without** you even noticing`
+    },
+    {
+      title: "Visualizing DH",
+      content: `
+      [COMPONENT: MITMDHKeyDistribution]`,
+    },
+    {
+      title: "Summary",
+      content: `## So how can you distinguish an attacker from your friend?
+
+      ### You need to introduce digital signatures ->`
     },
   ],
 };

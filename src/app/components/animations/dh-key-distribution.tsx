@@ -6,7 +6,7 @@ export function DHKeyDistributionAnimation() {
   const [step, setStep] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [speed] = useGlobalAnimationSpeed();
-  const maxSteps = 5;
+  const maxSteps = 6;
 
   useEffect(() => {
     if (isPaused) return;
@@ -68,7 +68,7 @@ export function DHKeyDistributionAnimation() {
               onClick={reset}
               className="flex-1 flex justify-center items-center gap-2 text-sm text-gray-600 hover:text-indigo-600 transition-colors bg-white px-3 py-1.5 rounded-md border shadow-sm cursor-pointer"
             >
-              <RefreshCw size={14} className={step === 4 && !isPaused ? "animate-spin" : ""} />
+              <RefreshCw size={14} className={step === 5 && !isPaused ? "animate-spin" : ""} />
               Restart
             </button>
           </div>
@@ -96,7 +96,7 @@ export function DHKeyDistributionAnimation() {
                   <Droplet size={12} fill="currentColor" /> Secret Paint
                 </div>
               )}
-              {step === 4 && (
+              {step >= 4 && (
                 <div className="flex items-center gap-1 text-xs font-bold text-amber-700 mt-2 animate-fade-in bg-amber-50 px-2 py-1 rounded border border-amber-200">
                   <KeyRound size={12} /> Shared Key
                 </div>
@@ -169,7 +169,7 @@ export function DHKeyDistributionAnimation() {
           )}
 
           {/* Step 4: Final mixing at destinations */}
-          {step === 4 && (
+          {(step === 4 || step === 5) && (
             <>
               <div className="absolute top-1/4 left-[10%] -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-amber-800 flex flex-col items-center">
                 <div className="flex items-center gap-1">
@@ -191,6 +191,20 @@ export function DHKeyDistributionAnimation() {
               </div>
             </>
           )}
+
+          {/* Step 5: Attacker tries mixing intercepts */}
+          {step === 5 && (
+            <div className="absolute top-[180%] mt-6 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-slate-400 flex flex-col items-center z-30">
+              <div className="flex items-center gap-1">
+                <Droplets size={16} className="text-orange-500" fill="currentColor" />
+                <span className="text-gray-400">+</span>
+                <Droplets size={16} className="text-cyan-500" fill="currentColor" />
+                <span className="text-gray-400">=</span>
+                <Droplets size={20} className="text-slate-800" fill="currentColor" />
+              </div>
+              <span className="text-[10px] font-semibold text-slate-800 mt-1 uppercase tracking-wider">Failed Mix</span>
+            </div>
+          )}
         </div>
 
         {/* Attacker (Middle) */}
@@ -198,11 +212,25 @@ export function DHKeyDistributionAnimation() {
           <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
             <UserSearch size={36} className="text-red-600" />
           </div>
-          <div className="text-center">
+          <div className="text-center min-w-[120px]">
             <p className="font-bold text-gray-800 text-sm">Attacker</p>
-            <p className="text-xs text-gray-500 max-w-[120px]">
-              {step === 0 ? "Sees Common Paint" : step === 3 ? "Sees mixtures, can't separate them" : ""}
-            </p>
+            <div className="flex flex-col items-center mt-1 min-h-[5rem] space-y-1">
+              <div className="flex items-center gap-1 text-xs font-medium text-yellow-600">
+                <PaintBucket size={12} /> Common Paint
+              </div>
+              {step >= 3 && (
+                <div className="flex items-center gap-1 text-xs font-medium animate-fade-in bg-gray-50 px-2 py-0.5 rounded border border-gray-200">
+                  <Droplets size={12} className="text-orange-500" fill="currentColor" />
+                  <span className="text-gray-400">&</span>
+                  <Droplets size={12} className="text-cyan-500" fill="currentColor" />
+                </div>
+              )}
+              {step === 5 && (
+                <div className="flex items-center gap-1 text-xs font-bold text-slate-700 mt-1 animate-fade-in bg-slate-100 px-2 py-1 rounded border border-slate-300">
+                  <KeyRound size={12} /> Wrong Key
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -222,7 +250,7 @@ export function DHKeyDistributionAnimation() {
                   <Droplet size={12} fill="currentColor" /> Secret Paint
                 </div>
               )}
-              {step === 4 && (
+              {step >= 4 && (
                 <div className="flex items-center gap-1 text-xs font-bold text-amber-700 mt-2 animate-fade-in bg-amber-50 px-2 py-1 rounded border border-amber-200">
                   <KeyRound size={12} /> Shared Key
                 </div>
@@ -239,11 +267,12 @@ export function DHKeyDistributionAnimation() {
         {step === 2 && <p><strong>Step 3:</strong> They mathematically mix their secret color with the common yellow base.</p>}
         {step === 3 && <p><strong>Step 4:</strong> They exchange their mixed colors. The attacker sees the mixtures, but mathematically cannot "un-mix" them to find the secrets.</p>}
         {step === 4 && <p><strong>Step 5:</strong> Both add their own secret color to the received mixture. The math ensures both arrive at the exact same <strong>Brown Shared Key</strong>!</p>}
+        {step === 5 && <p><strong>Step 6:</strong> If the attacker tries to mix the intercepted mixtures together, they result in a completely different <strong>Wrong Key</strong> (due to a different proportion of the common paint)</p>}
       </div>
 
       {/* Progress Steps (Tiles) */}
       <div className="mt-4 w-full flex gap-2">
-        {[0, 1, 2, 3, 4].map((s) => (
+        {[0, 1, 2, 3, 4, 5].map((s) => (
           <button
             aria-label={`Go to step ${s + 1}`}
             key={s}

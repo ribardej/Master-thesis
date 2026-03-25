@@ -150,7 +150,7 @@ export function RSAKeyDistributionAnimation() {
           {step === 3 && (
             <div className="absolute top-1/2 animate-slide-right bg-red-50 p-2 rounded-lg shadow-md border border-red-200 flex flex-col items-center">
               <Package size={24} className="text-red-500 mb-1" />
-              <span className="text-xs font-mono text-red-700 whitespace-nowrap">"X9#kP$2"</span>
+              <span className="text-xs font-mono text-red-700 whitespace-nowrap">"&_k$Q./B"</span>
             </div>
           )}
 
