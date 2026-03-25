@@ -63,15 +63,33 @@ export function SlideContent({ content }: { content: string }) {
       );
     } else if (line.startsWith("- ")) {
       const listItems: string[] = [line.slice(2)];
-      while (i + 1 < lines.length && lines[i + 1].startsWith("- ")) {
+      while (i + 1 < lines.length && lines[i + 1].trimStart().startsWith("- ")) {
         i++;
-        listItems.push(lines[i].slice(2));
+        listItems.push(lines[i].trimStart().slice(2));
       }
       elements.push(
-        <ul key={key++} className="list-disc pl-6 my-3 space-y-1">
-          {listItems.map((item, idx) => (
-            <li key={idx}>{renderInlineCode(item)}</li>
-          ))}
+        <ul key={key++} className="flex flex-col pl-2 my-3 space-y-1">
+          {listItems.map((item, idx) => {
+            const trimmedItem = item.trimStart();
+            let content;
+            if (trimmedItem.startsWith("### ")) {
+              content = <h3 className="text-l font-semibold my-2">{renderInlineCode(trimmedItem.slice(4))}</h3>;
+            } else if (trimmedItem.startsWith("## ")) {
+              content = <h2 className="text-xl font-semibold my-2">{renderInlineCode(trimmedItem.slice(3))}</h2>;
+            } else if (trimmedItem.startsWith("# ")) {
+              content = <h1 className="text-2xl font-bold my-2">{renderInlineCode(trimmedItem.slice(2))}</h1>;
+            } else if (trimmedItem.startsWith("@ ")) {
+              content = <h1 className="text-3xl font-bold my-2">{renderInlineCode(trimmedItem.slice(2))}</h1>;
+            } else {
+              content = <span>{renderInlineCode(item)}</span>;
+            }
+            return (
+              <li key={idx} className="flex items-center">
+                <div className="w-1.5 h-1.5 rounded-full bg-gray-500 mr-4 flex-shrink-0"></div>
+                <div className="flex-1">{content}</div>
+              </li>
+            );
+          })}
         </ul>
       );
     } else if (line.startsWith("**") && line.endsWith("**")) {
@@ -95,6 +113,7 @@ export function SlideContent({ content }: { content: string }) {
         // Additional components can be registered here in the future
       }
     } else if (line.trim() === "") {
+      elements.push(<div key={key++} className="h-1" aria-hidden="true"></div>);
       continue;
     } else {
       elements.push(
@@ -111,7 +130,7 @@ export function SlideContent({ content }: { content: string }) {
 }
 
 function renderInlineCode(text: string): React.ReactNode {
-  const parts = text.split(/(`[^`]+`)/g);
+  const parts = text.split(/(\*\*.*?\*\*|`[^`]+`)/g);
   return parts.map((part, idx) => {
     if (part.startsWith("`") && part.endsWith("`")) {
       return (
@@ -121,6 +140,13 @@ function renderInlineCode(text: string): React.ReactNode {
         >
           {part.slice(1, -1)}
         </code>
+      );
+    }
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return (
+        <strong key={idx} className="font-bold">
+          {part.slice(2, -2)}
+        </strong>
       );
     }
     return part;

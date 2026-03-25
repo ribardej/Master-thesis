@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { User, KeyRound, FileText, Lock, EyeOff, FileLock2, RefreshCw, Pause, Play, Ban, UserSearch } from "lucide-react";
+import { useGlobalAnimationSpeed, AnimationSpeedControl } from "./animation-speed-store";
 
 export function SymmetricEncryptionAnimation() {
   const [step, setStep] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [speed] = useGlobalAnimationSpeed();
   const maxSteps = 5;
 
   // Auto-play animation
@@ -12,9 +14,9 @@ export function SymmetricEncryptionAnimation() {
 
     const timer = setInterval(() => {
       setStep((prev) => (prev + 1) % maxSteps);
-    }, 3500);
+    }, 3000 / speed);
     return () => clearInterval(timer);
-  }, [isPaused]);
+  }, [isPaused, speed]);
 
   useEffect(() => {
     const handleNext = (e: Event) => {
@@ -53,23 +55,26 @@ export function SymmetricEncryptionAnimation() {
 
   return (
     <div className="w-full max-w-3xl mx-auto p-8 bg-gray-50 rounded-xl border border-gray-200 my-8 shadow-sm">
-      <div className="flex justify-between items-center mb-12">
-        <h3 className="text-xl font-bold text-gray-800 m-0">Symmetric Encryption Principle</h3>
-        <div className="flex gap-2">
-          <button 
-            onClick={togglePause}
-            className="flex items-center gap-2 text-sm text-gray-600 hover:text-indigo-600 transition-colors bg-white px-3 py-1.5 rounded-md border shadow-sm cursor-pointer"
-          >
-            {isPaused ? <Play size={14} /> : <Pause size={14} />}
-            {isPaused ? "Play" : "Pause"}
-          </button>
-          <button 
-            onClick={reset}
-            className="flex items-center gap-2 text-sm text-gray-600 hover:text-indigo-600 transition-colors bg-white px-3 py-1.5 rounded-md border shadow-sm cursor-pointer"
-          >
-            <RefreshCw size={14} className={step === 4 && !isPaused ? "animate-spin" : ""} />
-            Restart
-          </button>
+      <div className="flex justify-between items-start mb-12">
+        <h3 className="text-xl font-bold text-gray-800 m-0 pt-1">Symmetric Encryption Principle</h3>
+        <div className="flex flex-col gap-2">
+          <div className="flex gap-2">
+            <button 
+              onClick={togglePause}
+              className="flex-1 flex justify-center items-center gap-2 text-sm text-gray-600 hover:text-indigo-600 transition-colors bg-white px-3 py-1.5 rounded-md border shadow-sm cursor-pointer"
+            >
+              {isPaused ? <Play size={14} /> : <Pause size={14} />}
+              {isPaused ? "Play" : "Pause"}
+            </button>
+            <button 
+              onClick={reset}
+              className="flex-1 flex justify-center items-center gap-2 text-sm text-gray-600 hover:text-indigo-600 transition-colors bg-white px-3 py-1.5 rounded-md border shadow-sm cursor-pointer"
+            >
+              <RefreshCw size={14} className={step === 4 && !isPaused ? "animate-spin" : ""} />
+              Restart
+            </button>
+          </div>
+          <AnimationSpeedControl baseTimeMs={3500} />
         </div>
       </div>
 
@@ -101,7 +106,7 @@ export function SymmetricEncryptionAnimation() {
                 100% { left: 100%; opacity: 0; transform: translate(-50%, -50%); }
               }
               .animate-slide-right {
-                animation: slideRight 2.8s ease-in-out forwards;
+                animation: slideRight ${2.8 / speed}s ease-in-out forwards;
               }
             `}
           </style>

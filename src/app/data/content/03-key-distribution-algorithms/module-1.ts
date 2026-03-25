@@ -6,16 +6,21 @@ export const lesson3: Lesson = {
   slides: [
     {
       title: "Key Distribution Algorithms",
-      content: `## But what about the symmetric key? 
-       - To transmit the key securely, you essentially need an existing encrypted channel
-       - However, to establish that encrypted channel, you first need the key
-       - In pre-digital eras, this deadlock was resolved via physical couriers or trusted meetings
-       - For digital communication over the internet, a mathematical solution is required to break the cycle`,
+      content: `## To transmit the key securely, you essentially need an existing encrypted channel
+       - ## However, to establish that encrypted channel, you first need the key`
+    },
+    {
+      title: "Key Distribution Algorithms",
+      content: `## In pre-digital eras, this deadlock was resolved via physical couriers or trusted meetings
+       - ## For digital communication over the internet, a mathematical solution is required to break the cycle`
     },
     {
       title: "RSA Key Distribution",
       content: `## Option 1 - Asymmetric Encryption (RSA)
-      - One way to solve the key distribution problem is to use a pair of mathematically linked keys (a Public Key and a Private Key). 
+      
+      - One way to solve the key distribution problem is to use a pair of **mathematically linked** keys 
+      -> **Public** Key and a **Private** Key 
+
       - The Public Key can safely be used to encrypt our Symmetric Key, while only the Private Key can decrypt it.
       `
     },
@@ -34,6 +39,11 @@ export const lesson3: Lesson = {
       title: "Visualizing DH",
       content: `
       [COMPONENT: DHKeyDistribution]`,
+    },
+    {
+      title: "Summary",
+      content: `## This combination of encryption with symmetric key and the key distribution protects users fully against passive attackers, but what if the attacker can operate as a proxy?
+      - This would mean he can read write`
     },
   ],
 };

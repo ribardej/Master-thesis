@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { User, KeyRound, Lock, Unlock, EyeOff, FileLock2, RefreshCw, Pause, Play, Package, UserSearch } from "lucide-react";
+import { useGlobalAnimationSpeed, AnimationSpeedControl } from "./animation-speed-store";
 
 export function RSAKeyDistributionAnimation() {
   const [step, setStep] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [speed] = useGlobalAnimationSpeed();
   const maxSteps = 6;
 
   useEffect(() => {
@@ -11,9 +13,9 @@ export function RSAKeyDistributionAnimation() {
 
     const timer = setInterval(() => {
       setStep((prev) => (prev + 1) % maxSteps);
-    }, 3000);
+    }, 3000 / speed);
     return () => clearInterval(timer);
-  }, [isPaused]);
+  }, [isPaused, speed]);
 
   useEffect(() => {
     const handleNext = (e: Event) => {
@@ -51,23 +53,26 @@ export function RSAKeyDistributionAnimation() {
 
   return (
     <div className="w-full max-w-3xl mx-auto p-8 bg-gray-50 rounded-xl border border-gray-200 my-8 shadow-sm">
-      <div className="flex justify-between items-center mb-12">
-        <h3 className="text-xl font-bold text-gray-800 m-0">General Principle of RSA Key Distribution</h3>
-        <div className="flex gap-2">
-          <button 
-            onClick={togglePause}
-            className="flex items-center gap-2 text-sm text-gray-600 hover:text-indigo-600 transition-colors bg-white px-3 py-1.5 rounded-md border shadow-sm cursor-pointer"
-          >
-            {isPaused ? <Play size={14} /> : <Pause size={14} />}
-            {isPaused ? "Play" : "Pause"}
-          </button>
-          <button 
-            onClick={reset}
-            className="flex items-center gap-2 text-sm text-gray-600 hover:text-indigo-600 transition-colors bg-white px-3 py-1.5 rounded-md border shadow-sm cursor-pointer"
-          >
-            <RefreshCw size={14} className={step === 5 && !isPaused ? "animate-spin" : ""} />
-            Restart
-          </button>
+      <div className="flex justify-between items-start mb-12">
+        <h3 className="text-xl font-bold text-gray-800 m-0 pt-1">General Principle of RSA Key Distribution</h3>
+        <div className="flex flex-col gap-2">
+          <div className="flex gap-2">
+            <button 
+              onClick={togglePause}
+              className="flex-1 flex justify-center items-center gap-2 text-sm text-gray-600 hover:text-indigo-600 transition-colors bg-white px-3 py-1.5 rounded-md border shadow-sm cursor-pointer"
+            >
+              {isPaused ? <Play size={14} /> : <Pause size={14} />}
+              {isPaused ? "Play" : "Pause"}
+            </button>
+            <button 
+              onClick={reset}
+              className="flex-1 flex justify-center items-center gap-2 text-sm text-gray-600 hover:text-indigo-600 transition-colors bg-white px-3 py-1.5 rounded-md border shadow-sm cursor-pointer"
+            >
+              <RefreshCw size={14} className={step === 5 && !isPaused ? "animate-spin" : ""} />
+              Restart
+            </button>
+          </div>
+          <AnimationSpeedControl baseTimeMs={3000} />
         </div>
       </div>
 
@@ -114,10 +119,10 @@ export function RSAKeyDistributionAnimation() {
                 100% { left: 100%; opacity: 0; transform: translate(-50%, -50%); }
               }
               .animate-slide-left {
-                animation: slideLeft 2.8s ease-in-out forwards;
+                animation: slideLeft ${2.8 / speed}s ease-in-out forwards;
               }
               .animate-slide-right {
-                animation: slideRight 2.8s ease-in-out forwards;
+                animation: slideRight ${2.8 / speed}s ease-in-out forwards;
               }
             `}
           </style>
