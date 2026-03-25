@@ -13,7 +13,7 @@ export function DHKeyDistributionAnimation() {
 
     const timer = setInterval(() => {
       setStep((prev) => (prev + 1) % maxSteps);
-    }, 3000 / speed);
+    }, 5000 / speed);
     return () => clearInterval(timer);
   }, [isPaused, speed]);
 
@@ -72,13 +72,13 @@ export function DHKeyDistributionAnimation() {
               Restart
             </button>
           </div>
-          <AnimationSpeedControl baseTimeMs={3000} />
+          <AnimationSpeedControl baseTimeMs={5000} />
         </div>
       </div>
 
       <div className="relative flex justify-between items-center h-56">
         {/* Connection Line */}
-        <div className="absolute top-1/2 left-12 right-12 h-1 bg-gray-200 -translate-y-1/2 z-0" />
+        <div className="absolute top-1/2 left-12 right-12 h-1 bg-gray-300 -translate-y-1/2 border-t border-b border-gray-400 border-dashed z-0" />
 
         {/* Sender (Alice) */}
         <div className="relative z-10 flex flex-col items-center gap-3">
@@ -122,10 +122,10 @@ export function DHKeyDistributionAnimation() {
                 100% { left: 100%; opacity: 0; transform: translate(-50%, -50%); }
               }
               .animate-slide-left {
-                animation: slideLeft ${3.3 / speed}s ease-in-out forwards;
+                animation: slideLeft ${5 / speed}s ease-in-out forwards;
               }
               .animate-slide-right {
-                animation: slideRight ${3.3 / speed}s ease-in-out forwards;
+                animation: slideRight ${5 / speed}s ease-in-out forwards;
               }
             `}
           </style>

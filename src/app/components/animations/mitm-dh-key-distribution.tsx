@@ -13,7 +13,7 @@ export function MITMDHKeyDistributionAnimation() {
 
     const timer = setInterval(() => {
       setStep((prev) => (prev + 1) % maxSteps);
-    }, 3000 / speed);
+    }, 5000 / speed);
     return () => clearInterval(timer);
   }, [isPaused, speed]);
 
@@ -74,13 +74,13 @@ export function MITMDHKeyDistributionAnimation() {
               Restart
             </button>
           </div>
-          <AnimationSpeedControl baseTimeMs={3000} />
+          <AnimationSpeedControl baseTimeMs={5000} />
         </div>
       </div>
 
       <div className="relative flex justify-between items-start pt-6 h-64">
         {/* Connection Line */}
-        <div className="absolute top-[4rem] left-12 right-12 h-1 bg-gray-200 -translate-y-1/2 z-0" />
+        <div className="absolute top-[4rem] left-12 right-12 h-1 bg-gray-300 -translate-y-1/2 border-t border-b border-gray-400 border-dashed z-0" />
 
         {/* Sender (Alice) */}
         <div className="relative z-10 flex flex-col items-center gap-3">
@@ -135,10 +135,10 @@ export function MITMDHKeyDistributionAnimation() {
                 90% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
                 100% { left: 100%; opacity: 0; transform: translate(-50%, -50%); }
               }
-              .animate-slide-right-mid { animation: slideRightToMid ${4 / speed}s ease-in-out forwards; }
-              .animate-slide-left-mid { animation: slideLeftToMid ${4 / speed}s ease-in-out forwards; }
-              .animate-slide-mid-left { animation: slideMidToLeft ${4 / speed}s ease-in-out forwards; }
-              .animate-slide-mid-right { animation: slideMidToRight ${4 / speed}s ease-in-out forwards; }
+              .animate-slide-right-mid { animation: slideRightToMid ${5 / speed}s ease-in-out forwards; }
+              .animate-slide-left-mid { animation: slideLeftToMid ${5 / speed}s ease-in-out forwards; }
+              .animate-slide-mid-left { animation: slideMidToLeft ${5 / speed}s ease-in-out forwards; }
+              .animate-slide-mid-right { animation: slideMidToRight ${5 / speed}s ease-in-out forwards; }
             `}
           </style>
 

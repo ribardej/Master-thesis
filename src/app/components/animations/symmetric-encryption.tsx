@@ -14,7 +14,7 @@ export function SymmetricEncryptionAnimation() {
 
     const timer = setInterval(() => {
       setStep((prev) => (prev + 1) % maxSteps);
-    }, 3000 / speed);
+    }, 5000 / speed);
     return () => clearInterval(timer);
   }, [isPaused, speed]);
 
@@ -74,13 +74,13 @@ export function SymmetricEncryptionAnimation() {
               Restart
             </button>
           </div>
-          <AnimationSpeedControl baseTimeMs={3000} />
+          <AnimationSpeedControl baseTimeMs={5000} />
         </div>
       </div>
 
       <div className="relative flex justify-between items-center h-48">
         {/* Connection Line */}
-        <div className="absolute top-1/2 left-12 right-12 h-1 bg-gray-200 -translate-y-1/2 z-0" />
+        <div className="absolute top-1/2 left-12 right-12 h-1 bg-gray-300 -translate-y-1/2 border-t border-b border-gray-400 border-dashed z-0" />
 
         {/* Sender (Alice) */}
         <div className="relative z-10 flex flex-col items-center gap-3">
@@ -88,7 +88,7 @@ export function SymmetricEncryptionAnimation() {
             <User size={36} className="text-green-600" />
           </div>
           <div className="text-center">
-            <p className="font-bold text-gray-800">Sender</p>
+            <p className="font-bold text-gray-800">You</p>
             <div className={`flex items-center gap-1 text-sm font-medium transition-all duration-500 ${(step === 3) || (step === 1) ? "text-green-600 scale-120 drop-shadow-md" : "text-indigo-600"}`}>
               <KeyRound size={14} /> Shared Key
             </div>
@@ -106,7 +106,7 @@ export function SymmetricEncryptionAnimation() {
                 100% { left: 100%; opacity: 0; transform: translate(-50%, -50%); }
               }
               .animate-slide-right {
-                animation: slideRight ${2.8 / speed}s ease-in-out forwards;
+                animation: slideRight ${5 / speed}s ease-in-out forwards;
               }
             `}
           </style>
@@ -178,7 +178,7 @@ export function SymmetricEncryptionAnimation() {
             <User size={36} className="text-green-600" />
           </div>
           <div className="text-center">
-            <p className="font-bold text-gray-800">Receiver</p>
+            <p className="font-bold text-gray-800">Your friend</p>
             <div className={`flex items-center gap-1 text-sm font-medium transition-all duration-500 ${(step === 3) || (step === 1) ? "text-green-600 scale-120 drop-shadow-md" : "text-indigo-600"}`}>
               <KeyRound size={14} /> Shared Key
             </div>
@@ -188,11 +188,11 @@ export function SymmetricEncryptionAnimation() {
 
       {/* State explanations */}
       <div className="mt-16 bg-white p-4 rounded-lg border text-sm text-gray-600 text-center min-h-[4rem] flex items-center justify-center shadow-sm">
-        {step === 0 && <p><strong>Step 1:</strong> Sender prepares a readable message (Plaintext).</p>}
+        {step === 0 && <p><strong>Step 1:</strong> You prepare a readable message (Plaintext).</p>}
         {step === 1 && <p><strong>Step 2:</strong> Algorithm (AES) encrypts the message using the secret <strong>Shared Key</strong>.</p>}
         {step === 2 && <p><strong>Step 3:</strong> Message travels across the internet. An attacker can intercept it, but sees only random characters (Ciphertext).</p>}
-        {step === 3 && <p><strong>Step 4:</strong> Receiver uses the exact <strong>same Shared Key</strong> to decrypt the message.</p>}
-        {step === 4 && <p><strong>Step 5:</strong> Receiver successfully reads the original message.</p>}
+        {step === 3 && <p><strong>Step 4:</strong> Your friend uses the exact <strong>same Shared Key</strong> to decrypt the message.</p>}
+        {step === 4 && <p><strong>Step 5:</strong> Your friend successfully reads the original message.</p>}
       </div>
 
       {/* Progress Steps (Tiles) */}

@@ -6,6 +6,10 @@ export const lesson3: Lesson = {
   slides: [
     {
       title: "Key Distribution Algorithms",
+      content: `# Chapter 3: Key Distribution Algorithms`,
+    },
+    {
+      title: "Key Distribution Algorithms",
       content: `## To transmit the key securely, you essentially need an existing encrypted channel
        - ## However, to establish that encrypted channel, you first need the key`
     },
@@ -49,7 +53,7 @@ export const lesson3: Lesson = {
     },
     {
       title: "Summary",
-      content: `## In combination with symmetric encryption, the key distribution fully protects users against passive attackers.
+      content: `## If you combine a key distribution algorithm (RSA/D-H) with symmetric encryption, you are fully protected against passive attackers
       `
     },
     {
@@ -57,9 +61,9 @@ export const lesson3: Lesson = {
       content: `## But what if the attacker can operate as a proxy (Active attacker)?
 
 
-      - This would mean he can not only read your conversation, but also intercept and replace your messages
+      - This would mean he can not only read your conversation, but also intercept, drop and replace your messages
       - Active attacker could establish two different sets of keys (one for each Alice and Bob)
-      - Consequently decrypt, **read** and re-encrypt all your conversation **without** you even noticing`
+      - Consequently decrypt, **read the contents** and re-encrypt all your conversation **without** you even noticing`
     },
     {
       title: "Visualizing DH",

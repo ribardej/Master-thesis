@@ -6,11 +6,12 @@ export const lesson1: Lesson = {
   slides: [
     {
       title: "Problem Statement",
-      content: `## How to communicate privately with your friend over the internet?`,
+      content: `# Chapter 1: Problem Statement`,
     },
     {
       title: "Problem Statement",
-      content: `## Furthermore, how can you make sure that the person you communicate with is really your friend (not someone sitting in the middle)?`,
+      content: `
+      [COMPONENT: ProblemStatement]`,
     },
   ],
 };

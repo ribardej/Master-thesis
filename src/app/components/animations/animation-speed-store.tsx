@@ -23,7 +23,7 @@ export function useGlobalAnimationSpeed() {
   return [speed, setGlobalAnimationSpeed] as const;
 }
 
-export function AnimationSpeedControl({ baseTimeMs = 3500 }: { baseTimeMs?: number }) {
+export function AnimationSpeedControl({ baseTimeMs = 5000 }: { baseTimeMs?: number }) {
   const [speed, setSpeed] = useGlobalAnimationSpeed();
   const timeInSeconds = (baseTimeMs / speed / 1000).toFixed(1);
 

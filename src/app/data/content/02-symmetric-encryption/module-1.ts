@@ -6,9 +6,13 @@ export const lesson2: Lesson = {
   slides: [
     {
       title: "Symmetric Encryption",
-      content: `## Symmetric Encryption ensures that if an attacker is able to intercept your conversation, he will not be able to read the messages.\n\n
-      - ### The same key has to be used for both encryption and decryption (therefore "symmetric")
-      - ### It is much faster than assymetric encryption (more on that later)`
+      content: `# Chapter 2: Symmetric Encryption`,
+    },
+    {
+      title: "Symmetric Encryption",
+      content: `## Symmetric Encryption protects your communication by scrambling messages so that even if an attacker intercepts them, they cannot read the contents.\n\n
+      - ### It uses the **exact same key** for both encryption and decryption (hence the name "symmetric").
+      - ### It is highly efficient and significantly faster than asymmetric encryption (which we will cover later).`
     },
     {
       title: "Visualizing the Flow",
