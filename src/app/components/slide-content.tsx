@@ -9,6 +9,8 @@ import { ProblemStatementAnimation } from "./animations/problem-statement";
 import { CaesarCipherAnimation } from "./animations/caesar-cipher";
 import { TranspositionCipherAnimation } from "./animations/transposition-cipher";
 import { AESImage } from "./animations/aes-image";
+import { DHNumericAnimation } from "./animations/dh-numeric";
+import { RSANumericAnimation } from "./animations/rsa-numeric";
 
 export function SlideContent({ content }: { content: string }) {
   const lines = content.trim().split("\n");
@@ -148,6 +150,10 @@ export function SlideContent({ content }: { content: string }) {
           elements.push(<TranspositionCipherAnimation key={key++} />);
         } else if (componentName === "AESImage") {
           elements.push(<AESImage key={key++} />);
+        } else if (componentName === "DHNumericAnimation") {
+          elements.push(<DHNumericAnimation key={key++} />);
+        } else if (componentName === "RSANumericAnimation") {
+          elements.push(<RSANumericAnimation key={key++} />);
         }
         // Additional components can be registered here in the future
       }

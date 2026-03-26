@@ -57,7 +57,7 @@ Here are some of the fundamental techniques used to break ciphers:
 In the 1970s, the US government adopted **DES** as the official standard for symmetric encryption. It was heavily used worldwide for decades. However with rapid increase of computing power, it was soon broken.
 
 ### Why did it fail?
-DES used a key size of only **56 bits** (64 in total, but 8 were not effectively used for encryption).
+DES used a key size of only **56 bits** (64 in total, but 8 were effectively unused for encryption).
 While considered secure in the 70s, by the late 1990s, computing power had increased dramatically.
 
 In 1998, a custom-built machine called the **EFF DES cracker** ("Deep Crack") successfully brute-forced a DES key in under 60 hours. This demonstrated that a 56-bit key was no longer sufficient against modern hardware, making DES officially obsolete.`,
