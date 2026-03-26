@@ -53,7 +53,7 @@ export const lesson1: Lesson = {
     },
     {
       title: "Kerckhoffs's Principle",
-      content: `# Kerckhoffs's Principle
+      content: `# Kerckhoffs's principle
 
       In 1883, Auguste Kerckhoffs formulated a fundamental rule for the design of modern cryptographic systems:
 
@@ -62,8 +62,8 @@ export const lesson1: Lesson = {
       Instead of keeping the **algorithm** secret, we only keep the **key** secret.
 
       ### Why is this approach better?
-      - **Peer Review:** Public algorithms (like AES or RSA) undergo rigorous analysis by thousands of cryptographers worldwide, ensuring any weaknesses are discovered and fixed.
-      - **Easy Recovery:** If a key is compromised, a new key is simply generated. There is no need to rewrite or swap out the core software.
+      - **Peer review:** Public algorithms (like AES or RSA) undergo rigorous analysis by thousands of cryptographers worldwide, ensuring any weaknesses are discovered and fixed.
+      - **Easy recovery:** If a key is compromised, a new key is simply generated. There is no need to rewrite or swap out the core software.
       - **Standardization:** Open standards allow for effective hardware acceleration and easy integration across the globe.`,
     }
   ],

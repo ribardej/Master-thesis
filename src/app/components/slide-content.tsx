@@ -1,9 +1,14 @@
 import React from "react";
+import "katex/dist/katex.min.css";
+import { InlineMath, BlockMath } from "react-katex";
 import { SymmetricEncryptionAnimation } from "./animations/symmetric-encryption";
 import { RSAKeyDistributionAnimation } from "./animations/rsa-key-distribution";
 import { DHKeyDistributionAnimation } from "./animations/dh-key-distribution";
 import { MITMDHKeyDistributionAnimation } from "./animations/mitm-dh-key-distribution";
 import { ProblemStatementAnimation } from "./animations/problem-statement";
+import { CaesarCipherAnimation } from "./animations/caesar-cipher";
+import { TranspositionCipherAnimation } from "./animations/transposition-cipher";
+import { AESImage } from "./animations/aes-image";
 
 export function SlideContent({ content }: { content: string }) {
   const lines = content.trim().split("\n");
@@ -45,6 +50,11 @@ export function SlideContent({ content }: { content: string }) {
       continue;
     }
 
+    if (line.trim().startsWith("$$") && line.trim().endsWith("$$")) {
+      elements.push(<div key={key++} className="py-2"><BlockMath math={line.trim().slice(2, -2)} /></div>);
+      continue;
+    }
+
     if (line.startsWith("# ")) {
       elements.push(
         <h1 key={key++} className="text-3xl font-bold mt-8 mb-4">
@@ -62,6 +72,23 @@ export function SlideContent({ content }: { content: string }) {
         <h3 key={key++} className="text-xl font-semibold mt-4 mb-2">
           {line.slice(4)}
         </h3>
+      );
+    } else if (line.match(/^\d+\.\s/)) {
+      // Support for numbered lists
+      const listItems: string[] = [line.replace(/^\d+\.\s/, "")];
+      let startNumber = parseInt(line.match(/^(\d+)\.\s/)?.[1] || "1", 10);
+      while (i + 1 < lines.length && lines[i + 1].trimStart().match(/^\d+\.\s/)) {
+        i++;
+        listItems.push(lines[i].trimStart().replace(/^\d+\.\s/, ""));
+      }
+      elements.push(
+        <ol key={key++} start={startNumber} className="list-decimal list-outside ml-6 my-3 space-y-1">
+          {listItems.map((item, idx) => (
+            <li key={idx} className="pl-1 text-gray-800">
+              {renderInlineCode(item)}
+            </li>
+          ))}
+        </ol>
       );
     } else if (line.startsWith("- ")) {
       const listItems: string[] = [line.slice(2)];
@@ -115,6 +142,12 @@ export function SlideContent({ content }: { content: string }) {
           elements.push(<MITMDHKeyDistributionAnimation key={key++} />);
         } else if (componentName === "ProblemStatement") {
           elements.push(<ProblemStatementAnimation key={key++} />);
+        } else if (componentName === "CaesarCipher") {
+          elements.push(<CaesarCipherAnimation key={key++} />);
+        } else if (componentName === "TranspositionCipher") {
+          elements.push(<TranspositionCipherAnimation key={key++} />);
+        } else if (componentName === "AESImage") {
+          elements.push(<AESImage key={key++} />);
         }
         // Additional components can be registered here in the future
       }
@@ -136,7 +169,7 @@ export function SlideContent({ content }: { content: string }) {
 }
 
 function renderInlineCode(text: string): React.ReactNode {
-  const parts = text.split(/(\*\*.*?\*\*|`[^`]+`)/g);
+  const parts = text.split(/(\*\*.*?\*\*|`[^`]+`|\$[^$]+\$)/g);
   return parts.map((part, idx) => {
     if (part.startsWith("`") && part.endsWith("`")) {
       return (
@@ -154,6 +187,9 @@ function renderInlineCode(text: string): React.ReactNode {
           {part.slice(2, -2)}
         </strong>
       );
+    }
+    if (part.startsWith("$") && part.endsWith("$") && part !== "$$") {
+      return <InlineMath key={idx} math={part.slice(1, -1)} />;
     }
     return part;
   });

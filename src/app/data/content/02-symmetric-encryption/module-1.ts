@@ -10,7 +10,7 @@ export const lesson2: Lesson = {
     },
     {
       title: "Symmetric Encryption",
-      content: `## Symmetric Encryption protects your communication by scrambling messages so that even if an attacker intercepts them, they cannot read the contents.\n\n
+      content: `### Symmetric Encryption protects your communication by scrambling messages so that even if an attacker intercepts them, they cannot read the contents.\n\n
 
 
       - It uses the **exact same key** for both encryption and decryption (hence the name "symmetric").
@@ -24,7 +24,7 @@ export const lesson2: Lesson = {
     },
     {
       title: "Summary",
-      content: `## But if the confidentiality of the communication relies entirely on a shared secret key, how can the parties agree on this key using only the insecure channel they wish to protect?\n\n\n\n
+      content: `### But if the confidentiality of the communication relies entirely on a shared secret key, how can the parties agree on this key using only the insecure channel they wish to protect?\n\n\n\n
 
       The answer is **Key Distribution Algorithms** ->`
     }

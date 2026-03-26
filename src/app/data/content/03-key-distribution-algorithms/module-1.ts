@@ -10,12 +10,12 @@ export const lesson3: Lesson = {
     },
     {
       title: "Key Distribution Algorithms",
-      content: `## To transmit the key securely, you essentially need an existing encrypted channel\n\n\n\n\n
+      content: `### To transmit the key securely, you essentially need an existing encrypted channel\n\n\n\n\n
        - However, to establish that encrypted channel, you **first** need the key`
     },
     {
       title: "Key Distribution Algorithms",
-      content: `## In pre-digital eras, this deadlock was resolved via physical couriers or trusted meetings\n\n\n\n\n
+      content: `### In pre-digital eras, this deadlock was resolved via physical couriers or trusted meetings\n\n\n\n\n
        - For digital communication over the internet, a **mathematical** solution is required to break the cycle`
     },
     {
@@ -53,7 +53,7 @@ export const lesson3: Lesson = {
     },
     {
       title: "Summary",
-      content: `## If you combine a key distribution algorithm (RSA / D-H) with symmetric encryption, you are fully protected against passive attackers\n\n\n\n\n
+      content: `### If you combine a key distribution algorithm (RSA / D-H) with symmetric encryption, you are fully protected against passive attackers\n\n\n\n\n
       - That sounds great, unfortunately not every attacker stays **passive**
       `
     },
