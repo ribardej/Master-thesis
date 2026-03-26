@@ -98,7 +98,7 @@ export function MITMDHKeyDistributionAnimation() {
             <User size={36} className="text-green-600" />
           </div>
           <div className="text-center w-28">
-            <p className="font-bold text-gray-800">Alice</p>
+            <p className="font-bold text-gray-800">You</p>
             <div className="flex flex-col items-center mt-1 min-h-[5rem] space-y-1">
               <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 0 || step === 2 ? "text-yellow-600 scale-120 drop-shadow-md" : "text-yellow-600"}`}>
                 <PaintBucket size={12} /> Common Paint
@@ -156,7 +156,7 @@ export function MITMDHKeyDistributionAnimation() {
           {step === 2 && (
             <>
               {/* Alice Mix */}
-              <div className="absolute top-1/4 left-[10%] -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-orange-300 flex flex-col items-center">
+              <div className="absolute top-1/2 left-[6%] -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-orange-300 flex flex-col items-center">
                 <div className="flex items-center gap-1">
                   <Droplet size={16} className="text-yellow-500" fill="currentColor" />
                   <span className="text-gray-400">+</span>
@@ -180,7 +180,7 @@ export function MITMDHKeyDistributionAnimation() {
               </div>
 
               {/* Bob Mix */}
-              <div className="absolute top-1/4 left-[90%] -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-cyan-300 flex flex-col items-center">
+              <div className="absolute top-1/2 left-[94%] -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-cyan-300 flex flex-col items-center">
                 <div className="flex items-center gap-1">
                   <Droplets size={20} className="text-cyan-500" fill="currentColor" />
                   <span className="text-gray-400">=</span>
@@ -196,10 +196,10 @@ export function MITMDHKeyDistributionAnimation() {
           {/* Step 3: Travelling public mixtures intercepted by attacker */}
           {step === 3 && (
             <>
-              <div className="absolute top-[80%] animate-slide-right-mid bg-orange-50 p-2 rounded-full shadow-md border border-orange-200">
+              <div className="absolute top-[50%] animate-slide-right-mid bg-orange-50 p-2 rounded-full shadow-md border border-orange-200">
                 <Droplets size={24} className="text-orange-500" fill="currentColor" />
               </div>
-              <div className="absolute top-[80%] animate-slide-left-mid bg-cyan-50 p-2 rounded-full shadow-md border border-cyan-200">
+              <div className="absolute top-[50%] animate-slide-left-mid bg-cyan-50 p-2 rounded-full shadow-md border border-cyan-200">
                 <Droplets size={24} className="text-cyan-500" fill="currentColor" />
               </div>
             </>
@@ -208,10 +208,10 @@ export function MITMDHKeyDistributionAnimation() {
           {/* Step 4: Attacker sending their own public mixture out */}
           {step === 4 && (
             <>
-              <div className="absolute top-[80%] animate-slide-mid-left bg-lime-50 p-2 rounded-full shadow-md border border-lime-300 border-dashed z-[60]">
+              <div className="absolute top-[50%] animate-slide-mid-left bg-lime-50 p-2 rounded-full shadow-md border border-lime-300 z-[60]">
                 <Droplets size={24} className="text-lime-500" fill="currentColor" />
               </div>
-              <div className="absolute top-[80%] animate-slide-mid-right bg-lime-50 p-2 rounded-full shadow-md border border-lime-300 border-dashed z-[60]">
+              <div className="absolute top-[50%] animate-slide-mid-right bg-lime-50 p-2 rounded-full shadow-md border border-lime-300 z-[60]">
                 <Droplets size={24} className="text-lime-500" fill="currentColor" />
               </div>
             </>
@@ -221,7 +221,7 @@ export function MITMDHKeyDistributionAnimation() {
           {(step === 5 || step === 6) && (
             <>
               {/* Alice computes Key A */}
-              <div className="absolute top-1/4 left-[10%] -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-amber-900 flex flex-col items-center">
+              <div className="absolute top-1/2 left-[10%] -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-amber-900 flex flex-col items-center">
                 <div className="flex items-center gap-1">
                   <Droplets size={16} className="text-lime-500" fill="currentColor" />
                   <span className="text-gray-400">+</span>
@@ -232,7 +232,7 @@ export function MITMDHKeyDistributionAnimation() {
               </div>
 
               {/* Bob computes Key B */}
-              <div className="absolute top-1/4 left-[90%] -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-fuchsia-900 flex flex-col items-center">
+              <div className="absolute top-1/2 left-[90%] -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-fuchsia-900 flex flex-col items-center">
                 <div className="flex items-center gap-1">
                   <Droplets size={20} className="text-fuchsia-900" fill="currentColor" />
                   <span className="text-gray-400">=</span>
@@ -313,7 +313,7 @@ export function MITMDHKeyDistributionAnimation() {
             <User size={36} className="text-green-600" />
           </div>
           <div className="text-center w-28">
-            <p className="font-bold text-gray-800">Bob</p>
+            <p className="font-bold text-gray-800">Your friend</p>
             <div className="flex flex-col items-center mt-1 min-h-[5rem] space-y-1">
               <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 0 || step === 2 ? "text-yellow-600 scale-120 drop-shadow-md" : "text-yellow-600"}`}>
                 <PaintBucket size={12} /> Common Paint
@@ -335,13 +335,13 @@ export function MITMDHKeyDistributionAnimation() {
 
       {/* State explanations */}
       <div className="mt-8 bg-white p-4 rounded-lg border text-sm text-gray-600 text-center min-h-[4rem] flex items-center justify-center shadow-sm relative z-20">
-        {step === 0 && <p><strong>Step 1:</strong> Alice and Bob agree on the public <strong>Yellow Common Paint</strong>. The Attacker is monitoring the connection and also sees it.</p>}
-        {step === 1 && <p><strong>Step 2:</strong> Alice selects <strong>Secret Red</strong>. Bob selects <strong>Secret Blue</strong>. Importantly, the Attacker generates his own <strong>Secret Green Paint</strong>!</p>}
+        {step === 0 && <p><strong>Step 1:</strong> You and your friend agree on the public <strong>Yellow Common Paint</strong>. The Attacker is monitoring the connection and also sees it.</p>}
+        {step === 1 && <p><strong>Step 2:</strong> You selects <strong>Secret Red</strong>. Your friend selects <strong>Secret Blue</strong>. Importantly, the Attacker generates his own <strong>Secret Green Paint</strong>!</p>}
         {step === 2 && <p><strong>Step 3:</strong> Everyone conceptually mixes their secret color with the public yellow base.</p>}
-        {step === 3 && <p><strong>Step 4:</strong> When Alice and Bob send their mixtures, the Attacker <strong>intercepts</strong> them both! They never reach their true destination.</p>}
-        {step === 4 && <p><strong>Step 5:</strong> The Attacker sends her own <strong>Lime mixture</strong> to Alice (pretending to be Bob) and to Bob (pretending to be Alice).</p>}
-        {step === 5 && <p><strong>Step 6:</strong> Alice mixes her Red with Attacker's Lime, resulting in <strong>Key A</strong>. Bob mixes his Blue with Attacker's Lime, resulting in <strong>Key B</strong>. Alice and Bob have different keys!</p>}
-        {step === 6 && <p className="text-red-700 font-medium"><strong>Result:</strong> The Attacker can compute both Key A and Key B! He sits in the middle, decrypting Alice's messages with Key A, reading them, and re-encrypting them for Bob with Key B.</p>}
+        {step === 3 && <p><strong>Step 4:</strong> When You and your friend send their mixtures, the Attacker <strong>intercepts</strong> them both! They never reach their true destination.</p>}
+        {step === 4 && <p><strong>Step 5:</strong> The Attacker sends her own <strong>Lime mixture</strong> to you and your friend (pretending to be your friend/you respectively)</p>}
+        {step === 5 && <p><strong>Step 6:</strong> You mix your Red with Attacker's Lime, resulting in <strong>Key A</strong>. Your friend mixes his Blue with Attacker's Lime, resulting in <strong>Key B</strong>. You and your friend have different keys!</p>}
+        {step === 6 && <p className="text-red-700 font-medium"><strong>Result:</strong> The Attacker can compute both Key A and Key B! He sits in the middle, decrypting your messages with Key A, reading them, and re-encrypting them for your friend with Key B.</p>}
       </div>
 
       {/* Progress Steps (Tiles) */}

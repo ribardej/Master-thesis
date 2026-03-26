@@ -186,7 +186,7 @@ export function RSAKeyDistributionAnimation() {
             <p className="font-bold text-gray-800 text-sm">Attacker</p>
             <div className="flex flex-col items-center mt-1 min-h-[3rem]">
               {step >= 1 && (
-                <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 mt-1 ${step === 2 || step === 1? "text-green-600 scale-120 drop-shadow-md" : "text-green-600"}`}>
+                <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 mt-1 ${step === 1? "text-green-600 scale-120 drop-shadow-md" : "text-green-600"}`}>
                   <Unlock size={12} /> Public Key
                 </div>
               )}

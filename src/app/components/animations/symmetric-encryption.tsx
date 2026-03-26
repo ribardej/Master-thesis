@@ -93,7 +93,7 @@ export function SymmetricEncryptionAnimation() {
         <div className="absolute top-1/2 left-12 right-12 h-1 bg-gray-300 -translate-y-1/2 border-t border-b border-gray-400 border-dashed z-0" />
 
         {/* Sender (Alice) */}
-        <div className="relative z-10 flex flex-col items-center gap-3">
+        <div className="relative z-3 flex flex-col items-center gap-3">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
             <User size={36} className="text-green-600" />
           </div>
@@ -183,7 +183,7 @@ export function SymmetricEncryptionAnimation() {
         </div>
 
         {/* Receiver (Bob) */}
-        <div className="relative z-10 flex flex-col items-center gap-3">
+        <div className="relative z-3 flex flex-col items-center gap-3">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
             <User size={36} className="text-green-600" />
           </div>

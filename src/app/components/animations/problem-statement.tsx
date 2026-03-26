@@ -94,7 +94,7 @@ export function ProblemStatementAnimation() {
         <div className="absolute top-[1.7rem] left-1/2 -translate-x-1/2 text-gray-400 font-mono text-sm tracking-widest z-0">PUBLIC INTERNET</div>
 
         {/* Sender (Alice) */}
-        <div className="relative z-10 flex flex-col items-center gap-3">
+        <div className="relative z-3 flex flex-col items-center gap-3">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
             <User size={36} className="text-green-600" />
           </div>
@@ -166,7 +166,7 @@ export function ProblemStatementAnimation() {
         </div>
 
         {/* Receiver (Bob) */}
-        <div className="relative z-10 flex flex-col items-center gap-3">
+        <div className="relative z-3 flex flex-col items-center gap-3">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
             <User size={36} className="text-green-600" />
           </div>

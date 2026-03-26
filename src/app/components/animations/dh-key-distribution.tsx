@@ -91,12 +91,12 @@ export function DHKeyDistributionAnimation() {
         <div className="absolute top-2/5 left-12 right-12 h-1 bg-gray-300 -translate-y-1/2 border-t border-b border-gray-400 border-dashed z-0" />
 
         {/* Sender (Alice) */}
-        <div className="relative z-10 flex flex-col items-center gap-3">
+        <div className="relative z-3 flex flex-col items-center gap-3">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
             <User size={36} className="text-green-600" />
           </div>
           <div className="text-center w-28">
-            <p className="font-bold text-gray-800">Alice</p>
+            <p className="font-bold text-gray-800">You</p>
             <div className="flex flex-col items-center mt-1 min-h-[5rem] space-y-1">
               <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 0 || step === 2? "text-yellow-600 scale-120 drop-shadow-md" : "text-yellow-600"}`}>
                 <PaintBucket size={12} /> Common Paint
@@ -116,7 +116,7 @@ export function DHKeyDistributionAnimation() {
         </div>
 
         {/* Message Flow Animation */}
-        <div className="absolute top-1/2 left-[15%] right-[15%] h-20 -translate-y-1/2 z-20 pointer-events-none">
+        <div className="absolute top-1/2 left-[15%] right-[15%] h-20 -translate-y-1/2 z-5 pointer-events-none">
           <style>
             {`
               @keyframes slideLeft {
@@ -169,10 +169,10 @@ export function DHKeyDistributionAnimation() {
           {/* Step 3: Travelling public mixtures passing each other */}
           {step === 3 && (
             <>
-              <div className="absolute top-1/2 animate-slide-right bg-orange-50 p-2 rounded-full shadow-md border border-orange-200">
+              <div className="absolute top-1/4 animate-slide-right bg-orange-50 p-2 rounded-full shadow-md border border-orange-200">
                 <Droplets size={24} className="text-orange-500" fill="currentColor" />
               </div>
-              <div className="absolute top-1/2 animate-slide-left bg-cyan-50 p-2 rounded-full shadow-md border border-cyan-200">
+              <div className="absolute top-1/4 animate-slide-left bg-cyan-50 p-2 rounded-full shadow-md border border-cyan-200">
                 <Droplets size={24} className="text-cyan-500" fill="currentColor" />
               </div>
             </>
@@ -181,7 +181,7 @@ export function DHKeyDistributionAnimation() {
           {/* Step 4: Final mixing at destinations */}
           {(step === 4 || step === 5) && (
             <>
-              <div className="absolute top-1/4 left-[10%] -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-amber-800 flex flex-col items-center">
+              <div className="absolute top-1/4 left-[6%] -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-amber-800 flex flex-col items-center">
                 <div className="flex items-center gap-1">
                   <Droplets size={16} className="text-cyan-500" fill="currentColor" />
                   <span className="text-gray-400">+</span>
@@ -190,7 +190,7 @@ export function DHKeyDistributionAnimation() {
                   <Droplets size={20} className="text-amber-800" fill="currentColor" />
                 </div>
               </div>
-              <div className="absolute top-1/4 left-[90%] -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-amber-800 flex flex-col items-center">
+              <div className="absolute top-1/4 left-[94%] -translate-x-1/2 -translate-y-1/2 bg-white p-2 rounded-lg shadow-md border border-amber-800 flex flex-col items-center">
                 <div className="flex items-center gap-1">
                   <Droplets size={20} className="text-amber-800" fill="currentColor" />
                   <span className="text-gray-400">=</span>
@@ -228,16 +228,11 @@ export function DHKeyDistributionAnimation() {
               <div className="flex items-center gap-1 text-xs font-medium text-yellow-600">
                 <PaintBucket size={12} /> Common Paint
               </div>
-              {step >= 3 && (
+              {step >= 3 && step!== 5 && (
                 <div className="flex items-center gap-1 text-xs font-medium animate-fade-in bg-gray-50 px-2 py-0.5 rounded border border-gray-200">
                   <Droplets size={12} className="text-orange-500" fill="currentColor" />
                   <span className="text-gray-400">&</span>
                   <Droplets size={12} className="text-cyan-500" fill="currentColor" />
-                </div>
-              )}
-              {step === 5 && (
-                <div className="flex items-center gap-1 text-xs font-bold text-slate-700 mt-1 animate-fade-in bg-slate-100 px-2 py-1 rounded border border-slate-300">
-                  <KeyRound size={12} /> Wrong Key
                 </div>
               )}
             </div>
@@ -245,12 +240,12 @@ export function DHKeyDistributionAnimation() {
         </div>
 
         {/* Receiver (Bob) */}
-        <div className="relative z-10 flex flex-col items-center gap-3">
+        <div className="relative z-3 flex flex-col items-center gap-3">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center border-4 border-white shadow-md">
             <User size={36} className="text-green-600" />
           </div>
           <div className="text-center w-28">
-            <p className="font-bold text-gray-800">Bob</p>
+            <p className="font-bold text-gray-800">Your friend</p>
             <div className="flex flex-col items-center mt-1 min-h-[5rem] space-y-1">
               <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 0 || step === 2? "text-yellow-600 scale-120 drop-shadow-md" : "text-yellow-600"}`}>
                 <PaintBucket size={12} /> Common Paint
@@ -272,11 +267,11 @@ export function DHKeyDistributionAnimation() {
 
       {/* State explanations */}
       <div className="mt-16 bg-white p-4 rounded-lg border text-sm text-gray-600 text-center min-h-[4rem] flex items-center justify-center shadow-sm">
-        {step === 0 && <p><strong>Step 1:</strong> Both parties agree on a public starting base, visualized as <strong>Yellow Common Paint</strong>. Everyone sees this.</p>}
-        {step === 1 && <p><strong>Step 2:</strong> Alice selects a <strong>Secret Red Paint</strong>. Bob selects a <strong>Secret Blue Paint</strong>. They keep these hidden.</p>}
-        {step === 2 && <p><strong>Step 3:</strong> They mathematically mix their secret color with the common yellow base.</p>}
-        {step === 3 && <p><strong>Step 4:</strong> They exchange their mixed colors. The attacker sees the mixtures, but mathematically cannot "un-mix" them to find the secrets.</p>}
-        {step === 4 && <p><strong>Step 5:</strong> Both add their own secret color to the received mixture. The math ensures both arrive at the exact same <strong>Brown Shared Key</strong>!</p>}
+        {step === 0 && <p><strong>Step 1:</strong> You and your friend agree on a public starting base, visualized as <strong>Yellow Common Paint</strong>. Everyone sees this.</p>}
+        {step === 1 && <p><strong>Step 2:</strong> You select a <strong>Secret Red Paint</strong>. Your friend selects a <strong>Secret Blue Paint</strong>. You keep these hidden.</p>}
+        {step === 2 && <p><strong>Step 3:</strong> You mathematically mix your secret colors with the common yellow base.</p>}
+        {step === 3 && <p><strong>Step 4:</strong> You exchange your mixed colors. The attacker sees the mixtures, but mathematically cannot "un-mix" them to find the secrets.</p>}
+        {step === 4 && <p><strong>Step 5:</strong> Both of you add your own secret color to the received mixture. The math ensures you arrive at the exact same <strong>Brown Shared Key</strong>!</p>}
         {step === 5 && <p><strong>Step 6:</strong> If the attacker tries to mix the intercepted mixtures together, they result in a completely different <strong>Wrong Key</strong> (due to a different proportion of the common paint)</p>}
       </div>
 
