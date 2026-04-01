@@ -64,7 +64,7 @@ export const lesson3: Lesson = {
 
       - This would mean he can not only intercept your conversation, but also **drop** and **replace** your messages
 
-      - Active attacker could establish two different sets of keys (one for each Alice and Bob)
+      - Active attacker could establish two different sets of keys (one for You and one for your friend)
 
       - Consequently decrypt, **read the contents** and re-encrypt all your conversation **without** you even noticing`
     },

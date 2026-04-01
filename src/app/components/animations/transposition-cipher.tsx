@@ -322,10 +322,10 @@ export function TranspositionCipherAnimation() {
               onClick={() => setStep(s)}
               className={`flex-1 h-2 rounded-full transition-all duration-300 cursor-pointer ${
                 step === s
-                  ? "bg-blue-600 shadow-sm"
+                  ? "bg-green-600 shadow-sm"
                   : s > K + 2
                   ? "bg-purple-200 hover:bg-purple-300"
-                  : "bg-gray-200 hover:bg-gray-300"
+                  : "bg-green-200 hover:bg-green-300"
               }`}
             />
           ))}

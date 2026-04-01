@@ -192,11 +192,11 @@ export function CaesarCipherAnimation() {
                 <div className="w-8 h-8 flex items-center justify-center font-mono text-base font-semibold text-green-800 bg-green-100 border-2 border-green-200 rounded-full shadow-inner">
                   {targetInts[idx]}
                 </div>
-                <ArrowDown size={14} className="text-gray-400 mt-0.5" />
+                <ArrowDown size={14} className="text-gray-400 mt-1" />
               </div>
 
               {/* Target Char row */}
-              <div className={`transition-opacity duration-500 ${showTargetChar ? "opacity-100" : "opacity-0"}`}>
+              <div className={`transition-opacity duration-500 ${showTargetInt ? "opacity-100" : "opacity-0"}`}>
                 <div className="w-10 h-10 flex items-center justify-center font-bold text-xl bg-gray-800 border-2 border-gray-900 rounded shadow-md text-white uppercase">
                   {targetChars[idx]}
                 </div>
@@ -207,7 +207,7 @@ export function CaesarCipherAnimation() {
       </div>
 
       {/* Controls Container */}
-      <div className="mt-4 flex flex-col items-center gap-3 w-full">
+      <div className="mt-6 flex flex-col items-center gap-3 w-full">
         {/* Progress Tiles */}
         <div className="w-full flex gap-1 px-4">
           {[...Array(maxSteps)].map((_, s) => (
@@ -216,10 +216,10 @@ export function CaesarCipherAnimation() {
               onClick={() => setStep(s)}
               className={`flex-1 h-2 rounded-full transition-all duration-300 cursor-pointer ${
                 step === s
-                  ? "bg-blue-600 shadow-sm"
-                  : isDecryption && s >= 3 + N 
+                  ? "bg-green-600 shadow-sm"
+                  : s >= 3 + N
                   ? "bg-purple-200 hover:bg-purple-300"
-                  : "bg-gray-200 hover:bg-gray-300"
+                  : "bg-green-200 hover:bg-green-300"
               }`}
             />
           ))}

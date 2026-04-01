@@ -60,7 +60,7 @@ In the 1970s, the US government adopted **DES** as the official standard for sym
 DES used a key size of only **56 bits** (64 in total, but 8 were effectively unused for encryption).
 While considered secure in the 70s, by the late 1990s, computing power had increased dramatically.
 
-In 1998, a custom-built machine called the **EFF DES cracker** ("Deep Crack") successfully brute-forced a DES key in under 60 hours. This demonstrated that a 56-bit key was no longer sufficient against modern hardware, making DES officially obsolete.`,
+In 1998, a custom-built machine called the **EFF DES cracker** successfully brute-forced a DES key in under 60 hours. This demonstrated that a 56-bit key was no longer sufficient against modern hardware, making DES officially obsolete.`,
     },
     {
       title: "Arrival of AES",
@@ -68,16 +68,16 @@ In 1998, a custom-built machine called the **EFF DES cracker** ("Deep Crack") su
 
 Following the fall of DES, a public competition was held to find a new standard. The winner was the Rijndael algorithm, which became the **Advanced Encryption Standard (AES)** in 2001.
 
-### Why is AES secure?
+### Advantages of AES
 - **Larger Key Space:** AES uses key sizes of 128, 192, or 256 bits. A 256-bit key is practically impossible to brute-force with current computers.
 - **Efficient Structure:** It is tailored to encrypt a block of 16 bytes by applying multiple rounds of both substitution and transposition (permutation) steps, completely destroying any statistical link between the plaintext and ciphertext.`,    },
     {
       title: "AES: Block Cipher Mechanics",
-      content: `# AES as a Block Cipher
+      content: `# Block Cipher
 
 AES works as a **block cipher** that encrypts fixed-size blocks of **128 bits** (16 bytes) at a time. 
 
-Because real-world data is rarely exactly 16 bytes long, AES is almost always used in conjunction with a **Mode of Operation** (such as CBC, GCM, or CTR). 
+Because real-world data is rarely exactly 16 bytes long, AES is almost always used in conjunction with a **Mode of Operation** (such as CBC, or GCM). 
 
 - **The Mode of Operation** handles the processing of multiple blocks, manages data padding, and ensures that identical plaintext blocks don't produce identical ciphertext blocks.
 - **The Core AES Algorithm** is strictly responsible for the secure mathematical transformation of a single 128-bit block.`
@@ -88,7 +88,7 @@ Because real-world data is rarely exactly 16 bytes long, AES is almost always us
 
 The AES algorithm operates internally on a ($4 \\times 4$) column-major order matrix of bytes, termed the **State**.
 
-There are three variants of AES based on the key size: **AES-128, AES-192, and AES-256**. The numbers specify the key size in bits.
+There are three variants of AES based on the key size: **AES-128, AES-192, and AES-256**. The numbers specify the key size in bits. The **block size stays the same** (4x4 bytes - 128 bits) regardless of the key size.
 
 In the case of AES-128, the encryption process consists of:
 1. An initial key addition step.
@@ -104,9 +104,9 @@ In the case of AES-128, the encryption process consists of:
       title: "AES: Inside a Round",
       content: `# Inside an AES Round
 
-Encryption begins by XOR-ing the 16-byte state with the initial Round Key. The algorithm then performs 9 identical rounds, followed by a final $10^{th}$ round that omits the MixColumns step. 
+Encryption begins by XOR-ing the state with the initial Round Key. The algorithm then performs 9 identical rounds, followed by a final $10^{th}$ round that omits the MixColumns step. 
 
-Each full round consists of four distinct mathematical transformations:
+Each full round consists of four steps:
 
 1. **SubBytes:** A non-linear substitution step where each byte is replaced with another according to a mathematical lookup table (the S-box).
 2. **ShiftRows:** A transposition step where the last three rows of the state are shifted cyclically to the left.
@@ -114,15 +114,20 @@ Each full round consists of four distinct mathematical transformations:
 4. **AddRoundKey:** A linear operation where the specific sub-key for that round is XORed with the current state.`
     },
     {
+      title: "AES: Inside a Round - Visualized",
+      content: `      
+[COMPONENT: AESRoundAnimation]`
+    },
+    {
       title: "AES: Key Expansion",
       content: `# The Key Expansion Routine
 
-Prior to encryption, AES cannot just use the same key for every round. The **Expand Key** routine stretches the initial 128-bit key into a linear array of 32-bit words (44 words for AES-128) to provide a unique "Round Key" for every single step.
+Prior to encryption, AES cannot just use the same key for every round. The **Expand Key** routine stretches the initial 128-bit key into a linear array of 32-bit words (44 words for AES-128) to provide a unique "Round Key" for every single round.
 
 The mathematical generation process:
 1. The first 4 words $W_{0,1,2,3}$ are simply the original 128-bit Cipher Key.
 2. Every $(4k)$-th word ($W_{4}, W_{8}, ...$) is derived using a non-linear formula:
-  $$W_{i} = W_{i-4} \\oplus (SubWord(RotWord(W_{i-1})) \\oplus Rcon[i/4])$$
+  $$W_{i} = W_{i-4} \\oplus (SubWord(RotWord(W_{i-1})) \\oplus Rcon_{[i/4]})$$
   - **RotWord:** A one-byte circular shift.
   - **SubWord:** S-box byte substitution.
   - **Rcon:** A round-specific constant to eliminate symmetry.
@@ -133,13 +138,23 @@ This ensures round keys are statistically distinct and non-linearly derived from
     },
     {
       title: "AES: Key Properties",
-      content: `# Key Properties of AES
+      content: `# AES: Summary
 
-AES was mathematically designed to be extraordinarily resilient. Its authors (Daemen and Rijmen) established several key properties:
+The authors (Daemen and Rijmen) established several key properties of AES:
 
 - **Strong Avalanche Effect:** Changing just one bit in the plaintext or the key drastically changes approximately 50% of the output ciphertext bits. This entirely obscures patterns.
 - **Resistance to Statistical Analysis:** The specific math of the S-box makes it highly resistant to Differential and Linear Cryptanalysis.
 - **Indistinguishable from Noise:** Without the key, the ciphertext exhibits a uniform statistical distribution appearing exactly like pure random noise.
-- **Versatility & Efficiency:** AES was intentionally designed to run extremely efficiently on tiny 8-bit smartcards up to high-performance 64-bit multi-core processors. Variable key lengths (128/192/256) offer flexibility against future computing advancements.`    }
+- **Versatility & Efficiency:** AES was intentionally designed to run extremely efficiently on tiny 8-bit smartcards up to high-performance 64-bit multi-core processors. Variable key lengths (128/192/256) offer flexibility against future computing advancements.`    },
+{
+      title: "AES: Current Best Attacks",
+      content: `# Security of AES
+
+When implemented correctly, AES remains fundamentally unbroken at its mathematical core. 
+
+As of 2026 the best know attack is:
+
+- **Biclique attack:** Published in 2011, this represents the first full-round key recovery attack on AES. It marginally reduces the brute-force complexity (e.g., from $2^{128}$ to $2^{126.1}$ for AES-128). This means roughly a $4$ time speedup.`
+    },
   ],
 };

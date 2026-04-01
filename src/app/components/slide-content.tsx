@@ -9,6 +9,7 @@ import { ProblemStatementAnimation } from "./animations/problem-statement";
 import { CaesarCipherAnimation } from "./animations/caesar-cipher";
 import { TranspositionCipherAnimation } from "./animations/transposition-cipher";
 import { AESImage } from "./animations/aes-image";
+import { AESRoundAnimation } from "./animations/aes-round-animation";
 import { DHNumericAnimation } from "./animations/dh-numeric";
 import { RSANumericAnimation } from "./animations/rsa-numeric";
 
@@ -92,16 +93,23 @@ export function SlideContent({ content }: { content: string }) {
           ))}
         </ol>
       );
-    } else if (line.startsWith("- ")) {
-      const listItems: string[] = [line.slice(2)];
-      while (i + 1 < lines.length && lines[i + 1].trimStart().startsWith("- ")) {
+    } else if (line.startsWith("- ") || line.startsWith("-- ")) {
+      const isNested = line.startsWith("-- ");
+      const prefix = isNested ? "-- " : "- ";
+      const listItems: { text: string; isNested: boolean }[] = [{ text: line.slice(prefix.length), isNested }];
+
+      while (i + 1 < lines.length && (lines[i + 1].trimStart().startsWith("- ") || lines[i + 1].trimStart().startsWith("-- "))) {
         i++;
-        listItems.push(lines[i].trimStart().slice(2));
+        const nextLine = lines[i].trimStart();
+        const nextIsNested = nextLine.startsWith("-- ");
+        const nextPrefix = nextIsNested ? "-- " : "- ";
+        listItems.push({ text: nextLine.slice(nextPrefix.length), isNested: nextIsNested });
       }
+
       elements.push(
         <ul key={key++} className="flex flex-col pl-2 my-3 space-y-1">
           {listItems.map((item, idx) => {
-            const trimmedItem = item.trimStart();
+            const trimmedItem = item.text.trimStart();
             let content;
             if (trimmedItem.startsWith("### ")) {
               content = <h3 className="text-l font-semibold my-2">{renderInlineCode(trimmedItem.slice(4))}</h3>;
@@ -112,11 +120,15 @@ export function SlideContent({ content }: { content: string }) {
             } else if (trimmedItem.startsWith("@ ")) {
               content = <h1 className="text-3xl font-bold my-2">{renderInlineCode(trimmedItem.slice(2))}</h1>;
             } else {
-              content = <span>{renderInlineCode(item)}</span>;
+              content = <span>{renderInlineCode(item.text)}</span>;
             }
             return (
-              <li key={idx} className="flex items-center">
-                <div className="w-1.5 h-1.5 rounded-full bg-gray-500 mr-4 flex-shrink-0"></div>
+              <li key={idx} className={`flex items-center ${item.isNested ? "ml-8" : ""}`}>
+                {item.isNested ? (
+                  <div className="w-1.5 h-1.5 rounded-full border border-gray-500 mr-4 flex-shrink-0"></div>
+                ) : (
+                  <div className="w-1.5 h-1.5 rounded-full bg-gray-500 mr-4 flex-shrink-0"></div>
+                )}
                 <div className="flex-1">{content}</div>
               </li>
             );
@@ -150,6 +162,8 @@ export function SlideContent({ content }: { content: string }) {
           elements.push(<TranspositionCipherAnimation key={key++} />);
         } else if (componentName === "AESImage") {
           elements.push(<AESImage key={key++} />);
+        } else if (componentName === "AESRoundAnimation") {
+          elements.push(<AESRoundAnimation key={key++} />);
         } else if (componentName === "DHNumericAnimation") {
           elements.push(<DHNumericAnimation key={key++} />);
         } else if (componentName === "RSANumericAnimation") {
