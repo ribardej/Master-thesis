@@ -12,6 +12,7 @@ import { AESImage } from "./animations/aes-image";
 import { AESRoundAnimation } from "./animations/aes-round-animation";
 import { DHNumericAnimation } from "./animations/dh-numeric";
 import { RSANumericAnimation } from "./animations/rsa-numeric";
+import { ECDHNumericAnimation } from "./animations/ecdh-numeric";
 
 export function SlideContent({ content }: { content: string }) {
   const lines = content.trim().split("\n");
@@ -61,19 +62,19 @@ export function SlideContent({ content }: { content: string }) {
     if (line.startsWith("# ")) {
       elements.push(
         <h1 key={key++} className="text-3xl font-bold mt-8 mb-4">
-          {line.slice(2)}
+          {renderInlineCode(line.slice(2))}
         </h1>
       );
     } else if (line.startsWith("## ")) {
       elements.push(
         <h2 key={key++} className="text-2xl font-semibold mt-6 mb-3">
-          {line.slice(3)}
+          {renderInlineCode(line.slice(3))}
         </h2>
       );
     } else if (line.startsWith("### ")) {
       elements.push(
         <h3 key={key++} className="text-xl font-semibold mt-4 mb-2">
-          {line.slice(4)}
+          {renderInlineCode(line.slice(4))}
         </h3>
       );
     } else if (line.match(/^\d+\.\s/)) {
@@ -138,7 +139,7 @@ export function SlideContent({ content }: { content: string }) {
     } else if (line.startsWith("**") && line.endsWith("**")) {
       elements.push(
         <p key={key++} className="font-semibold my-2">
-          {line.slice(2, -2)}
+          {renderInlineCode(line.slice(2, -2))}
         </p>
       );
     } else if (line.startsWith("[COMPONENT: ")) {
@@ -168,7 +169,9 @@ export function SlideContent({ content }: { content: string }) {
           elements.push(<DHNumericAnimation key={key++} />);
         } else if (componentName === "RSANumericAnimation") {
           elements.push(<RSANumericAnimation key={key++} />);
-        }
+        } else if (componentName === "ECDHAnimation") {
+          elements.push(<ECDHNumericAnimation key={key++} />);        } else if (componentName === "ECDHNumericAnimation") {
+          elements.push(<ECDHNumericAnimation key={key++} />);        }
         // Additional components can be registered here in the future
       }
     } else if (line.trim() === "") {
@@ -189,7 +192,7 @@ export function SlideContent({ content }: { content: string }) {
 }
 
 function renderInlineCode(text: string): React.ReactNode {
-  const parts = text.split(/(\*\*.*?\*\*|`[^`]+`|\$[^$]+\$)/g);
+  const parts = text.split(/(\*\*.*?\*\*|\[.*?\]\(.*?\)|\`[^`]+\`|\$[^$]+\$)/g);
   return parts.map((part, idx) => {
     if (part.startsWith("`") && part.endsWith("`")) {
       return (
@@ -201,10 +204,26 @@ function renderInlineCode(text: string): React.ReactNode {
         </code>
       );
     }
+    if (part.startsWith("[") && part.includes("](") && part.endsWith(")")) {
+      const match = part.match(/\[(.*?)\]\((.*?)\)/);
+      if (match) {
+        return (
+          <a
+            key={idx}
+            href={match[2]}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:underline"
+          >
+            {match[1]}
+          </a>
+        );
+      }
+    }
     if (part.startsWith("**") && part.endsWith("**")) {
       return (
         <strong key={idx} className="font-bold">
-          {part.slice(2, -2)}
+          {renderInlineCode(part.slice(2, -2))}
         </strong>
       );
     }

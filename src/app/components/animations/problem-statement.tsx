@@ -125,7 +125,14 @@ export function ProblemStatementAnimation() {
                 90% { opacity: 1; transform: translate(-50%, -50%); }
                 100% { left: 15%; opacity: 0; transform: translate(-50%, -50%); }
               }
+              @keyframes slideBobToMid {
+                0% { left: 85%; opacity: 0; transform: translate(-50%, -50%); }
+                10% { opacity: 1; transform: translate(-50%, -50%); }
+                90% { opacity: 1; transform: translate(-50%, -50%); }
+                100% { left: 50%; opacity: 0; transform: translate(-50%, -50%); }
+              }
               .animate-slide-a-m { animation: slideAliceToMid ${10 / speed}s ease-in-out forwards; }
+              .animate-slide-b-m { animation: slideBobToMid ${2.5 / speed}s ease-in-out forwards; }
               .animate-slide-m-a { animation: slideMidToAlice ${5 / speed}s ease-in-out forwards; }
             `}
           </style>
@@ -133,15 +140,28 @@ export function ProblemStatementAnimation() {
           {(step === 1 || step === 2) && (
             <div className="absolute top-1/2 animate-slide-a-m bg-white p-2 rounded border border-gray-300 shadow-md flex items-center gap-2 whitespace-nowrap">
               <MessageSquare size={16} className="text-blue-500" />
-              <span className="text-sm font-mono text-gray-700">"Hi, the secret is 42"</span>
+              <span className="text-sm font-mono text-gray-700">"My secret is 42"</span>
             </div>
           )}
 
           {step === 3 && (
-            <div className="absolute top-1/2 animate-slide-m-a bg-red-50 p-2 rounded border border-red-400 shadow-md flex items-center gap-2 whitespace-nowrap">
-              <FileWarning size={16} className="text-red-600" />
-              <span className="text-sm font-mono text-red-800">"Send money! - your friend"</span>
-            </div>
+            <>
+              <div className="absolute top-1/2 animate-slide-b-m bg-white p-2 rounded border border-gray-300 shadow-md flex items-center gap-2 whitespace-nowrap">
+                <MessageSquare size={16} className="text-blue-500" />
+                <span className="text-sm font-mono text-gray-700">"Noted! My secret is 171"</span>
+              </div>
+              <div
+                className="absolute top-1/2 bg-red-50 p-2 rounded border border-red-400 shadow-md flex items-center gap-2 whitespace-nowrap"
+                style={{
+                  animation: `slideMidToAlice ${2.5 / speed}s ease-in-out forwards`,
+                  animationDelay: `${2.5 / speed}s`,
+                  opacity: 0,
+                }}
+              >
+                <FileWarning size={16} className="text-red-600" />
+                <span className="text-sm font-mono text-red-800">"Noted! My secret is 369"</span>
+              </div>
+            </>
           )}
         </div>
 
@@ -201,6 +221,10 @@ export function ProblemStatementAnimation() {
             }`}
           />
         ))}
+      </div>
+      <div className="mt-4 flex w-full justify-between items-center text-xs text-gray-400 px-4">
+        <span>Step {step + 1} / {maxSteps}</span>
+        <span>Use Space to pause, arrows to step</span>
       </div>
     </div>
   );

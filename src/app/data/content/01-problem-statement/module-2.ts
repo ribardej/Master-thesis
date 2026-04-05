@@ -65,6 +65,20 @@ export const lesson1: Lesson = {
       - **Peer review:** Public algorithms (like AES or RSA) undergo rigorous analysis by thousands of cryptographers worldwide, ensuring any weaknesses are discovered and fixed.
       - **Easy recovery:** If a key is compromised, a new key is simply generated. There is no need to rewrite or swap out the core software.
       - **Standardization:** Open standards allow for effective hardware acceleration and easy integration across the globe.`,
-    }
+    },
+    {
+      title: "Further Reading",
+      content: `# Further Reading
+
+- [Applied Cryptography by Bruce Schneier, Second Edition](https://mrajacse.wordpress.com/wp-content/uploads/2012/01/applied-cryptography-2nd-ed-b-schneier.pdf) 
+-- Chapter 1
+
+- [Communication Theory of Secrecy Systems by Claude Shannon (1949)](https://netlab.cs.ucla.edu/script/shannon1949.pdf)
+
+- [La cryptographie militaire (1883)](https://www.petitcolas.net/kerckhoffs/crypto_militaire_1.pdf) 
+-- Auguste Kerckhoffs's original paper formulating his famous principle. (If you speak French)
+
+`
+    },
   ],
 };

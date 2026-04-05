@@ -451,7 +451,7 @@ export function AESRoundAnimation() {
 
                     <div className="bg-green-50 border border-green-200 rounded-lg w-full text-[11px] overflow-hidden">
                       <div className="p-1.5 border-b border-green-200 font-semibold text-green-900 bg-white">
-                        Calculating byte {rowIdx} of column {colIdx}:
+                        Calculating byte {rowIdx+1} of column {colIdx+1}:
                       </div>
                       <div className="p-2 font-mono flex flex-col gap-2 overflow-x-auto text-[10px] w-full">
                         <div className="flex flex-col gap-0.5 border-b border-green-200 pb-1 last:border-b-0 whitespace-nowrap">

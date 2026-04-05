@@ -96,7 +96,7 @@ In the case of AES-128, the encryption process consists of:
     },
     {
       title: "AES Architecture",
-      content: `## Encrypting one block
+      content: `## Encrypting one block (AES-128)
 
 [COMPONENT: AESImage]`
     },
@@ -155,6 +155,23 @@ When implemented correctly, AES remains fundamentally unbroken at its mathematic
 As of 2026 the best know attack is:
 
 - **Biclique attack:** Published in 2011, this represents the first full-round key recovery attack on AES. It marginally reduces the brute-force complexity (e.g., from $2^{128}$ to $2^{126.1}$ for AES-128). This means roughly a $4$ time speedup.`
+    },
+    {
+      title: "Further Reading",
+      content: `# Further Reading
+      
+
+- [NIST FIPS 197: Advanced Encryption Standard (AES)](https://csrc.nist.gov/publications/detail/fips/197/final) 
+-- The official standard publication.
+
+- [The Design of Rijndael](https://link.springer.com/book/10.1007/978-3-662-04722-4) 
+-- Book by the AES creators, Joan Daemen and Vincent Rijmen.
+
+- [Biclique Cryptanalysis of the Full AES (2011)](https://eprint.iacr.org/2011/449.pdf) 
+-- The paper detailing the first key recovery attack on full AES.
+
+- [Applied Cryptography by Bruce Schneier, Second Edition](https://mrajacse.wordpress.com/wp-content/uploads/2012/01/applied-cryptography-2nd-ed-b-schneier.pdf)
+-- Chapters 1, 9, 11, 12`
     },
   ],
 };

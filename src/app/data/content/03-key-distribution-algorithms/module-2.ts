@@ -23,7 +23,7 @@ In pre-digital eras, this was solved via physical couriers. In modern digital ne
     },
     {
       title: "The Key Distribution Problem",
-      content: `## There are 3 standardized classical algorithms:\n\n\n\n\n
+      content: `## There are 3 standardized classical algorithms used for key exchange:\n\n\n\n\n
       
       - ### Diffie-Hellman
       - ### Deffie-Hellman over Elliptic curves
@@ -64,22 +64,20 @@ $$ S = \\{g, g \\bullet g, g \\bullet g \\bullet g, \\dots\\} $$`,
 The Diffie-Hellman protocol relies on the hardness of the **Discrete Logarithm Problem**: computing $g^x \\pmod{p}$ is easy, but finding $x$ knowing only the result is computationally infeasible.
 
 **Step 1: Setup**
-Alice and Bob agree publicly on a large prime $P$ and a generator $g$.
+You and your friend agree publicly on a large prime $P$ and a generator $g$.
 
 **Step 2: Exchange**
-- Alice picks a random private key $a$, computes her public part: $s_a = g^a \\pmod{P}$
-- Bob picks a random private key $b$, computes his public part: $s_b = g^b \\pmod{P}$
-- They exchange $s_a$ and $s_b$ over the insecure channel.
+- You pick a random private key $a$ and compute your public part: $s_a = g^a \\pmod{P}$
+- Your friend picks a random private key $b$, computes his public part: $s_b = g^b \\pmod{P}$
+- You exchange $s_a$ and $s_b$ over the insecure channel.
 
 **Step 3: Shared Secret**
-They each raise the received public part to their own private key to get the same shared secret:
+Each of you raise the received public part to your own private key to get the same shared secret:
 $$ s = (s_b)^{a} = (g^{b})^a = g^{ba} = (g^{a})^b = (s_a)^{b} \\pmod{P} $$`,
     },
     {
       title: "Diffie-Hellman Demo",
-      content: `### Diffie-Hellman Algorithm Interactive Demo
-See how Alice and Bob exchange keys securely over a public channel using real numbers!
-
+      content: `
 [COMPONENT: DHNumericAnimation]`
     },
     {
@@ -110,6 +108,21 @@ The principle of ECDH stays the same as in the case of DH, what changes is the c
 - **Elliptic Curve Discrete Logarithm Problem (ECDLP)**: Given a base point $G$ and a result point $Q = k \\cdot G$, determine the integer $k$.`,
     },
     {
+      title: "Point Doubling Example",
+      content: `# Example of arithmetics in $E(\\mathbb{F}_{97})$
+Let's double a point $P = (3, 6)$ on the following elliptic curve $E(\\mathbb{F}_{97})$:
+$$ y^2 \\equiv x^3 + 2x + 3 \\pmod{97} $$
+**1. Find the slope ($\\lambda$) of the tangent line:**
+$$ \\lambda \\equiv \\frac{3x_P^2 + a}{2y_P} \\equiv \\frac{3(3)^2 + 2}{2(6)} \\equiv \\frac{29}{12} \\pmod{97} $$
+To divide by 12, we multiply by its modular inverse ($12^{-1} \\equiv 89 \\pmod{97}$):
+$$ \\lambda \\equiv 29 \\cdot 89 \\equiv 2581 \\equiv 59 \\pmod{97} $$
+**2. Calculate the new x-coordinate ($x_R$):**
+$$ x_R \\equiv \\lambda^2 - 2x_P \\equiv 59^2 - 2(3) \\equiv 3481 - 6 \\equiv 80 \\pmod{97} $$
+**3. Calculate the new y-coordinate ($y_R$):**
+$$ y_R \\equiv \\lambda(x_P - x_R) - y_P \\equiv 59(3 - 80) - 6 \\equiv -4549 \\equiv 10 \\pmod{97} $$
+**Result:** The geometrically doubled point is exactly **$2P = (80, 10)$**.`,
+    },
+    {
       title: "ECDH Algorithm",
       content: `# ECDH: Definition
 
@@ -119,48 +132,21 @@ ECDH operates on points on the curve $E(\\mathbb{F}_p)$ rather than integers mod
 Parties agree on curve parameters (prime $p$, coefficients $a,b$) and a base generator point $G$.
 
 **2. Exchange:**
-- Alice picks a random private integer $d_A$ and computes her public point $Q_A = d_A \\cdot G$.
-- Bob picks a random private integer $d_B$ and computes his public point $Q_B = d_B \\cdot G$.
-- They exchange public points $Q_A$ and $Q_B$.
+- You pick a random private integer $d_A$ and compute your public point $Q_A = d_A \\cdot G$.
+- Your friend picks a random private integer $d_B$ and computes his public point $Q_B = d_B \\cdot G$.
+- You exchange public points $Q_A$ and $Q_B$.
 
 **3. Shared Secret Derivation:**
 Each party multiplies the received point by their own private scalar:
-- Alice calculates: $S = d_A \\cdot Q_B = d_A \\cdot (d_B \\cdot G)$
-- Bob calculates: $S = d_B \\cdot Q_A = d_B \\cdot (d_A \\cdot G)$
+- You calculate: $S = d_A \\cdot Q_B = d_A \\cdot (d_B \\cdot G)$
+- Your friend calculates: $S = d_B \\cdot Q_A = d_B \\cdot (d_A \\cdot G)$
 
-Both arrive at the same shared point $S = (x_S, y_S)$. The $x$-coordinate is then typically used to derive an AES key.`,
+Both of you arrive at the same shared point $S = (x_S, y_S)$. The $x$-coordinate is then typically used to derive a symmetric key (for AES).`,
     },
     {
-      title: "DH vs. ECDH",
-      content: `# Comparison: DH vs. ECDH
-
-While both algorithms establish a shared secret anonymously using the Discrete Logarithm Problem, their efficiencies differ massively. 
-
-The best known algorithm against traditional DH (Number Field Sieve) splits the problem up with sub-exponential complexity. However, **no sub-exponential algorithm exists for breaking the Elliptic Curve version (ECDLP)**.
-
-Because of this, ECDH requires much smaller keys to achieve the exact same security level. 
-
-**NIST Recommended Key Equivalencies:**
-- **80-bit security:** DH = 1024 bits | ECDH = 160 bits
-- **128-bit security:** DH = 3072 bits | ECDH = 256 bits
-- **256-bit security:** DH = 15360 bits | ECDH = 512 bits
-
-ECDH produces dramatically lower bandwidth overhead and faster computations.`,
-    },
-    {
-      title: "DH Vulnerabilities",
-      content: `# Vulnerabilities: Smooth Numbers & Logjam
-
-Standard integer DH is vulnerable if parameters are chosen poorly:
-
-**Smooth Primes:**  
-If $P-1$ splits completely into small prime factors (smooth numbers), attackers can break the encryption using the Pohlig-Hellman algorithm. Standard DH must use computationally expensive "Safe Primes" to prevent this.
-
-**The Logjam Attack (2015):**  
-Reusing fixed 1024-bit primes across thousands of servers allowed state agencies to pre-compute massive lookup tables, breaking the encryption in real-time or downgrading to 512-bit "export-grade" keys.
-
-**ECDH Immunity:**  
-ECDH is completely immune to index-calculus attacks like Number Field Sieve. Furthermore, standard curves (like Curve25519) inherently restrict their sizes to prime numbers, automatically preventing Pohlig-Hellman subgroup attacks.`,
+      title: "Diffie-Hellman Demo",
+      content: `
+[COMPONENT: ECDHNumericAnimation]`
     },
     {
       title: "RSA: Introduction & Math",
@@ -169,7 +155,7 @@ ECDH is completely immune to index-calculus attacks like Number Field Sieve. Fur
 While Diffie-Hellman allows two parties to establish a shared secret cooperatively, **RSA** is an asymmetric cryptosystem that allows one party to encrypt a message specifically for another. It relies on the practical difficulty of the **Integer Factorization Problem**.
 
 **Mathematical Prerequisites:**
-- **Prime Factorization:** Multiplying two large prime numbers $p$ and $q$ is extremely fast. However, finding $p$ and $q$ given only their product $n = p \\cdot q$ is computationally infeasible for large numbers.
+- **Prime Factorization:** Multiplying two large prime numbers $p$ and $q$ is fast. However, finding $p$ and $q$ given only their product $n = p \\cdot q$ is computationally infeasible for large numbers.
 - **Euler's Totient Function** $\\phi(n)$: Represents the number of integers up to $n$ that are relatively prime to $n$. For a product of two distinct primes, $\\phi(n) = (p-1)(q-1)$.
 - **Modular Multiplicative Inverse:** Finding a number $d$ such that $(e \\cdot d) \\equiv 1 \\pmod{\\phi(n)}$.`
     },
@@ -197,39 +183,73 @@ $$ d \\cdot e \\equiv 1 \\pmod{\\phi(n)} $$
 Once the keys are generated, RSA can be used to securely transmit data. 
 
 **Encryption:**
-To send a secret message $m$ to Bob, Alice uses Bob's **Public Key** $(e, n)$:
+To send a secret message $m$ to Your friend, you use your friend's **Public Key** $(e, n)$:
 $$ c = m^e \\pmod n $$
 where $c$ is the resulting ciphertext. It's crucial that message $m$ is represented as an integer such that $0 \\le m < n$.
 
 **Decryption:**
-Bob receives $c$ and recovers the original message $m$ using his **Private Key** $(d, n)$:
+Your friend receives $c$ and recovers the original message $m$ using his **Private Key** $(d, n)$:
 $$ m = c^d \\pmod n $$
 
-**Why it works:**  
-Based on Euler's theorem, the relationship between the keys guarantees that decrypting the ciphertext returns the exact original message:
-$$ c^d \\equiv (m^e)^d \\equiv m^{ed} \\equiv m^1 \\equiv m \\pmod n $$`
+**Euler's theorem:**  
+Based on Euler's theorem, the relationship between the keys guarantees that decrypting the ciphertext returns the original message:
+$$ c^d \\equiv (m^e)^d \\equiv m^{ed} \\equiv m^{\\phi(n)+1} \\equiv m^1 \\equiv m \\pmod n $$`
     },
     {
       title: "RSA for Key Distribution",
       content: `# RSA for Key Distribution
 
-RSA involves massive numbers, making it computationally expensive and slow compared to symmetric ciphers. Therefore, it is rarely used to encrypt bulk data directly. 
+RSA involves large numbers, making it computationally expensive and slow compared to symmetric ciphers. Therefore, it is rarely used to encrypt bulk data directly. 
 
 Instead, RSA is an excellent tool for **solving the Key Distribution Problem**:
 
-1. Alice generates a highly secure, random 256-bit symmetric key (for AES).
-2. Alice encrypts this symmetric key using Bob's RSA **Public Key**.
-3. Alice sends the encrypted symmetric key to Bob over the public channel.
-4. Bob decrypts it using his specifically paired RSA **Private Key**.
+1. You generate a symmetric key (i.e. 256-bits for AES).
+2. You encrypt this symmetric key using your friend's RSA **Public Key**.
+3. You send the encrypted symmetric key to your friend over the public channel.
+4. Your friend decrypts it using his specifically paired RSA **Private Key**.
 
-Because only Bob possesses his private key, only Bob can decrypt and read the AES key. Now they both share an identical symmetric key securely and can switch to the extremely fast AES cipher for the remainder of their session.`
+Because only your friend possesses his private key, only he can decrypt and read the symmetric key. Now you both share an identical symmetric key securely and can switch to the extremely fast symmetric cipher for the remainder of your session.`
     },
     {
       title: "RSA Demo",
-      content: `### RSA Encryption Demo
-Watch how Bob generates his keys and Alice securely transmits a message.
-      
+      content: `
 [COMPONENT: RSANumericAnimation]`
-    }
+    },
+    {
+      title: "Comparison: RSA vs. DH vs. ECDH",
+      content: `# Comparing Key Distribution Algorithms
+
+While all three algorithms can be used to distribute keys, their approaches and efficiencies differ significantly.
+
+**RSA** relies on the difficulty of the integer factorization problem.
+
+Both **Diffie-Hellman (DH)** and **Elliptic-Curve Diffie-Hellman (ECDH)** anonymously establish a shared secret using the Discrete Logarithm Problem (DLP). 
+
+The best known algorithm attacking both traditional DH and RSA (the General Number Field Sieve) runs with sub-exponential complexity. However, **no sub-exponential algorithm exists for breaking the Elliptic Curve version (ECDLP)**.
+
+Because of this, ECDH requires much smaller keys to achieve the exact same security level. 
+
+**NIST Recommended Key Equivalencies:**
+- **80-bit security:** RSA / DH = 1024 bits | ECDH = 160 bits
+- **128-bit security:** RSA / DH = 3072 bits | ECDH = 256 bits
+- **256-bit security:** RSA / DH = 15360 bits | ECDH = 512 bits
+
+This means that ECDH produces dramatically lower bandwidth overhead and faster computations. That is why it is the most used algorithm out of the three.`
+    },
+    {
+      title: "Further Reading",
+      content: `# Further Reading
+      
+- [Diffie-Hellman onriginal publication (1976)](https://ee.stanford.edu/~hellman/publications/24.pdf)
+
+- [A Method for Obtaining Digital Signatures and Public-Key Cryptosystems (RSA-1978)](https://people.csail.mit.edu/rivest/Rsapaper.pdf)
+
+- [Use of Elliptic Curves in Cryptography (ECDH-1985)](https://link.springer.com/chapter/10.1007/3-540-39799-X_31)
+
+- [The Development of the Number Field Sieve](https://www.cs.umd.edu/~gasarch/TOPICS/factoring/1993_Book_TheDevelopmentOfTheNumberField.pdf)
+
+- [Applied Cryptography by Bruce Schneier, Second Edition](https://mrajacse.wordpress.com/wp-content/uploads/2012/01/applied-cryptography-2nd-ed-b-schneier.pdf)
+-- Chapters 3, 19, 22`
+    },
   ],
 };

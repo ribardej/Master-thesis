@@ -216,7 +216,7 @@ export function CaesarCipherAnimation() {
               onClick={() => setStep(s)}
               className={`flex-1 h-2 rounded-full transition-all duration-300 cursor-pointer ${
                 step === s
-                  ? "bg-green-600 shadow-sm"
+                  ? s >= 3 + N ? "bg-purple-600 shadow-sm" : "bg-green-600 shadow-sm"
                   : s >= 3 + N
                   ? "bg-purple-200 hover:bg-purple-300"
                   : "bg-green-200 hover:bg-green-300"
@@ -247,6 +247,10 @@ export function CaesarCipherAnimation() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="mt-4 flex w-full justify-between items-center text-xs text-gray-400 px-4">
+        <span>Step {step + 1} / {maxSteps}</span>
+        <span>Use Space to pause, arrows to step</span>
       </div>
     </div>
   );

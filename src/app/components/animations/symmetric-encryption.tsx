@@ -222,6 +222,11 @@ export function SymmetricEncryptionAnimation() {
           />
         ))}
       </div>
+      <div className="mt-4 flex w-full justify-between items-center text-xs text-gray-400 px-4">
+        <span>Step {step + 1} / {maxSteps}</span>
+        <span>Use Space to pause, arrows to step</span>
+      </div>
+
     </div>
   );
 }
