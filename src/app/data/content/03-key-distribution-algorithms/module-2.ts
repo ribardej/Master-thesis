@@ -191,9 +191,8 @@ where $c$ is the resulting ciphertext. It's crucial that message $m$ is represen
 Your friend receives $c$ and recovers the original message $m$ using his **Private Key** $(d, n)$:
 $$ m = c^d \\pmod n $$
 
-**Euler's theorem:**  
-Based on Euler's theorem, the relationship between the keys guarantees that decrypting the ciphertext returns the original message:
-$$ c^d \\equiv (m^e)^d \\equiv m^{ed} \\equiv m^{\\phi(n)+1} \\equiv m^1 \\equiv m \\pmod n $$`
+**Why this works** (Euler's theorem):  
+$$ c^d \\equiv (m^e)^d \\equiv m^{ed} \\equiv m^{k\\cdot\\phi(n)+1} \\equiv m^1 \\equiv m \\pmod n $$`
     },
     {
       title: "RSA for Key Distribution",

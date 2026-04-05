@@ -13,6 +13,8 @@ import { AESRoundAnimation } from "./animations/aes-round-animation";
 import { DHNumericAnimation } from "./animations/dh-numeric";
 import { RSANumericAnimation } from "./animations/rsa-numeric";
 import { ECDHNumericAnimation } from "./animations/ecdh-numeric";
+import { DigitalSignatureBasicAnimation } from "./animations/digital-signature-basic";
+import { PKIAnimationComponent } from "./animations/pki-animation";
 
 export function SlideContent({ content }: { content: string }) {
   const lines = content.trim().split("\n");
@@ -170,8 +172,14 @@ export function SlideContent({ content }: { content: string }) {
         } else if (componentName === "RSANumericAnimation") {
           elements.push(<RSANumericAnimation key={key++} />);
         } else if (componentName === "ECDHAnimation") {
-          elements.push(<ECDHNumericAnimation key={key++} />);        } else if (componentName === "ECDHNumericAnimation") {
-          elements.push(<ECDHNumericAnimation key={key++} />);        }
+          elements.push(<ECDHNumericAnimation key={key++} />);
+        } else if (componentName === "ECDHNumericAnimation") {
+          elements.push(<ECDHNumericAnimation key={key++} />);
+        } else if (componentName === "DigitalSignatureBasic") {
+          elements.push(<DigitalSignatureBasicAnimation key={key++} />);
+        } else if (componentName === "PKIAnimation") {
+          elements.push(<PKIAnimationComponent key={key++} />);
+        }
         // Additional components can be registered here in the future
       }
     } else if (line.trim() === "") {
