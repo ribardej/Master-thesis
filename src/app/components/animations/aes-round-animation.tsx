@@ -96,8 +96,8 @@ export function AESRoundAnimation() {
 
   const maxSteps = 8;
   const getMaxSubSteps = (s: number) => {
-    if (s === 0 || s === 3 || s === 4 || s === 7) return 16;
-    if (s === 1 || s === 2 || s === 5 || s === 6) return 4;
+    if (s === 0 || s === 2 || s === 3 || s === 4 || s === 5 || s === 7) return 16;
+    if (s === 1 || s === 6) return 4;
     return 0;
   };
 
@@ -199,11 +199,10 @@ export function AESRoundAnimation() {
     if (step === 2) { 
       if (subStep === 0) return stateShiftRows;
       const res = stateShiftRows.map(r => [...r]);
-      for (let c = 0; c < subStep; c++) {
-        res[0][c] = stateMixColumns[0][c];
-        res[1][c] = stateMixColumns[1][c];
-        res[2][c] = stateMixColumns[2][c];
-        res[3][c] = stateMixColumns[3][c];
+      for (let i = 0; i < subStep; i++) {
+        const cInfo = Math.floor(i / 4);
+        const rInfo = i % 4;
+        res[rInfo][cInfo] = stateMixColumns[rInfo][cInfo];
       }
       return res;
     }
@@ -222,11 +221,10 @@ export function AESRoundAnimation() {
     if (step === 5) { 
       if (subStep === 0) return stateMixColumns;
       const res = stateMixColumns.map(r => [...r]);
-      for (let c = 0; c < subStep; c++) {
-        res[0][c] = stateShiftRows[0][c];
-        res[1][c] = stateShiftRows[1][c];
-        res[2][c] = stateShiftRows[2][c];
-        res[3][c] = stateShiftRows[3][c];
+      for (let i = 0; i < subStep; i++) {
+        const cInfo = Math.floor(i / 4);
+        const rInfo = i % 4;
+        res[rInfo][cInfo] = stateShiftRows[rInfo][cInfo];
       }
       return res;
     }
@@ -297,9 +295,8 @@ export function AESRoundAnimation() {
         <div className="flex flex-col items-center">
           <p className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">Current State Matrix</p>
           {renderGrid(currentState, (r, c) => {
-            if ((step === 0 || step === 3 || step === 4 || step === 7) && subStep > 0 && subStep <= 16 && (c * 4 + r) === subStep - 1) return true;
+            if ((step === 0 || step === 2 || step === 3 || step === 4 || step === 5 || step === 7) && subStep > 0 && subStep <= 16 && (c * 4 + r) === subStep - 1) return true;
             if ((step === 1 || step === 6) && r === subStep - 1) return true;
-            if ((step === 2 || step === 5) && subStep > 0 && subStep <= 4 && c === subStep - 1) return true;
             return false;
           })}
         </div>
@@ -380,35 +377,47 @@ export function AESRoundAnimation() {
               <h4 className="font-bold text-gray-800 mb-1">{step === 2 ? "Encryption - MixColumns" : "Decryption - InvMixColumns"}</h4>
               <p className="text-xs text-gray-600 mb-2">Matrix multiplication in <InlineMath math="GF(2^8)" /> using {step === 2 ? '' : 'inverse'} matrix for {step === 2 ? 'encryption' : 'decryption'}</p>
 
-              {subStep > 0 && subStep <= 4 ? (() => {
-                  const colIdx = subStep - 1;
+              {subStep > 0 && subStep <= 16 ? (() => {
+                  const colIdx = Math.floor((subStep - 1) / 4);
+                  const rowIdx = (subStep - 1) % 4;
                   const srcState = step === 2 ? stateShiftRows : stateMixColumns;
                   const resState = step === 2 ? stateMixColumns : stateShiftRows;
                   const c0 = srcState[0][colIdx];
                   const c1 = srcState[1][colIdx];
                   const c2 = srcState[2][colIdx];
                   const c3 = srcState[3][colIdx];
-                  const res0 = resState[0][colIdx];
+                  const resByte = resState[rowIdx][colIdx];
+                  
+                  const encryptMatrix = [
+                    [0x02, 0x03, 0x01, 0x01],
+                    [0x01, 0x02, 0x03, 0x01],
+                    [0x01, 0x01, 0x02, 0x03],
+                    [0x03, 0x01, 0x01, 0x02]
+                  ];
+                  const decryptMatrix = [
+                    [0x0e, 0x0b, 0x0d, 0x09],
+                    [0x09, 0x0e, 0x0b, 0x0d],
+                    [0x0d, 0x09, 0x0e, 0x0b],
+                    [0x0b, 0x0d, 0x09, 0x0e]
+                  ];
+                  const matrix = step === 2 ? encryptMatrix : decryptMatrix;
+                  const currentRow = matrix[rowIdx];
                   
                 return (
                   <div className="flex flex-col items-center">
                     <div className="flex items-center gap-2 bg-white p-2 rounded-lg border shadow-sm mb-2 w-full justify-center">
                       
-                      {step === 2 ? (
                       <div className="grid grid-rows-4 gap-1 font-mono text-[10px]">
-                        <div className="flex gap-1"><span className="p-0.5 border rounded bg-gray-50 text-center w-5">02</span><span className="p-0.5 text-center opacity-50 w-5">03</span><span className="p-0.5 text-center opacity-50 w-5">01</span><span className="p-0.5 text-center opacity-50 w-5">01</span></div>
-                        <div className="flex gap-1"><span className="p-0.5 border rounded bg-gray-50 text-center w-5">01</span><span className="p-0.5 text-center opacity-50 w-5">02</span><span className="p-0.5 text-center opacity-50 w-5">03</span><span className="p-0.5 text-center opacity-50 w-5">01</span></div>
-                        <div className="flex gap-1"><span className="p-0.5 border rounded bg-gray-50 text-center w-5">01</span><span className="p-0.5 text-center opacity-50 w-5">01</span><span className="p-0.5 text-center opacity-50 w-5">02</span><span className="p-0.5 text-center opacity-50 w-5">03</span></div>
-                        <div className="flex gap-1"><span className="p-0.5 border rounded bg-gray-50 text-center w-5">03</span><span className="p-0.5 text-center opacity-50 w-5">01</span><span className="p-0.5 text-center opacity-50 w-5">01</span><span className="p-0.5 text-center opacity-50 w-5">02</span></div>
+                        {matrix.map((row, r) => (
+                          <div key={r} className="flex gap-1">
+                            {row.map((val, c) => (
+                              <span key={c} className={`p-0.5 text-center w-5 ${r === rowIdx ? 'border rounded bg-gray-50' : 'opacity-40'}`}>
+                                {hex(val)}
+                              </span>
+                            ))}
+                          </div>
+                        ))}
                       </div>
-                      ) : (
-                      <div className="grid grid-rows-4 gap-1 font-mono text-[10px]">
-                        <div className="flex gap-1"><span className="p-0.5 border rounded bg-gray-50 text-center w-5">0E</span><span className="p-0.5 text-center opacity-50 w-5">0B</span><span className="p-0.5 text-center opacity-50 w-5">0D</span><span className="p-0.5 text-center opacity-50 w-5">09</span></div>
-                        <div className="flex gap-1"><span className="p-0.5 border rounded bg-gray-50 text-center w-5">09</span><span className="p-0.5 text-center opacity-50 w-5">0E</span><span className="p-0.5 text-center opacity-50 w-5">0B</span><span className="p-0.5 text-center opacity-50 w-5">0D</span></div>
-                        <div className="flex gap-1"><span className="p-0.5 border rounded bg-gray-50 text-center w-5">0D</span><span className="p-0.5 text-center opacity-50 w-5">09</span><span className="p-0.5 text-center opacity-50 w-5">0E</span><span className="p-0.5 text-center opacity-50 w-5">0B</span></div>
-                        <div className="flex gap-1"><span className="p-0.5 border rounded bg-gray-50 text-center w-5">0B</span><span className="p-0.5 text-center opacity-50 w-5">0D</span><span className="p-0.5 text-center opacity-50 w-5">09</span><span className="p-0.5 text-center opacity-50 w-5">0E</span></div>
-                      </div>
-                      )}
 
                       <span className="font-bold text-sm">&times;</span>
 
@@ -421,72 +430,52 @@ export function AESRoundAnimation() {
 
                       <span className="font-bold text-sm">=</span>
                       
-                      <div className="grid grid-rows-4 gap-1 font-mono text-[10px] font-bold text-green-700">
-                        <span className="p-0.5 border border-green-400 rounded bg-green-200 text-center w-6">{hex(res0)}</span>
-                        <span className="p-0.5 border border-green-200 rounded bg-green-50 text-center w-6">{hex(resState[1][colIdx])}</span>
-                        <span className="p-0.5 border border-green-200 rounded bg-green-50 text-center w-6">{hex(resState[2][colIdx])}</span>
-                        <span className="p-0.5 border border-green-200 rounded bg-green-50 text-center w-6">{hex(resState[3][colIdx])}</span>
+                      <div className="grid grid-rows-4 gap-1 font-mono text-[10px] font-bold">
+                        {[0, 1, 2, 3].map((r) => {
+                          let classes = "p-0.5 border rounded text-center w-6 ";
+                          if (r === rowIdx) {
+                            classes += "border-green-500 bg-green-200 text-green-900";
+                          } else if (r < rowIdx) {
+                            classes += "border-green-200 bg-green-50 text-green-700";
+                          } else {
+                            classes += "border-gray-200 bg-gray-50 text-gray-400";
+                          }
+                          return (
+                            <span key={r} className={classes}>
+                              {r <= rowIdx ? hex(resState[r][colIdx]) : hex(srcState[r][colIdx])}
+                            </span>
+                          );
+                        })}
                       </div>
                     </div>
 
-                    {step === 2 && (
-                    <div className="bg-green-50 border border-green-200 rounded-lg w-full text-[11px]">
-                      <div className="p-1.5 border-b border-green-200 font-semibold text-green-900 bg-white rounded-t-lg">
-                        Calculating top byte of result:
+                    <div className="bg-green-50 border border-green-200 rounded-lg w-full text-[11px] overflow-hidden">
+                      <div className="p-1.5 border-b border-green-200 font-semibold text-green-900 bg-white">
+                        Calculating byte {rowIdx} of column {colIdx}:
                       </div>
-                      <div className="p-2 font-mono space-y-1 overflow-x-auto text-[10px] w-full">
-                        <div className="flex flex-col gap-0.5 border-b border-green-200 pb-1 whitespace-nowrap">
-                          <span className="text-gray-600">02 &times; {hex(c0)} in <InlineMath math="GF(2^8)" /> = </span>
-                          <span><InlineMath math={`(${toPoly(0x02)}) \\cdot (${toPoly(c0)}) \\pmod{x^8+x^4+x^3+x+1} = ${toPoly(gfMul(0x02, c0))}`} /> = {toBin(gfMul(0x02, c0))} = <strong className="text-green-800">{hex(gfMul(0x02, c0))}</strong></span>
-                        </div>
-                        <div className="flex flex-col gap-0.5 border-b border-green-200 pb-1 whitespace-nowrap">
-                          <span className="text-gray-600">03 &times; {hex(c1)} in <InlineMath math="GF(2^8)" /> = </span>
-                          <span><InlineMath math={`(${toPoly(0x03)}) \\cdot (${toPoly(c1)}) \\pmod{x^8+x^4+x^3+x+1} = ${toPoly(gfMul(0x03, c1))}`} /> = {toBin(gfMul(0x03, c1))} = <strong className="text-green-800">{hex(gfMul(0x03, c1))}</strong></span>
-                        </div>
-                        <div className="flex flex-col gap-0.5 border-b border-green-200 pb-1 whitespace-nowrap">
-                          <span className="text-gray-600">01 &times; {hex(c2)} in <InlineMath math="GF(2^8)" /> = </span>
-                          <span><InlineMath math={toPoly(c2)} /> = {toBin(c2)} = <strong className="text-green-800">{hex(c2)}</strong></span>
-                        </div>
-                        <div className="flex flex-col gap-0.5 pb-1 whitespace-nowrap">
-                          <span className="text-gray-600">01 &times; {hex(c3)} in <InlineMath math="GF(2^8)" /> = </span>
-                          <span><InlineMath math={toPoly(c3)} /> = {toBin(c3)} = <strong className="text-green-800">{hex(c3)}</strong></span>
-                        </div>
-                        <div className="flex items-center gap-1 font-bold pt-1 border-t-2 border-green-300 mt-0.5 text-[10px] bg-green-100 p-1.5 rounded">
-                          <span className="text-green-900">XOR sum = {hex(gfMul(0x02, c0))} &oplus; {hex(gfMul(0x03, c1))} &oplus; {hex(c2)} &oplus; {hex(c3)} =</span>
-                          <span className="text-green-800">{hex(res0)}</span>
-                        </div>
-                      </div>
-                    </div>
-                    )}
-                    {step === 5 && (
-                    <div className="bg-green-50 border border-green-200 rounded-lg w-full text-[11px]">
-                      <div className="p-1.5 border-b border-green-200 font-semibold text-green-900 bg-white rounded-t-lg">
-                        Calculating top byte of result:
-                      </div>
-                      <div className="p-2 font-mono space-y-1 overflow-x-auto text-[11px] w-full">
-                        <div className="flex flex-col gap-0.5 border-b border-green-200 pb-1 whitespace-nowrap">
-                          <span className="text-gray-600">0E &times; {hex(c0)} in <InlineMath math="GF(2^8)" /> = </span>
-                          <span><InlineMath math={`(${toPoly(0x0e)}) \\cdot (${toPoly(c0)}) \\pmod{x^8+x^4+x^3+x+1} = ${toPoly(gfMul(0x0e, c0))}`} /> = {toBin(gfMul(0x0e, c0))} = <strong className="text-green-800">{hex(gfMul(0x0e, c0))}</strong></span>
-                        </div>
-                        <div className="flex flex-col gap-0.5 border-b border-green-200 pb-1 whitespace-nowrap">
-                          <span className="text-gray-600">0B &times; {hex(c1)} in <InlineMath math="GF(2^8)" /> = </span>
-                          <span><InlineMath math={`(${toPoly(0x0b)}) \\cdot (${toPoly(c1)}) \\pmod{x^8+x^4+x^3+x+1} = ${toPoly(gfMul(0x0b, c1))}`} /> = {toBin(gfMul(0x0b, c1))} = <strong className="text-green-800">{hex(gfMul(0x0b, c1))}</strong></span>
-                        </div>
-                        <div className="flex flex-col gap-0.5 border-b border-green-200 pb-1 whitespace-nowrap">
-                          <span className="text-gray-600">0D &times; {hex(c2)} in <InlineMath math="GF(2^8)" /> = </span>
-                          <span><InlineMath math={`(${toPoly(0x0d)}) \\cdot (${toPoly(c2)}) \\pmod{x^8+x^4+x^3+x+1} = ${toPoly(gfMul(0x0d, c2))}`} /> = {toBin(gfMul(0x0d, c2))} = <strong className="text-green-800">{hex(gfMul(0x0d, c2))}</strong></span>
-                        </div>
-                        <div className="flex flex-col gap-0.5 pb-1 whitespace-nowrap">
-                          <span className="text-gray-600">09 &times; {hex(c3)} in <InlineMath math="GF(2^8)" /> = </span>
-                          <span><InlineMath math={`(${toPoly(0x09)}) \\cdot (${toPoly(c3)}) \\pmod{x^8+x^4+x^3+x+1} = ${toPoly(gfMul(0x09, c3))}`} /> = {toBin(gfMul(0x09, c3))} = <strong className="text-green-800">{hex(gfMul(0x09, c3))}</strong></span>
-                        </div>
-                        <div className="flex items-center gap-1 font-bold pt-1 border-t-2 border-green-300 mt-0.5 text-[10px] bg-green-100 p-1.5 rounded">
-                          <span className="text-green-900">XOR sum = {hex(gfMul(0x0e, c0))} &oplus; {hex(gfMul(0x0b, c1))} &oplus; {hex(gfMul(0x0d, c2))} &oplus; {hex(gfMul(0x09, c3))} =</span>
-                          <span className="text-green-800">{hex(res0)}</span>
+                      <div className="p-2 font-mono flex flex-col gap-2 overflow-x-auto text-[10px] w-full">
+                        <div className="flex flex-col gap-0.5 border-b border-green-200 pb-1 last:border-b-0 whitespace-nowrap">
+                          {currentRow.map((c, i) => {
+                            const v = [c0, c1, c2, c3][i];
+                            return (
+                              <div key={i} className={`flex flex-col gap-0.5 ${i < 3 ? 'border-b border-green-200 pb-1' : 'pb-1'} whitespace-nowrap`}>
+                                <span className="text-gray-600">{hex(c)} &times; {hex(v)} in <InlineMath math="GF(2^8)" /> = </span>
+                                <span>
+                                  {c === 0x01 
+                                    ? <><InlineMath math={toPoly(v)} /> = {toBin(v)} = <strong className="text-green-800">{hex(v)}</strong></>
+                                    : <><InlineMath math={`(${toPoly(c)}) \\cdot (${toPoly(v)}) \\pmod{x^8+x^4+x^3+x+1} = ${toPoly(gfMul(c, v))}`} /> = {toBin(gfMul(c, v))} = <strong className="text-green-800">{hex(gfMul(c, v))}</strong></>
+                                  }
+                                </span>
+                              </div>
+                            );
+                          })}
+                          <div className="flex items-center gap-1 font-bold pt-2 mt-1 border-t-2 border-green-300 text-[10px] bg-green-100 p-1.5 rounded">
+                            <span className="text-green-900">XOR sum = {currentRow.map((c, i) => hex(gfMul(c, [c0, c1, c2, c3][i]))).join(' \u2295 ')} =</span>
+                            <span className="text-green-800">{hex(resByte)}</span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    )}
                   </div>
                 );
               })() : (
@@ -496,6 +485,7 @@ export function AESRoundAnimation() {
               )}
             </div>
           )}
+
 
           {(step === 3 || step === 4) && (
             <div className="flex flex-col h-full justify-center">
@@ -531,7 +521,7 @@ export function AESRoundAnimation() {
               onClick={() => { setStep(s); setSubStep(0); }}
               className={`flex-1 h-3 rounded-full transition-all duration-300 cursor-pointer ${
                 step === s
-                  ? "bg-green-600 shadow-sm"
+                  ? s < 4 ? "bg-green-600 shadow-sm" : "bg-purple-600 shadow-sm"
                   : s < 4
                   ? "bg-green-200 hover:bg-green-300"
                   : "bg-purple-200 hover:bg-purple-300"

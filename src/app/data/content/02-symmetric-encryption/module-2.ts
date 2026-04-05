@@ -77,7 +77,7 @@ Following the fall of DES, a public competition was held to find a new standard.
 
 AES works as a **block cipher** that encrypts fixed-size blocks of **128 bits** (16 bytes) at a time. 
 
-Because real-world data is rarely exactly 16 bytes long, AES is almost always used in conjunction with a **Mode of Operation** (such as CBC, or GCM). 
+Because real-world data is rarely exactly 16 bytes long, AES is almost always used in conjunction with a **Mode of Operation** (such as **CBC**, or **GCM**). 
 
 - **The Mode of Operation** handles the processing of multiple blocks, manages data padding, and ensures that identical plaintext blocks don't produce identical ciphertext blocks.
 - **The Core AES Algorithm** is strictly responsible for the secure mathematical transformation of a single 128-bit block.`

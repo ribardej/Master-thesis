@@ -15,11 +15,11 @@ export const lesson3: Lesson = {
 
 While symmetric ciphers like AES ensure robust data confidentiality, their security strictly depends on the assumption that communicating parties already possess an identical, pre-shared key. 
 
-This introduces a recursive paradox:
+**This introduces a recursive paradox:**
 - If the confidentiality of our communication relies entirely on a shared secret key, how do we securely agree on this key over the public, insecure channel?
 - We need an encrypted channel to send the key, but we need the key to establish the encrypted channel!
 
-In pre-digital eras, this was solved via physical couriers. In modern digital networks, mathematical solutions like Key Exchange algorithms break this deadlock.`,
+In pre-digital eras, this was solved via physical couriers. In modern digital networks, mathematical solutions - Key Exchange algorithms break this deadlock.`,
     },
     {
       title: "The Key Distribution Problem",
@@ -136,7 +136,7 @@ Both arrive at the same shared point $S = (x_S, y_S)$. The $x$-coordinate is the
 
 While both algorithms establish a shared secret anonymously using the Discrete Logarithm Problem, their efficiencies differ massively. 
 
-The best known algorithm against traditional DH (Pohlig-Hellman) splits the problem up with sub-exponential complexity. However, **no sub-exponential algorithm exists for breaking the Elliptic Curve version (ECDLP)**.
+The best known algorithm against traditional DH (Number Field Sieve) splits the problem up with sub-exponential complexity. However, **no sub-exponential algorithm exists for breaking the Elliptic Curve version (ECDLP)**.
 
 Because of this, ECDH requires much smaller keys to achieve the exact same security level. 
 
@@ -154,13 +154,13 @@ ECDH produces dramatically lower bandwidth overhead and faster computations.`,
 Standard integer DH is vulnerable if parameters are chosen poorly:
 
 **Smooth Primes:**  
-If $P-1$ splits completely into small prime factors (smooth numbers), attackers can break the encryption instantly using the Pohlig-Hellman algorithm. Standard DH must use computationally expensive "Safe Primes" to prevent this.
+If $P-1$ splits completely into small prime factors (smooth numbers), attackers can break the encryption using the Pohlig-Hellman algorithm. Standard DH must use computationally expensive "Safe Primes" to prevent this.
 
 **The Logjam Attack (2015):**  
 Reusing fixed 1024-bit primes across thousands of servers allowed state agencies to pre-compute massive lookup tables, breaking the encryption in real-time or downgrading to 512-bit "export-grade" keys.
 
 **ECDH Immunity:**  
-ECDH is completely immune to index-calculus attacks like Logjam. Furthermore, standard curves (like Curve25519) inherently restrict their sizes to prime numbers, automatically preventing Pohlig-Hellman subgroup attacks.`,
+ECDH is completely immune to index-calculus attacks like Number Field Sieve. Furthermore, standard curves (like Curve25519) inherently restrict their sizes to prime numbers, automatically preventing Pohlig-Hellman subgroup attacks.`,
     },
     {
       title: "RSA: Introduction & Math",
