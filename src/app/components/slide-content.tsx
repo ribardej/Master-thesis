@@ -15,12 +15,17 @@ import { RSANumericAnimation } from "./animations/rsa-numeric";
 import { ECDHNumericAnimation } from "./animations/ecdh-numeric";
 import { DigitalSignatureBasicAnimation } from "./animations/digital-signature-basic";
 import { PKIAnimationComponent } from "./animations/pki-animation";
+import { RSASignatureNumericAnimation } from "./animations/rsa-signature-numeric";
+import { DSANumericAnimation } from "./animations/dsa-numeric";
+import { ECDSANumericAnimation } from "./animations/ecdsa-numeric";
 
 export function SlideContent({ content }: { content: string }) {
   const lines = content.trim().split("\n");
   const elements: JSX.Element[] = [];
   let currentCodeBlock: string[] = [];
+  let currentMathBlock: string[] = [];
   let inCodeBlock = false;
+  let inMathBlock = false;
   let key = 0;
 
   const flushCodeBlock = () => {
@@ -34,6 +39,17 @@ export function SlideContent({ content }: { content: string }) {
         </pre>
       );
       currentCodeBlock = [];
+    }
+  };
+
+  const flushMathBlock = () => {
+    if (currentMathBlock.length > 0) {
+      elements.push(
+        <div key={key++} className="py-2">
+          <BlockMath math={currentMathBlock.join("\n")} />
+        </div>
+      );
+      currentMathBlock = [];
     }
   };
 
@@ -56,7 +72,22 @@ export function SlideContent({ content }: { content: string }) {
       continue;
     }
 
-    if (line.trim().startsWith("$$") && line.trim().endsWith("$$")) {
+    if (line.trim() === "$$") {
+      if (inMathBlock) {
+        flushMathBlock();
+        inMathBlock = false;
+      } else {
+        inMathBlock = true;
+      }
+      continue;
+    }
+
+    if (inMathBlock) {
+      currentMathBlock.push(rawLine);
+      continue;
+    }
+
+    if (line.trim().startsWith("$$") && line.trim().endsWith("$$") && line.trim() !== "$$") {
       elements.push(<div key={key++} className="py-2"><BlockMath math={line.trim().slice(2, -2)} /></div>);
       continue;
     }
@@ -179,6 +210,12 @@ export function SlideContent({ content }: { content: string }) {
           elements.push(<DigitalSignatureBasicAnimation key={key++} />);
         } else if (componentName === "PKIAnimation") {
           elements.push(<PKIAnimationComponent key={key++} />);
+        } else if (componentName === "RSASignatureNumeric") {
+          elements.push(<RSASignatureNumericAnimation key={key++} />);
+        } else if (componentName === "DSANumeric") {
+          elements.push(<DSANumericAnimation key={key++} />);
+        } else if (componentName === "ECDSANumeric") {
+          elements.push(<ECDSANumericAnimation key={key++} />);
         }
         // Additional components can be registered here in the future
       }
@@ -195,6 +232,7 @@ export function SlideContent({ content }: { content: string }) {
   }
 
   flushCodeBlock();
+  flushMathBlock();
 
   return <>{elements}</>;
 }

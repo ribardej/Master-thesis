@@ -25,7 +25,8 @@ export const lesson3: Lesson = {
 
 
       - One way to solve the key distribution problem is to use a pair of **mathematically linked** keys 
-      -> **Public** Key and a **Private** Key 
+      -- **Public** Key
+      -- **Private** Key 
 
       - The Public Key can safely be used to encrypt our Symmetric Key, while only the Private Key can decrypt it.
       `
@@ -60,7 +61,7 @@ export const lesson3: Lesson = {
     {
       title: "Summary",
       content: `## So what if the attacker can operate as a proxy (Active attacker)?\n\n\n\n\n\n\n
-
+      
 
       - This would mean he can not only intercept your conversation, but also **drop** and **replace** your messages
 

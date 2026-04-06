@@ -10,7 +10,7 @@ export const lesson4: Lesson = {
     },
     {
       title: "The Authentication Problem",
-      content: `### In the previous chapter, we showed that key distribution algorithms (RSA / D-H) allow two parties to establish a shared secret over a public channel\n\n\n\n
+      content: `### In the previous chapter, we showed that key distribution algorithms (RSA / DH) allow two parties to establish a shared secret over a public channel\n\n\n\n
 
       - However, the key distribution algorithms alone **cannot** verify the identity of the communicating party
 
@@ -20,7 +20,7 @@ export const lesson4: Lesson = {
       title: "The Authentication Problem",
       content: `### How do you verify the identity of the person you are communicating with in real life?\n\n\n\n\n
 
-      - One traditional way is through a **handwritten signature** — it is unique to a person and difficult to forge
+      - One traditional way is through a **handwritten signature** - it is unique to a person and difficult to forge
 
       - A **digital signature** is the mathematical equivalent, providing the same guarantee in the digital world`
     },
@@ -67,14 +67,32 @@ export const lesson4: Lesson = {
     },
     {
       title: "The Trust Problem",
-      content: `### But wait — how do you obtain your friend's genuine public key in the first place?\n\n\n\n\n
+      content: `# But hold on - how do you safely transfer the public key?\n\n\n\n\n
 
-      - If an attacker can replace DH parameters, he could also replace the **public key** used for signature verification
+      - This seems exactly like the key distribution problem once again! An attacker could change the **message**, create his **signature**, intercept your friend's public key and swap it for **his public key**.
 
-      - This is where **certificates** and **Public Key Infrastructure (PKI)** come in — a trusted third party vouches for the binding between a public key and its owner
+      - So have we gotten ourselves into a never ending cycle?
+      -- **No, dont worry**
+      -- There is a difference between the two problems
       
-      - The certificate binds the **identity** of the owner to their **public key**, this is crucial so I mentioned it twice.
-       -- It does not include information about the **private key**!`
+      - The public key that needs to be transfered usually stays valid for years. Unlike the symmetric key, which lasts only during one session.
+
+      - This life-span of the key makes it reasonable for us to create a **Public Key Infrastructure** using **digital certificates** to bind a public key with an identity.`
+    },
+    {
+      title: "How PKI Works",
+      content: `## The Certificate Authority (CA) Model\n\n\n
+
+      - A trusted organization called a **Certificate Authority (CA)** verifies the identity of an entity (like a website or person).
+
+      - The CA takes the entity's **public key** and their identity details, and packages them into a **Digital Certificate**.
+
+      - Crucially, the CA then **digitally signs** this certificate using its own private key.
+
+      - When you connect, the entity sends you their certificate. Your device uses the CA's globally known public key, **pre-installed in your OS or browser**, to verify the CA's signature.
+
+      - If the CA's signature is valid, you can safely trust that the public key inside the certificate genuinely belongs to that entity!`
+
     },
     {
       title: "Public Key Infrastructure",
@@ -85,7 +103,8 @@ export const lesson4: Lesson = {
       title: "Summary",
       content: `## Digital signatures, combined with public key infrastructure, complete the security model for authenticating communication on a public channel\n\n\n\n
 
-      - We have covered all the parts that are necessary for secure communication on a public channel
+      - We have covered all the parts that are necessary for secure communication on a public channel\n\n
+
       Next, we will look at the full process of establishing a secure connection between two parties ->`
     },
   ],

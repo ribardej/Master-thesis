@@ -40,8 +40,8 @@ export function Lesson() {
   const slide = lesson.slides[slideIndex];
 
   return (
-    <div className="h-full overflow-y-auto pb-20 flex flex-col justify-center">
-      <div className="max-w-4xl mx-auto px-8 py-12 w-full">
+    <div className="h-full overflow-y-auto w-full flex flex-col items-center">
+      <div className="max-w-4xl px-8 py-20 w-full my-auto">
         <div className="prose prose-lg max-w-none">
           <SlideContent content={slide.content} />
         </div>

@@ -202,7 +202,7 @@ export function ProblemStatementAnimation() {
         {step === 1 && <p> When you send a plain text message, it travels over the public internet infrastructure.</p>}
         {step === 2 && <p className="text-red-700"> Anyone on the internet (the Attacker) can easily read the message as it passes by.</p>}
         {step === 3 && <p className="text-red-700"> Furthermore, an active Attacker could also inject a forged message into the network, pretending to be your friend.</p>}
-        {step === 4 && <p className="text-red-700"> Upon receiving the fake message, you fully believe it is from your friend, because there is no way to verify the sender's identity!</p>}
+        {step === 4 && <p className="text-red-700"> Upon receiving the fake message, you fully believe it is from your friend, because there is no implicit way to verify the sender's identity!</p>}
       </div>
 
       {/* Progress Steps (Tiles) */}

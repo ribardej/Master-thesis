@@ -26,7 +26,8 @@ export const lesson2: Lesson = {
       title: "Summary",
       content: `### But if the confidentiality of the communication relies entirely on a shared secret key, how can the parties agree on this key using only the insecure channel they wish to protect?\n\n\n\n
 
-      The answer is **Key Distribution Algorithms** ->`
+      The answer is: 
+      -- They have to use a **Key Distribution Algorithm** ->`
     }
   ],
 };

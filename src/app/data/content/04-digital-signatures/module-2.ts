@@ -27,7 +27,7 @@ A secure signature scheme must satisfy:
       title: "Hash Functions",
       content: `# Cryptographic Hash Functions
 
-Before exploring signature algorithms, we need to understand **hash functions** — a core building block.
+Before exploring signature algorithms, we need to understand **hash functions** - a core building block.
 
 A cryptographic hash function $H$ maps an input of arbitrary length to a fixed-length output (the **digest** or **hash**):
 $$ H: \\{0,1\\}^* \\rightarrow \\{0,1\\}^n $$
@@ -63,7 +63,7 @@ Collision resistance is the strongest property. Due to the **birthday paradox**,
 The most widely used hash functions are standardized by NIST:
 
 ### SHA-1 (160-bit output)
-Designed in 1995. **Broken** — practical collision attacks were demonstrated in 2017 (the SHAttered attack by Google). No longer considered secure.
+Designed in 1995. **Broken** - practical collision attacks were demonstrated in 2017 (the SHAttered attack by Google). No longer considered secure.
 
 ### SHA-2 Family
 Published in 2001. Includes **SHA-224**, **SHA-256**, **SHA-384**, and **SHA-512**. As of 2026, SHA-2 remains **unbroken** and is the most popular hash function for digital signatures.
@@ -94,7 +94,7 @@ This ensures that any modification to the message $m$ changes the digest $h$, ca
 
 RSA signatures use the same key pair $(e, n)$ and $(d, n)$ as RSA encryption (covered in Chapter 3), but the operations are **reversed**.
 
-**Key Generation:** Identical to RSA encryption — choose primes $p, q$, compute $n = p \\cdot q$, $\\phi(n) = (p-1)(q-1)$, choose public exponent $e$, compute private exponent $d$.
+**Key Generation:** Identical to RSA encryption - choose primes $p, q$, compute $n = p \\cdot q$, $\\phi(n) = (p-1)(q-1)$, choose public exponent $e$, compute private exponent $d$.
 
 **Signing** (using private key):
 $$ s = h^d \\pmod{n} $$
@@ -108,10 +108,15 @@ The verifier checks whether $h' = H(m)$. If they match, the signature is valid.
 $$ s^e = (h^d)^e = h^{de} = h^{k \\cdot \\phi(n) + 1} \\equiv h \\pmod{n} $$`
     },
     {
+      title: "RSA Signature Example",
+      content: `
+      [COMPONENT: RSASignatureNumeric]`
+    },
+    {
       title: "DSA: Introduction",
       content: `# Digital Signature Algorithm (DSA)
 
-DSA was proposed by NIST in 1991 and standardized as **FIPS 186** in 1994. Unlike RSA signatures, DSA is a **dedicated** signature scheme — it cannot be used for encryption and similarly to the DH algorithm it relies on the discrete logarithm problem.
+DSA was proposed by NIST in 1991 and standardized as **FIPS 186** in 1994. Unlike RSA signatures, DSA is a **dedicated** signature scheme - it cannot be used for encryption and similarly to the DH algorithm it relies on the discrete logarithm problem.
 
 DSA operates within a **prime-order subgroup** of $\\mathbb{Z}^*_p$:
 
@@ -161,27 +166,64 @@ The value $k$ must be **truly random** and **never reused**. If the same $k$ is 
     },
     {
       title: "DSA: Verification",
-      content: `# DSA: Verification Algorithm
+      content: `# DSA: Signature verification
 
 To verify signature $(r, s)$ on message $m$ using public key $y$ and parameters $(p, q, g)$:
-
 **1.** Verify that $0 < r < q$ and $0 < s < q$
-
 **2.** Compute the message hash: $h = H(m)$
-
 **3.** Compute the modular inverse of $s$:
 $$ w = s^{-1} \\pmod{q} $$
-
 **4.** Compute two intermediate values:
 $$ u_1 = h \\cdot w \\pmod{q} $$
 $$ u_2 = r \\cdot w \\pmod{q} $$
-
 **5.** Compute the verification value:
 $$ v = (g^{u_1} \\cdot y^{u_2} \\pmod{p}) \\pmod{q} $$
-
 **6.** The signature is **valid** if and only if $v = r$.
-
 The mathematical proof relies on the fact that substituting the signing equations into the verification recovers the original $r$ value.`
+    },
+    {
+      title: "Why DSA Works",
+      content: `# Why DSA Verification Works
+
+Given message hash $h$, signature $(r, s)$, and public key $y$, verification mathematically proves the signing equation $s \\equiv k^{-1}(h + x \\cdot r) \\pmod{q}$.
+
+**Proof of Correctness:**
+$$
+\\begin{aligned}
+s &\\equiv k^{-1}(h + x \\cdot r) \\pmod{q} \\\\
+k &\\equiv s^{-1}(h + x \\cdot r) \\pmod{q} \\\\
+k &\\equiv s^{-1}h + (s^{-1}r)x \\pmod{q} \\\\
+k &\\equiv u_1 + u_2x \\pmod{q}
+\\end{aligned}
+$$
+
+By treating this as an exponent of the generator $g$:
+$$
+\\begin{aligned}
+g^k &\\equiv g^{u_1 + u_2x} \\pmod{p} \\\\
+g^k &\\equiv g^{u_1} \\cdot g^{x \\cdot u_2} \\pmod{p} \\\\
+g^k &\\equiv g^{u_1} \\cdot (g^x)^{u_2} \\pmod{p}
+\\end{aligned}
+$$
+
+Substitute the public key $y \\equiv g^x \\pmod{p}$:
+$$
+g^k \\equiv g^{u_1} \\cdot y^{u_2} \\pmod{p}
+$$
+
+The verification value $v$ evaluates this exact exponentiation modulo $p$, and matches it against the modulo $q$ reduction:
+$$
+\\begin{aligned}
+v &= (g^{u_1} \\cdot y^{u_2} \\pmod{p}) \\pmod{q} \\\\
+v &= (g^k \\pmod{p}) \\pmod{q} \\\\
+v &= r
+\\end{aligned}
+$$`
+    },
+    {
+      title: "DSA Example",
+      content: `
+      [COMPONENT: DSANumeric]`
     },
     {
       title: "ECDSA: Introduction",
@@ -191,7 +233,7 @@ ECDSA is the elliptic curve variant of DSA. It provides the **same security** as
 
 ### Domain Parameters
 - An elliptic curve $E$ over $\\mathbb{F}_p$ (e.g., the NIST P-256 curve)
-- A base point $G$ of prime order $n$ on the curve
+- A base point $G$ of **prime** order $n$ on the curve
 - The order $n$ (number of points generated by $G$)
 
 ### Key Generation
@@ -205,45 +247,81 @@ The security relies on the **Elliptic Curve Discrete Logarithm Problem (ECDLP)**
       content: `# ECDSA: Signing Algorithm
 
 To sign a message $m$ with private key $d$:
-
 **1.** Compute the hash: $e = H(m)$
-
 **2.** Choose a random per-message secret $k$ such that $1 \\le k \\le n-1$
-
 **3.** Compute the curve point:
 $$ (x_1, y_1) = k \\cdot G $$
-
 **4.** Compute $r$:
 $$ r = x_1 \\pmod{n} $$
-
 **5.** Compute $s$:
 $$ s = k^{-1}(e + d \\cdot r) \\pmod{n} $$
-
 **6.** The signature is the pair $(r, s)$
-
-Note the structural similarity to DSA — the key difference is that the operation $g^k \\pmod{p}$ is replaced by **scalar multiplication** $k \\cdot G$ on the elliptic curve, and modular arithmetic is performed modulo the curve order $n$ instead of the subgroup order $q$.`
+Note the structural similarity to DSA - the key difference is that the operation $g^k \\pmod{p}$ is replaced by **scalar multiplication** $k \\cdot G$ on the elliptic curve, and modular arithmetic is performed modulo the curve order $n$ instead of the subgroup order $q$.`
     },
     {
       title: "ECDSA: Verification",
       content: `# ECDSA: Verification Algorithm
 
 To verify signature $(r, s)$ on message $m$ using public key $Q$:
-
 **1.** Verify that $1 \\le r, s \\le n-1$
-
 **2.** Compute the hash: $e = H(m)$
-
 **3.** Compute:
-$$ w = s^{-1} \\pmod{n} $$
-$$ u_1 = e \\cdot w \\pmod{n} $$
-$$ u_2 = r \\cdot w \\pmod{n} $$
-
+$$ 
+\\begin{aligned}
+w &= s^{-1} \\pmod{n} \\\\
+u_1 &= e \\cdot w \\pmod{n} \\\\
+u_2 &= r \\cdot w \\pmod{n} \\\\
+\\end{aligned} 
+$$
 **4.** Compute the curve point:
 $$ (x_1, y_1) = u_1 \\cdot G + u_2 \\cdot Q $$
-
 **5.** The signature is **valid** if and only if $r \\equiv x_1 \\pmod{n}$
-
 ECDSA is the most widely used signature algorithm today. It is the default in **TLS**, **SSH**, or cryptocurrencies like **Bitcoin**, or **Ethereum**.`
+    },
+    {
+      title: "Why ECDSA Works",
+      content: `# Why ECDSA Verification Works
+
+Given message hash $e$, signature $(r, s)$, and public key $Q$, verification mathematically proves the signing equation $s \\equiv k^{-1}(e + d \\cdot r) \\pmod{n}$.
+
+**Proof of Correctness:**
+$$
+\\begin{aligned}
+s &\\equiv k^{-1}(e + d \\cdot r) \\pmod{n} \\\\
+k &\\equiv s^{-1}(e + d \\cdot r) \\pmod{n} \\\\
+k &\\equiv s^{-1}e + (s^{-1}r)d \\pmod{n} \\\\
+k &\\equiv u_1 + u_2d \\pmod{n}
+\\end{aligned}
+$$
+
+By treating this as a scalar and multiplying the base point $G$:
+$$
+\\begin{aligned}
+k \\cdot G &= (u_1 + u_2d) \\cdot G \\\\
+k \\cdot G &= u_1 \\cdot G + u_2 \\cdot (d \\cdot G)
+\\end{aligned}
+$$
+
+Substitute the public key $Q = d \\cdot G$:
+$$
+\\begin{aligned}
+k \\cdot G &= u_1 \\cdot G + u_2 \\cdot Q \\\\
+k \\cdot G &= V
+\\end{aligned}
+$$
+
+The signer's original point $R = k \\cdot G$ is equal to the verifier's calculated point $V$. Since the points are equivalent, their x-coordinates match ($x(R) = x(V)$), yielding:
+$$
+\\begin{aligned}
+x(R) \\pmod{n} &= x(V) \\pmod{n} \\\\
+r &= v
+\\end{aligned}
+$$`
+    },
+    {
+      title: "ECDSA Example",
+      content: `
+      [COMPONENT: ECDSANumeric]`
     },
     {
       title: "Comparison: RSA vs DSA vs ECDSA",
@@ -255,14 +333,14 @@ While all three algorithms provide equivalent security guarantees, their efficie
 **DSA** relies on the discrete logarithm problem in $\\mathbb{Z}^*_p$.
 **ECDSA** relies on the elliptic curve discrete logarithm problem (ECDLP).
 
-Since no sub-exponential algorithm exists for solving ECDLP (unlike factorization and standard DLP), ECDSA achieves the same security with much smaller parameters.
+Since no sub-exponential algorithm exists for solving ECDLP (unlike factorization and standard DLP), ECDSA achieves the same security with much smaller parameters. **DSA is no longer approved** for use by NIST (since 2023). 
 
 **NIST Recommended Equivalencies (security level → key size):**
 - **80-bit:** RSA = 1024 bits | DSA = 1024/160 bits | ECDSA = 160 bits
 - **128-bit:** RSA = 3072 bits | DSA = 3072/256 bits | ECDSA = 256 bits
 - **256-bit:** RSA = 15360 bits | DSA = 15360/512 bits | ECDSA = 512 bits
 
-ECDSA signatures are also much **shorter** — a 256-bit ECDSA signature is only 64 bytes, compared to 256+ bytes for RSA-2048.`
+ECDSA signatures are also much **shorter** - a 256-bit ECDSA signature is only 64 bytes, compared to 256+ bytes for RSA-2048.`
     },
     {
       title: "Digital Certificates",
@@ -280,7 +358,7 @@ A **digital certificate** solves this by binding a public key to an identity. Th
 - **Signature Algorithm:** The algorithm used by the CA to sign the certificate
 - **Digital Signature:** The CA's signature over all the above fields
 
-The CA's signature is the **guarantee** — it means the CA has verified that the subject truly owns the stated public key.`
+The CA's signature is the **guarantee** - it means the CA has verified that the subject truly owns the stated public key.`
     },
     {
       title: "Public Key Infrastructure",
@@ -311,7 +389,7 @@ Every time you visit a website with a padlock icon, PKI is at work:
 
 **2.** The browser verifies the **certificate chain** up to a trusted Root CA.
 
-**3.** The browser uses the server's certified public key to authenticate a **key exchange** (typically ECDHE — Elliptic Curve Diffie-Hellman Ephemeral).
+**3.** The browser uses the server's certified public key to authenticate a **key exchange** (typically ECDHE - Elliptic Curve Diffie-Hellman Ephemeral).
 
 **4.** The server **signs** the key exchange parameters with its private key (typically using ECDSA or RSA-PSS).
 

@@ -213,7 +213,7 @@ export function PKIAnimationComponent() {
         {step === 0 && <p><strong>Step 1:</strong> A <strong>Root CA</strong> is a universally trusted authority. <strong>Its certificate is pre-installed in your operating system/browser.</strong> This is the key step that makes everything else possible.</p>}
         {step === 1 && <p><strong>Step 2:</strong> The Root CA <strong>signs</strong> the Intermediate CA's certificate, vouching that its public key is legitimate.</p>}
         {step === 2 && <p><strong>Step 3:</strong> The Intermediate CA <strong>signs</strong> your friend's certificate, binding their <strong>identity</strong> to their <strong>public key</strong>.</p>}
-        {step === 3 && <p><strong>Step 4:</strong> Your friend sends you their certificate. It contains their public key + the Intermediate CA's signature.</p>}
+        {step === 3 && <p><strong>Step 4:</strong> Your friend sends you his certificate. It contains his public key + the Intermediate CA's signature.</p>}
         {step === 4 && <p><strong>Step 5:</strong> You verify the <strong>chain of signatures</strong>: friend's cert → signed by Intermediate CA → signed by Root CA → trusted by your OS.</p>}
         {step === 5 && <p><strong>Step 6:</strong> The entire chain is valid! You can now <strong>trust</strong> that the public key truly belongs to your friend.</p>}
       </div>
