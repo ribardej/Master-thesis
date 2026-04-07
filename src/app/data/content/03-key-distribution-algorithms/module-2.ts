@@ -243,6 +243,9 @@ This means that ECDH produces dramatically lower bandwidth overhead and faster c
 
 - [A Method for Obtaining Digital Signatures and Public-Key Cryptosystems (RSA-1978)](https://people.csail.mit.edu/rivest/Rsapaper.pdf)
 
+- [Elliptic curve calculator](https://graui.de/code/elliptic2/) 
+-- See the structure of different Elliptic Curves over finite fields to build your intuition.
+
 - [Use of Elliptic Curves in Cryptography (ECDH-1985)](https://link.springer.com/chapter/10.1007/3-540-39799-X_31)
 
 - [The Development of the Number Field Sieve](https://www.cs.umd.edu/~gasarch/TOPICS/factoring/1993_Book_TheDevelopmentOfTheNumberField.pdf)

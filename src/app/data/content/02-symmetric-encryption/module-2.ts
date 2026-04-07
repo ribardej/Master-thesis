@@ -41,14 +41,14 @@ The Caesar cipher is the simplest form of a substitution cipher. In its original
       title: "Cryptanalysis",
       content: `# Cryptanalysis
 
-Historically, most classical ciphers were eventually broken because they didn't sufficiently hide the statistical properties of the language. Modern cryptanalysis goes further and attacks the mathematical structures of the ciphers themselves.
+Throughout the history, most ciphers were eventually broken because they didn't sufficiently hide the statistical properties of the language. Modern cryptanalysis goes further and attacks the mathematical structures of the ciphers themselves.
 
 Here are some of the fundamental techniques used to break ciphers:
 
 - **Frequency Analysis:** Exploits the fact that certain letters (like 'E', 'T', or 'A' in English) appear much more often than others. Highly efficient against simple substitution ciphers.
 - **Digram/Trigram Analysis:** Looks for repeating pairs or triplets of characters. This is especially useful for breaking transposition ciphers or finding the key length of polyalphabetic ciphers.
-- **Brute Force Attack:** Systematically trying every possible mathematical key until the correct one is found. Modern ciphers defend against this by using massive key sizes (e.g., 256-bit).
-- **Linear & Differential Cryptanalysis:** Advanced mathematical methods used against modern block ciphers (like DES or AES). They involve observing how specific input patterns or input differences affect the encrypted output.`,
+- **Brute Force Attack:** Systematically trying every possible mathematical key until the correct one is found. Modern ciphers defend against this by using large key sizes (e.g., 256-bit).
+- **Linear & Differential Cryptanalysis:** Advanced mathematical methods used against modern block ciphers (like DES). They involve observing how specific input patterns or input differences affect the encrypted output.`,
     },
     {
       title: "The Fall of DES",
@@ -97,7 +97,6 @@ In the case of AES-128, the encryption process consists of:
     {
       title: "AES Architecture",
       content: `## Encrypting one block (AES-128)
-
 [COMPONENT: AESImage]`
     },
     {

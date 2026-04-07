@@ -69,7 +69,7 @@ Designed in 1995. **Broken** - practical collision attacks were demonstrated in 
 Published in 2001. Includes **SHA-224**, **SHA-256**, **SHA-384**, and **SHA-512**. As of 2026, SHA-2 remains **unbroken** and is the most popular hash function for digital signatures.
 
 ### SHA-3 (Keccak)
-Selected through a NIST competition in 2012 as a backup standard. Uses an entirely different internal structure (the sponge construction) from SHA-2. Provides an additional layer of algorithm diversity.`
+Selected through a NIST competition in 2012 as a backup standard. Uses an entirely different internal structure from SHA-2. Provides an additional layer of algorithm diversity.`
     },
     {
       title: "The Hash-then-Sign Paradigm",
@@ -348,7 +348,7 @@ ECDSA signatures are also much **shorter** - a 256-bit ECDSA signature is only 6
 
 A digital signature can verify that a message was signed by a specific **private key**. But how do we know that the corresponding **public key** actually belongs to the person we think it does?
 
-A **digital certificate** solves this by binding a public key to an identity. The most widely used format is **X.509**, which contains:
+A **digital certificate** solves this by binding a public key to an **identity**. The most widely used format is **X.509**, which contains:
 
 - **Subject:** The identity of the key owner (e.g., domain name, organization)
 - **Subject's Public Key:** The public key being certified
@@ -400,13 +400,10 @@ Every time you visit a website with a padlock icon, PKI is at work:
       content: `# Further Reading
 
 - [FIPS 186-5: Digital Signature Standard (DSS)](https://csrc.nist.gov/publications/detail/fips/186/5/final)
--- The official NIST standard for RSA, DSA, and ECDSA signatures.
+-- The official NIST standard for RSA, (DSA), and ECDSA signatures.
 
 - [A Method for Obtaining Digital Signatures and Public-Key Cryptosystems (RSA-1978)](https://people.csail.mit.edu/rivest/Rsapaper.pdf)
 -- The original RSA paper, which also introduced the concept of RSA signatures.
-
-- [PKCS#1 v2.2: RSA Cryptography Standard (RFC 8017)](https://datatracker.ietf.org/doc/html/rfc8017)
--- Specifies RSA-PSS and PKCS#1 v1.5 signature padding.
 
 - [SEC 1: Elliptic Curve Cryptography](https://www.secg.org/sec1-v2.pdf)
 -- The foundational standard for ECDSA.

@@ -32,7 +32,7 @@ export const lesson4: Lesson = {
 
       - **Authentication:** Confirms the true identity of the sender. Only the holder of the private key could have produced the signature.
       - **Integrity:** Any modification to the signed message, even a single bit, will cause the signature verification to fail.
-      - **Non-repudiation:** The signer cannot later deny having signed the message, since only their private key could have created the signature.`
+      - **Non-repudiation:** The signer cant later deny having signed the message, since only their private key could have created the signature.`
     },
     {
       title: "How Digital Signatures Work",
@@ -81,11 +81,11 @@ export const lesson4: Lesson = {
     },
     {
       title: "How PKI Works",
-      content: `## The Certificate Authority (CA) Model\n\n\n
+      content: `## Public Key Infrastructure (PKI)\n\n\n
 
       - A trusted organization called a **Certificate Authority (CA)** verifies the identity of an entity (like a website or person).
 
-      - The CA takes the entity's **public key** and their identity details, and packages them into a **Digital Certificate**.
+      - The CA takes the entity's **public key** and their **identity** details, and packages them into a **Digital Certificate**.
 
       - Crucially, the CA then **digitally signs** this certificate using its own private key.
 

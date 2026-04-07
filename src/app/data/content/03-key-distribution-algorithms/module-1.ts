@@ -29,6 +29,9 @@ export const lesson3: Lesson = {
       -- **Private** Key 
 
       - The Public Key can safely be used to encrypt our Symmetric Key, while only the Private Key can decrypt it.
+
+      - Note that public key encrypton is **much slower** than symmetric encryption
+       -- Roughly 1 000 - 10 000 slower!
       `
     },
     {
@@ -38,7 +41,7 @@ export const lesson3: Lesson = {
     },
     {
       title: "Diffie-Hellman Key Exchange",
-      content: `# Option 2 - Key Exchange (Diffie-Hellman)\n\n\n\n
+      content: `## Option 2 - Key Exchange (Diffie-Hellman, Elliptic Curve Diffie-Hellman)\n\n\n\n
 
 
 
@@ -54,7 +57,7 @@ export const lesson3: Lesson = {
     },
     {
       title: "Summary",
-      content: `### If you combine a key distribution algorithm (RSA / D-H) with symmetric encryption, you are fully protected against passive attackers\n\n\n\n\n
+      content: `### If you combine a key distribution algorithm (RSA / DH / ECDH) with symmetric encryption, you are fully protected against passive attackers\n\n\n\n\n
       - That sounds great, unfortunately not every attacker stays **passive**
       `
     },
@@ -76,9 +79,9 @@ export const lesson3: Lesson = {
     },
     {
       title: "Summary",
-      content: `## Is it possible to distinguish an attacker from your friend?
+      content: `## How is it even possible to distinguish an attacker from your friend?
 
-      - Yes, but you need to introduce **digital signatures** ->`
+      - Well, you need to introduce **digital signatures** ->`
     },
   ],
 };

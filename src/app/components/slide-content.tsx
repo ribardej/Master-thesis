@@ -18,6 +18,8 @@ import { PKIAnimationComponent } from "./animations/pki-animation";
 import { RSASignatureNumericAnimation } from "./animations/rsa-signature-numeric";
 import { DSANumericAnimation } from "./animations/dsa-numeric";
 import { ECDSANumericAnimation } from "./animations/ecdsa-numeric";
+import { TLSHandshakeBasicAnimation } from "./animations/tls-handshake-basic";
+import { TLSHandshakeDetailedAnimation } from "./animations/tls-handshake-detailed";
 
 export function SlideContent({ content }: { content: string }) {
   const lines = content.trim().split("\n");
@@ -216,6 +218,10 @@ export function SlideContent({ content }: { content: string }) {
           elements.push(<DSANumericAnimation key={key++} />);
         } else if (componentName === "ECDSANumeric") {
           elements.push(<ECDSANumericAnimation key={key++} />);
+        } else if (componentName === "TLSHandshakeBasic") {
+          elements.push(<TLSHandshakeBasicAnimation key={key++} />);
+        } else if (componentName === "TLSHandshakeDetailed") {
+          elements.push(<TLSHandshakeDetailedAnimation key={key++} />);
         }
         // Additional components can be registered here in the future
       }
