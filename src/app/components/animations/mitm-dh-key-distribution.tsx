@@ -109,7 +109,7 @@ export function MITMDHKeyDistributionAnimation() {
                 </div>
               )}
               {step >= 5 && (
-                <div className="flex items-center gap-1 text-xs font-bold text-amber-900 mt-2 animate-fade-in bg-amber-200 px-2 py-1 rounded border border-amber-400">
+                <div className="flex items-center gap-1 text-xs font-bold text-amber-900 mt-2 animate-fade-in bg-amber-400 px-2 py-1 rounded border border-amber-600">
                   <KeyRound size={12} /> Key A
                 </div>
               )}
@@ -285,7 +285,7 @@ export function MITMDHKeyDistributionAnimation() {
                       <span className="text-gray-400 text-[10px]">=</span>
                       <Droplets size={14} className="text-amber-900" fill="currentColor" />
                     </div>
-                    <div className="flex items-center gap-1 text-[10px] font-bold text-amber-900 bg-amber-200 px-1 py-0.5 rounded w-full justify-center">
+                    <div className="flex items-center gap-1 text-[10px] font-bold text-amber-900 bg-amber-400 px-1 py-0.5 rounded w-full justify-center">
                       <KeyRound size={10} /> Key A
                     </div>
                   </div>

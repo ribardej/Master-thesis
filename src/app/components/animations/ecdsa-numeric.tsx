@@ -103,7 +103,7 @@ export function ECDSANumericAnimation() {
     if (isPaused) return;
     const timer = setTimeout(() => {
       setStep((prev) => (prev + 1) % maxSteps);
-    }, 4000 / speed);
+    }, 5000 / speed);
     return () => clearTimeout(timer);
   }, [isPaused, speed, step, maxSteps]);
 
@@ -176,7 +176,7 @@ export function ECDSANumericAnimation() {
             Restart
           </button>
           <div className="scale-90 origin-right">
-            <AnimationSpeedControl baseTimeMs={4000} />
+            <AnimationSpeedControl baseTimeMs={5000} />
           </div>
         </div>
       </div>

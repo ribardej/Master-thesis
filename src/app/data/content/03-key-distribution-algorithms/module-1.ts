@@ -31,7 +31,7 @@ export const lesson3: Lesson = {
       - The Public Key can safely be used to encrypt our Symmetric Key, while only the Private Key can decrypt it.
 
       - Note that public key encrypton is **much slower** than symmetric encryption
-       -- Roughly 1 000 - 10 000 slower!
+       -- Roughly 1 000 - 10 000x slower!
       `
     },
     {
@@ -66,7 +66,7 @@ export const lesson3: Lesson = {
       content: `## So what if the attacker can operate as a proxy (Active attacker)?\n\n\n\n\n\n\n
       
 
-      - This would mean he can not only intercept your conversation, but also **drop** and **replace** your messages
+      - This would mean they can not only intercept your conversation, but also **drop** and **replace** your messages
 
       - Active attacker could establish two different sets of keys (one for You and one for your friend)
 

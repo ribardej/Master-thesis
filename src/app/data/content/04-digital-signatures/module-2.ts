@@ -69,7 +69,7 @@ Designed in 1995. **Broken** - practical collision attacks were demonstrated in 
 Published in 2001. Includes **SHA-224**, **SHA-256**, **SHA-384**, and **SHA-512**. As of 2026, SHA-2 remains **unbroken** and is the most popular hash function for digital signatures.
 
 ### SHA-3 (Keccak)
-Selected through a NIST competition in 2012 as a backup standard. Uses an entirely different internal structure from SHA-2. Provides an additional layer of algorithm diversity.`
+Selected through a NIST competition in 2012 as a backup standard. Uses a different internal structure from SHA-2, which provides an additional layer of algorithm diversity.`
     },
     {
       title: "The Hash-then-Sign Paradigm",
@@ -92,7 +92,7 @@ This ensures that any modification to the message $m$ changes the digest $h$, ca
       title: "RSA Signatures",
       content: `# RSA Digital Signatures
 
-RSA signatures use the same key pair $(e, n)$ and $(d, n)$ as RSA encryption (covered in Chapter 3), but the operations are **reversed**.
+RSA signatures use the same key pair $(e, n)$ and $(d, n)$ as RSA encryption (see Chapter 3), but the operations are **reversed**.
 
 **Key Generation:** Identical to RSA encryption - choose primes $p, q$, compute $n = p \\cdot q$, $\\phi(n) = (p-1)(q-1)$, choose public exponent $e$, compute private exponent $d$.
 
@@ -161,8 +161,8 @@ $$ s = k^{-1}(h + x \\cdot r) \\pmod{q} $$
 
 **4.** The signature is the pair $(r, s)$
 
-### Critical requirement:
-The value $k$ must be **truly random** and **never reused**. If the same $k$ is used for two different messages, the private key $x$ can be trivially recovered. This exact flaw led to the famous **PlayStation 3 private key extraction** in 2010.`
+### Never reuse the same $k$:
+The value $k$ must be **truly random** and **never reused**. If the same $k$ is used for two different messages, the private key $x$ can be trivially recovered. This happened to Sony in 2010, when they signed games for their console (PS3) reusing the same k for every signature.`
     },
     {
       title: "DSA: Verification",
@@ -183,7 +183,7 @@ The mathematical proof relies on the fact that substituting the signing equation
     },
     {
       title: "Why DSA Works",
-      content: `# Why DSA Verification Works
+      content: `# Proof of DSA Correctness
 
 Given message hash $h$, signature $(r, s)$, and public key $y$, verification mathematically proves the signing equation $s \\equiv k^{-1}(h + x \\cdot r) \\pmod{q}$.
 
@@ -280,7 +280,7 @@ ECDSA is the most widely used signature algorithm today. It is the default in **
     },
     {
       title: "Why ECDSA Works",
-      content: `# Why ECDSA Verification Works
+      content: `# Proof of ECDSA Correctness
 
 Given message hash $e$, signature $(r, s)$, and public key $Q$, verification mathematically proves the signing equation $s \\equiv k^{-1}(e + d \\cdot r) \\pmod{n}$.
 
