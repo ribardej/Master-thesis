@@ -238,6 +238,61 @@ Simplified: $\\quad c + xd \\equiv 0 \\pmod{n}$
 As with DLP, after measuring $c$ and $d$, this is solvable in polynomial time.`
     },
     {
+      title: "Shor's Algorithm for RSA",
+      content: `# Shor's Algorithm for RSA: Factoring
+      
+In the case of RSA, security relies on the hardness of **integer factorization** ($N = p \\cdot q$). Shor's algorithm attacks this by converting the factorization problem into a **period-finding problem**.
+
+### The Reduction
+Classically, if one can find the order (period) $r$ of a random integer $a$ modulo $N$, one can efficiently factor $N$.
+The **order** $r$ is the smallest positive integer such that:
+
+$$ a^r \\equiv 1 \\pmod{N} $$
+
+The periodic function we construct is simply the modular exponentiation sequence:
+
+$$ f(x) = a^x \\pmod{N} $$
+
+The sequence $f(0), f(1), f(2), \\dots$ repeats with period $r$. Finding this period $r$ classically is intractable for cryptographic sizes, but a quantum computer can find it in polynomial time.`
+    },
+    {
+      title: "Shor's Algorithm for RSA: Quantum Steps",
+      content: `# Shor's Algorithm for RSA: The Quantum Steps
+      
+The quantum portion of the algorithm extracts the period $r$ using the QFT. Let $Q$ be a large power of 2 such that $2N^2 \\le Q < 4N^2$.
+
+**1. Initialization:**
+Prepare two quantum registers. The first is in a uniform superposition of states from $0$ to $Q-1$.
+
+**2. Modular Exponentiation:**
+Reversibly compute $f(x) = a^x \\pmod{N}$ into the second register:
+
+$$ \\frac{1}{\\sqrt{Q}}\\sum_{x=0}^{Q-1}|x, a^x \\pmod{N}\\rangle $$
+
+**3. Quantum Fourier Transform:**
+Apply the QFT to the first register. Because the states in the superposition are periodic (with period $r$), the QFT creates **constructive interference** at states $c$ that are close to multiples of $Q/r$, and destructive interference everywhere else.
+
+**4. Measurement:**
+Measure the first register. The resulting state $c$ has a high probability of satisfying $\\frac{c}{Q} \\approx \\frac{k}{r}$ for some integer $k$.`
+    },
+    {
+      title: "Shor's Algorithm for RSA: Classical Steps",
+      content: `# Shor's Algorithm for RSA: Classical Extraction
+      
+Once the quantum computer provides the measurement $c$, we return to a classical computer to finish breaking RSA.
+
+**1. Continued Fractions:**
+Since $\\frac{c}{Q} \\approx \\frac{k}{r}$, we use the classical **Continued Fraction Algorithm** on the known fraction $\\frac{c}{Q}$. This efficiently estimates the unknown denominator $r$ (the period).
+Note that this is the reason we constrained $Q$ to be between $2N^2$ and $4N^2$. This ensures that we can obtain the the correct and unique $r$ with the continued fraction algorithm.
+
+**2. Factoring N:**
+If the period $r$ is even, and $a^{r/2} \\not\\equiv -1 \\pmod{N}$, we can find the prime factors of $N$ using the greatest common divisor (GCD) via the Euclidean algorithm:
+
+$$ p, q = \\gcd(a^{r/2} \\pm 1, N) $$
+
+If the conditions for $r$ are not met, the process is simply repeated with a new random $a$. The probability of success on each attempt is high (> 50%), meaning RSA is fundamentally broken in polynomial time.`
+    },
+    {
       title: "Store Now, Decrypt Later",
       content: `# Store Now, Decrypt Later (SNDL)
 

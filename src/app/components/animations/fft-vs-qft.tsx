@@ -537,7 +537,7 @@ export function FFTvsQFTComparisonAnimation() {
         </div>
       </div>
 
-      <ScaleComparison active={step >= 11} />
+
 
       {/* Step descriptions */}
       <div className="mt-4 bg-white p-4 rounded-lg border text-sm text-gray-600 text-center min-h-[4rem] flex items-center justify-center shadow-sm">
