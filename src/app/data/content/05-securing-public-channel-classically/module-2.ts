@@ -17,7 +17,7 @@ A secure communication protocol must solve **four problems simultaneously:**
 1. **Confidentiality:** Encrypt data so eavesdroppers cannot read it → **AES** (symmetric cipher)
 2. **Key Agreement:** Establish a shared secret over a public channel → **ECDH** (key exchange)
 3. **Authentication:** Verify the identity of the communicating party → **ECDSA** or RSA signatures + **PKI**
-4. **Integrity:** Detect any tampering with the transmitted data → **SHA** (hash functions) + **HMAC/AEAD**
+4. **Integrity:** Detect any tampering with the transmitted data → **SHA** (hash functions) + **AEAD**
 
 No single primitive solves all four. Protocols like TLS, SSH, and IPsec define the precise **order**, **format**, and **rules** for combining these primitives into a single secure channel.`
     },

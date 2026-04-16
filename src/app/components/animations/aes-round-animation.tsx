@@ -92,7 +92,7 @@ export function AESRoundAnimation() {
   const [speed] = useGlobalAnimationSpeed();
   const [step, setStep] = useState(0); 
   const [subStep, setSubStep] = useState(0); 
-  const [isPaused, setIsPaused] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
 
   const maxSteps = 8;
   const getMaxSubSteps = (s: number) => {
