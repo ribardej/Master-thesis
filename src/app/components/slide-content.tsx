@@ -20,6 +20,7 @@ import { DSANumericAnimation } from "./animations/dsa-numeric";
 import { ECDSANumericAnimation } from "./animations/ecdsa-numeric";
 import { TLSHandshakeBasicAnimation } from "./animations/tls-handshake-basic";
 import { TLSHandshakeDetailedAnimation } from "./animations/tls-handshake-detailed";
+import { FFTvsQFTComparisonAnimation } from "./animations/fft-vs-qft";
 
 export function SlideContent({ content }: { content: string }) {
   const lines = content.trim().split("\n");
@@ -222,6 +223,8 @@ export function SlideContent({ content }: { content: string }) {
           elements.push(<TLSHandshakeBasicAnimation key={key++} />);
         } else if (componentName === "TLSHandshakeDetailed") {
           elements.push(<TLSHandshakeDetailedAnimation key={key++} />);
+        } else if (componentName === "FFTvsQFTComparison") {
+          elements.push(<FFTvsQFTComparisonAnimation key={key++} />);
         }
         // Additional components can be registered here in the future
       }

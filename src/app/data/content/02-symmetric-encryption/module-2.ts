@@ -69,7 +69,7 @@ In 1998, a custom-built machine called the **EFF DES cracker** successfully brut
 Following the fall of DES, a public competition was held to find a new standard. The winner was the Rijndael algorithm, which became the **Advanced Encryption Standard (AES)** in 2001.
 
 ### Advantages of AES
-- **Larger Key Space:** AES uses key sizes of 128, 192, or 256 bits. A 256-bit key is practically impossible to brute-force with current computers.
+- **Larger Key Space:** AES uses key sizes of 128, 192, or 256 bits. Even the smallest (128-bit) key is practically impossible to brute-force with current computers.
 - **Efficient Structure:** It is tailored to encrypt a block of 16 bytes by applying multiple rounds of both substitution and transposition (permutation) steps, completely destroying any statistical link between the plaintext and ciphertext.`,    },
     {
       title: "AES: Block Cipher Mechanics",
