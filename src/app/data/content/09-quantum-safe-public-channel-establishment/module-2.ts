@@ -140,7 +140,7 @@ The **hybrid scheme** is the clear winner for practical, large-scale deployment 
     },
     {
       title: "The Road Ahead",
-      content: `# The Road Ahead
+      content: `# PQC adoption plan
 
 ### Short Term (2024–2030)
 - Deploy **hybrid key exchange** (ECDH + ML-KEM) in TLS, SSH, IPsec

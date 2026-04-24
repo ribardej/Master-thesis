@@ -91,9 +91,8 @@ export function QKDChannelAnimation() {
 
         {/* Alice */}
         <div className="relative z-10 flex flex-col items-center gap-2 w-28">
-          <div className={`w-16 h-16 rounded-full flex items-center justify-center border-4 border-white shadow-md transition-all duration-500 ${
-            isEncrypted ? "bg-emerald-100" : "bg-sky-100"
-          }`}>
+          <div className={`w-16 h-16 rounded-full flex items-center justify-center border-4 border-white shadow-md transition-all duration-500 ${isEncrypted ? "bg-emerald-100" : "bg-sky-100"
+            }`}>
             <Monitor size={28} className={isEncrypted ? "text-emerald-600" : "text-sky-600"} />
           </div>
           <p className="font-bold text-gray-800 text-sm">Alice</p>
@@ -122,29 +121,26 @@ export function QKDChannelAnimation() {
 
           {/* Quantum channel (top) */}
           <div className="relative mb-2">
-            <div className={`h-0.5 transition-all duration-700 ${
-              step >= 1 && step <= 2
-                ? "bg-gradient-to-r from-amber-300 via-amber-500 to-amber-300 shadow-sm shadow-amber-200"
-                : "bg-amber-200"
-            }`} />
+            <div className={`h-0.5 transition-all duration-700 ${step >= 1 && step <= 2
+              ? "bg-gradient-to-r from-amber-300 via-amber-500 to-amber-300 shadow-sm shadow-amber-200"
+              : "bg-amber-200"
+              }`} />
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-50 px-2 py-0.5 rounded text-[9px] font-bold text-amber-700 border border-amber-200 whitespace-nowrap">
-              ⚡ Dedicated Quantum Fiber
+              Dedicated Quantum Fiber
             </div>
           </div>
 
           {/* Classical channel (bottom) */}
           <div className="relative mt-6">
-            <div className={`h-0.5 transition-all duration-700 ${
-              isEncrypted
-                ? "bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-400 shadow-sm shadow-emerald-200"
-                : "bg-gray-300 border-t border-dashed border-gray-400"
-            }`} />
-            <div className={`absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded text-[9px] font-bold border whitespace-nowrap ${
-              isEncrypted
-                ? "bg-emerald-100 text-emerald-700 border-emerald-300"
-                : "bg-gray-100 text-gray-500 border-gray-200"
-            }`}>
-              {isEncrypted ? "🔒 Encrypted Channel" : "📡 Public Internet"}
+            <div className={`h-0.5 transition-all duration-700 ${isEncrypted
+              ? "bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-400 shadow-sm shadow-emerald-200"
+              : "bg-gray-300 border-t border-dashed border-gray-400"
+              }`} />
+            <div className={`absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded text-[9px] font-bold border whitespace-nowrap ${isEncrypted
+              ? "bg-emerald-100 text-emerald-700 border-emerald-300"
+              : "bg-gray-100 text-gray-500 border-gray-200"
+              }`}>
+              {isEncrypted ? "Encrypted Channel" : "Public Internet"}
             </div>
           </div>
 
@@ -207,7 +203,7 @@ export function QKDChannelAnimation() {
                     <span className="text-xs font-semibold text-gray-700">Bases: ⊕⊗⊕⊗⊕⊗⊕⊗</span>
                   </div>
                 </div>
-                <div className="absolute top-2 left-1/2 -translate-x-1/2 bg-indigo-50 p-2 rounded-lg shadow-md border border-indigo-200 flex flex-col items-center">
+                <div className="absolute top-20 left-1/2 -translate-x-1/2 bg-indigo-50 p-2 rounded-lg shadow-md border border-indigo-200 flex flex-col items-center">
                   <span className="text-[10px] font-bold text-indigo-700">Sifting (basis comparison)</span>
                   <span className="text-[9px] text-indigo-500 mt-0.5">Matching bases → keep bits</span>
                 </div>
@@ -216,7 +212,7 @@ export function QKDChannelAnimation() {
 
             {/* Step 3: Key derived */}
             {step === 3 && (
-              <div className="absolute top-6 left-1/2 -translate-x-1/2 bg-amber-50 p-3 rounded-lg shadow-md border border-amber-300 flex flex-col items-center">
+              <div className="absolute top-20 left-1/2 -translate-x-1/2 bg-amber-50 p-3 rounded-lg shadow-md border border-amber-300 flex flex-col items-center">
                 <div className="flex items-center gap-2">
                   <KeyRound size={16} className="text-amber-600" />
                   <span className="text-sm font-bold text-amber-800">Shared Key Established</span>
@@ -245,7 +241,7 @@ export function QKDChannelAnimation() {
 
             {/* Step 5: Warning */}
             {step === 5 && (
-              <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-red-50 p-3 rounded-lg shadow-md border border-red-300 flex flex-col items-center max-w-[280px]">
+              <div className="absolute top-20 left-1/2 -translate-x-1/2 bg-red-50 p-3 rounded-lg shadow-md border border-red-300 flex flex-col items-center max-w-[280px]">
                 <div className="flex items-center gap-2">
                   <ShieldOff size={16} className="text-red-500" />
                   <span className="text-sm font-bold text-red-700">No Authentication!</span>
@@ -258,9 +254,8 @@ export function QKDChannelAnimation() {
 
         {/* Bob */}
         <div className="relative z-10 flex flex-col items-center gap-2 w-28">
-          <div className={`w-16 h-16 rounded-full flex items-center justify-center border-4 border-white shadow-md transition-all duration-500 ${
-            isEncrypted ? "bg-emerald-100" : "bg-violet-100"
-          }`}>
+          <div className={`w-16 h-16 rounded-full flex items-center justify-center border-4 border-white shadow-md transition-all duration-500 ${isEncrypted ? "bg-emerald-100" : "bg-violet-100"
+            }`}>
             <Server size={28} className={isEncrypted ? "text-emerald-600" : "text-violet-600"} />
           </div>
           <p className="font-bold text-gray-800 text-sm">Bob</p>
@@ -280,11 +275,6 @@ export function QKDChannelAnimation() {
                 <Lock size={10} /> AES Key
               </div>
             )}
-            {step >= 5 && (
-              <div className="flex items-center gap-1 text-[10px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded border border-red-200 mt-1">
-                <AlertTriangle size={10} /> Not Authenticated
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -298,11 +288,10 @@ export function QKDChannelAnimation() {
         ].map((alg) => (
           <span
             key={alg.label}
-            className={`px-2 py-0.5 rounded-full text-[10px] font-bold border transition-all duration-500 ${
-              alg.active
-                ? `bg-${alg.color}-50 text-${alg.color}-700 border-${alg.color}-300 shadow-sm`
-                : "bg-gray-100 text-gray-400 border-gray-200"
-            }`}
+            className={`px-2 py-0.5 rounded-full text-[10px] font-bold border transition-all duration-500 ${alg.active
+              ? `bg-${alg.color}-50 text-${alg.color}-700 border-${alg.color}-300 shadow-sm`
+              : "bg-gray-100 text-gray-400 border-gray-200"
+              }`}
           >
             {alg.label}
           </span>
@@ -326,9 +315,8 @@ export function QKDChannelAnimation() {
             aria-label={`Go to step ${s + 1}`}
             key={s}
             onClick={() => setStep(s)}
-            className={`flex-1 h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-              step === s ? "bg-gray-600 shadow-sm" : "bg-gray-200 hover:bg-gray-300"
-            }`}
+            className={`flex-1 h-1.5 rounded-full transition-all duration-300 cursor-pointer ${step === s ? "bg-gray-600 shadow-sm" : "bg-gray-200 hover:bg-gray-300"
+              }`}
           />
         ))}
       </div>
