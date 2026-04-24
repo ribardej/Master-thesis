@@ -102,7 +102,7 @@ For searching a single solution in an unsorted space of $N$ possibilities, **no 
 
 ### Implications
 - Quantum computers offer a significant advantage over the classical $O(N)$ requirement
-- But an **exponential speedup is impossible** for unstructured search
+- But an **exponential speedup is impossible** for unstructured search (from $O(N)$ to $O(log(N))$)
 - This sets a **hard limit** on the weakening of symmetric cryptography:
 -- Key sizes must be **doubled** to maintain equivalent security against a quantum adversary
 -- But the systems are **not broken entirely**
@@ -194,17 +194,19 @@ $$ \\frac{1}{(p-1)^2}\\sum_{a,b,c,d=0}^{p-2} e^{\\frac{2\\pi i}{p-1}(ac+bd)}|c, 
       title: "Quantum Fourier Transform",
       content: `# The Quantum Fourier Transform (QFT)
 
-The QFT is the quantum analogue of the classical **Discrete Fourier Transform (DFT)**. It is the key ingredient that makes Shor's algorithm efficient.
+The QFT is the quantum analogue of the classical **Discrete Fourier Transform (DFT)**. It is the key building block that makes Shor's algorithm efficient.
 
 ### Classical FFT (Fast Fourier Transform)
 - Computes the DFT of $N$ values
 - Complexity: $O(N \\log N)$ operations
 - Processes values **sequentially**
+- The results are amplitudes of the whole frequency domain (list of $N$ values)
 
 ### Quantum Fourier Transform
 - Acts on $n$ qubits encoding $N = 2^n$ amplitudes
 - Complexity: $O(n^2) = O(\\log^2 N)$ quantum gates
 - Exploits **superposition** to process all amplitudes simultaneously
+- The result is a single probabilistic measurement of the period
 
 For Shor's algorithm, the QFT efficiently extracts the **period** of the modular function from the quantum state - a task that would require exponential time classically.
 

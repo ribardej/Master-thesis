@@ -94,9 +94,8 @@ export function TLSHandshakeDetailedAnimation() {
         {/* Client and Server headers */}
         <div className="flex justify-between mb-3">
           <div className="flex items-center gap-2 w-36">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 shadow-sm transition-all duration-500 ${
-              isAppEncrypted ? "bg-emerald-100 border-emerald-300" : "bg-sky-100 border-sky-300"
-            }`}>
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 shadow-sm transition-all duration-500 ${isAppEncrypted ? "bg-emerald-100 border-emerald-300" : "bg-sky-100 border-sky-300"
+              }`}>
               <Monitor size={18} className={isAppEncrypted ? "text-emerald-600" : "text-sky-600"} />
             </div>
             <div>
@@ -109,9 +108,8 @@ export function TLSHandshakeDetailedAnimation() {
               <p className="font-bold text-gray-800 text-xs text-right">Server</p>
               <p className="text-[10px] text-gray-500 text-right">example.com</p>
             </div>
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 shadow-sm transition-all duration-500 ${
-              isAppEncrypted ? "bg-emerald-100 border-emerald-300" : "bg-violet-100 border-violet-300"
-            }`}>
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 shadow-sm transition-all duration-500 ${isAppEncrypted ? "bg-emerald-100 border-emerald-300" : "bg-violet-100 border-violet-300"
+              }`}>
               <Server size={18} className={isAppEncrypted ? "text-emerald-600" : "text-violet-600"} />
             </div>
           </div>
@@ -162,9 +160,8 @@ export function TLSHandshakeDetailedAnimation() {
 
             {/* Row 2: Key derivation */}
             <div className={`flex items-center justify-center py-1.5 transition-all duration-1000 ${step >= 2 ? "opacity-100" : "opacity-20"} ${step === 2 ? "scale-105" : ""}`}>
-              <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border-2 transition-all duration-1000 ${
-                step === 2 ? "bg-amber-50 border-amber-300 shadow-md" : step > 2 ? "bg-amber-50 border-amber-200" : "bg-gray-50 border-gray-200"
-              }`}>
+              <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border-2 transition-all duration-1000 ${step === 2 ? "bg-amber-50 border-amber-300 shadow-md" : step > 2 ? "bg-amber-50 border-amber-200" : "bg-gray-50 border-gray-200"
+                }`}>
                 <KeyRound size={14} className="text-amber-600" />
                 <div className="text-[10px]">
                   <span className="font-bold text-amber-800">Shared Secret Derived</span>
@@ -179,9 +176,8 @@ export function TLSHandshakeDetailedAnimation() {
 
             {/* Row 3: Encryption boundary */}
             <div className={`flex items-center justify-center transition-all duration-1000 ${step >= 3 ? "opacity-100" : "opacity-20"}`}>
-              <div className={`flex items-center gap-2 px-4 py-1 rounded-full text-[10px] font-bold border transition-all duration-1000 ${
-                step >= 3 ? "bg-emerald-100 text-emerald-800 border-emerald-400 shadow-sm" : "bg-gray-100 text-gray-400 border-gray-300"
-              }`}>
+              <div className={`flex items-center gap-2 px-4 py-1 rounded-full text-[10px] font-bold border transition-all duration-1000 ${step >= 3 ? "bg-emerald-100 text-emerald-800 border-emerald-400 shadow-sm" : "bg-gray-100 text-gray-400 border-gray-300"
+                }`}>
                 <Lock size={10} />
                 ENCRYPTED FROM HERE — handshake keys active
               </div>
@@ -206,7 +202,7 @@ export function TLSHandshakeDetailedAnimation() {
               direction="left"
               label="CertificateVerify"
               icon={<Shield size={11} />}
-              details="ECDSA signature over entire handshake transcript (authentication)"
+              details="ECDSA signature over entire handshake transcript"
               color="violet"
               encrypted={true}
             />
@@ -230,16 +226,15 @@ export function TLSHandshakeDetailedAnimation() {
               direction="right"
               label="Finished"
               icon={<CheckCircle2 size={11} />}
-              details="client verifies cert chain, signature, HMAC → sends Finished"
+              details="client verifies cert chain, signature, HMAC"
               color="sky"
               encrypted={true}
             />
 
             {/* Row 8: Application key derivation */}
             <div className={`flex items-center justify-center py-1.5 transition-all duration-500 ${step >= 8 ? "opacity-100" : "opacity-20"} ${step === 8 ? "scale-105" : ""}`}>
-              <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border-2 transition-all duration-500 ${
-                step === 8 ? "bg-emerald-50 border-emerald-300 shadow-md" : step > 8 ? "bg-emerald-50 border-emerald-200" : "bg-gray-50 border-gray-200"
-              }`}>
+              <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border-2 transition-all duration-500 ${step === 8 ? "bg-emerald-50 border-emerald-300 shadow-md" : step > 8 ? "bg-emerald-50 border-emerald-200" : "bg-gray-50 border-gray-200"
+                }`}>
                 <KeyRound size={14} className="text-emerald-600" />
                 <div className="text-[10px]">
                   <span className="font-bold text-emerald-800">Encryption Keys Derived</span>
@@ -262,8 +257,8 @@ export function TLSHandshakeDetailedAnimation() {
         {step === 0 && <p><strong>ClientHello:</strong> The client sends supported <strong>cipher suites</strong>, <strong>key share</strong> groups (e.g., x25519), and its <strong>ECDHE public value</strong> Qₐ — all in the very first message.</p>}
         {step === 1 && <p><strong>ServerHello:</strong> The server selects a cipher suite (e.g., TLS_AES_256_GCM_SHA384), and sends back its <strong>ECDHE key share</strong> Q_B. Both can now compute the shared secret.</p>}
         {step === 2 && <p><strong>Key Derivation:</strong> Both parties compute the <strong>ECDHE shared secret</strong> S = dₐ · Q_B = d_B · Qₐ, then use <strong>HKDF</strong> (HMAC-based Extract-and-Expand) to derive handshake encryption keys.</p>}
-        {step === 3 && <p><strong>Encryption boundary:</strong> From this point, all handshake messages are encrypted with the derived handshake keys. <strong>Eavesdroppers can no longer see any content</strong> — including the server's identity!</p>}
-        {step === 4 && <p><strong>Certificate:</strong> The server sends its <strong>X.509 certificate, encrypted within the handshake tunnel</strong>. In TLS 1.2, this was sent in plaintext — exposing the server's identity to passive attackers.</p>}
+        {step === 3 && <p><strong>Encryption boundary:</strong> From this point, all handshake messages are encrypted with the derived handshake keys. <strong>Eavesdroppers can no longer see any content</strong></p>}
+        {step === 4 && <p><strong>Certificate:</strong> The server sends its <strong>X.509 certificate, encrypted within the handshake tunnel</strong>. In TLS 1.2, this was sent in plaintext</p>}
         {step === 5 && <p><strong>CertificateVerify:</strong> The server <strong>signs the entire handshake transcript</strong> using its private key (ECDSA). This proves it owns the certificate's public key and prevents replay attacks.</p>}
         {step === 6 && <p><strong>Server Finished:</strong> The server sends an <strong>HMAC</strong> over the entire handshake transcript, providing integrity proof that nothing was tampered with.</p>}
         {step === 7 && <p><strong>Client Finished:</strong> The client verifies the <strong>certificate chain (PKI)</strong>, the <strong>ECDSA signature</strong>, and the <strong>Finished MAC</strong>. If all checks pass, it sends its own Finished message.</p>}
@@ -277,9 +272,8 @@ export function TLSHandshakeDetailedAnimation() {
             aria-label={`Go to step ${s + 1}`}
             key={s}
             onClick={() => setStep(s)}
-            className={`flex-1 h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-              step === s ? "bg-gray-600 shadow-sm" : "bg-gray-200 hover:bg-gray-300"
-            }`}
+            className={`flex-1 h-1.5 rounded-full transition-all duration-300 cursor-pointer ${step === s ? "bg-gray-600 shadow-sm" : "bg-gray-200 hover:bg-gray-300"
+              }`}
           />
         ))}
       </div>
@@ -322,9 +316,8 @@ function MessageRow({
       {/* Left side label (Client) */}
       <div className="w-[68px] flex justify-end pr-2">
         {arrowRight && visible && (
-          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded transition-all duration-300 ${
-            active ? `bg-${color}-100 text-${color}-700 border border-${color}-300 shadow-sm` : `text-${color}-500`
-          }`}>
+          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded transition-all duration-300 ${active ? `bg-${color}-100 text-${color}-700 border border-${color}-300 shadow-sm` : `text-${color}-500`
+            }`}>
             {label}
           </span>
         )}
@@ -335,11 +328,10 @@ function MessageRow({
         <div className={`flex-1 relative h-6 flex items-center ${!visible ? "opacity-30" : ""}`}>
           {/* The line */}
           <div className={`absolute inset-y-0 left-0 right-0 flex items-center`}>
-            <div className={`w-full h-px transition-all duration-500 ${
-              encrypted
-                ? `bg-gradient-to-${arrowRight ? 'r' : 'l'} from-emerald-300 via-emerald-400 to-emerald-300`
-                : `bg-${color}-300`
-            }`} />
+            <div className={`w-full h-px transition-all duration-500 ${encrypted
+              ? `bg-gradient-to-${arrowRight ? 'r' : 'l'} from-emerald-300 via-emerald-400 to-emerald-300`
+              : `bg-${color}-300`
+              }`} />
           </div>
           {/* Arrow head */}
           <div className={`absolute ${arrowRight ? "right-0" : "left-0"} text-${color}-400`}>
@@ -348,9 +340,8 @@ function MessageRow({
           {/* Details text */}
           {visible && (
             <div className={`absolute inset-0 flex items-center ${arrowRight ? "justify-start pl-3" : "justify-end pr-3"}`}>
-              <span className={`text-[9px] bg-white px-1.5 py-0.5 rounded border transition-all duration-300 max-w-[260px] truncate ${
-                encrypted ? "border-emerald-200 text-emerald-700" : `border-${color}-200 text-${color}-600`
-              } ${active ? "shadow-sm font-medium" : ""}`}>
+              <span className={`text-[9px] bg-white px-1.5 py-0.5 rounded border transition-all duration-300 max-w-[260px] truncate ${encrypted ? "border-emerald-200 text-emerald-700" : `border-${color}-200 text-${color}-600`
+                } ${active ? "shadow-sm font-medium" : ""}`}>
                 {encrypted && <Lock size={8} className="inline mr-0.5 text-emerald-500" />}
                 {details}
               </span>
@@ -370,9 +361,8 @@ function MessageRow({
       {/* Right side label (Server) */}
       <div className="w-[68px] flex justify-start pl-2">
         {!arrowRight && visible && (
-          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded transition-all duration-300 ${
-            active ? `bg-${color}-100 text-${color}-700 border border-${color}-300 shadow-sm` : `text-${color}-500`
-          }`}>
+          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded transition-all duration-300 ${active ? `bg-${color}-100 text-${color}-700 border border-${color}-300 shadow-sm` : `text-${color}-500`
+            }`}>
             {label}
           </span>
         )}
@@ -391,11 +381,10 @@ function ConceptBadge({
   active: boolean;
 }) {
   return (
-    <div className={`flex items-start gap-1.5 px-2 py-1.5 rounded-lg border text-[10px] transition-all duration-500 ${
-      active
-        ? "bg-emerald-50 border-emerald-200 text-emerald-800"
-        : "bg-gray-50 border-gray-200 text-gray-400"
-    }`}>
+    <div className={`flex items-start gap-1.5 px-2 py-1.5 rounded-lg border text-[10px] transition-all duration-500 ${active
+      ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+      : "bg-gray-50 border-gray-200 text-gray-400"
+      }`}>
       <span className="mt-0.5 flex-shrink-0"></span>
       <div>
         <p className="font-bold">{label}</p>

@@ -21,6 +21,7 @@ import { ECDSANumericAnimation } from "./animations/ecdsa-numeric";
 import { TLSHandshakeBasicAnimation } from "./animations/tls-handshake-basic";
 import { TLSHandshakeDetailedAnimation } from "./animations/tls-handshake-detailed";
 import { FFTvsQFTComparisonAnimation } from "./animations/fft-vs-qft";
+import { BB84ProtocolAnimation } from "./animations/bb84-protocol";
 
 export function SlideContent({ content }: { content: string }) {
   const lines = content.trim().split("\n");
@@ -92,6 +93,54 @@ export function SlideContent({ content }: { content: string }) {
 
     if (line.trim().startsWith("$$") && line.trim().endsWith("$$") && line.trim() !== "$$") {
       elements.push(<div key={key++} className="py-2"><BlockMath math={line.trim().slice(2, -2)} /></div>);
+      continue;
+    }
+
+    // Markdown table support
+    if (line.trim().startsWith("|") && line.trim().endsWith("|")) {
+      const tableLines: string[] = [line.trim()];
+      while (i + 1 < lines.length && lines[i + 1].trim().startsWith("|") && lines[i + 1].trim().endsWith("|")) {
+        i++;
+        tableLines.push(lines[i].trim());
+      }
+      if (tableLines.length >= 2) {
+        const parseRow = (row: string) =>
+          row.split("|").slice(1, -1).map((cell) => cell.trim());
+        const headerCells = parseRow(tableLines[0]);
+        // Skip separator row (e.g. |---|---|)
+        const isSeparator = (row: string) => /^\|[\s\-:|]+\|$/.test(row);
+        const bodyStartIndex = isSeparator(tableLines[1]) ? 2 : 1;
+        const bodyRows = tableLines.slice(bodyStartIndex).filter((r) => !isSeparator(r));
+        elements.push(
+          <div key={key++} className="my-4 overflow-x-auto">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="border-b-2 border-gray-300 bg-gray-100">
+                  {headerCells.map((cell, ci) => (
+                    <th key={ci} className="px-4 py-2 text-left font-semibold text-gray-700">
+                      {renderInlineCode(cell)}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {bodyRows.map((row, ri) => {
+                  const cells = parseRow(row);
+                  return (
+                    <tr key={ri} className={`border-b border-gray-200 ${ri % 2 === 0 ? "bg-white" : "bg-gray-50"}`}>
+                      {cells.map((cell, ci) => (
+                        <td key={ci} className="px-4 py-2 text-gray-700">
+                          {renderInlineCode(cell)}
+                        </td>
+                      ))}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        );
+      }
       continue;
     }
 
@@ -225,6 +274,8 @@ export function SlideContent({ content }: { content: string }) {
           elements.push(<TLSHandshakeDetailedAnimation key={key++} />);
         } else if (componentName === "FFTvsQFTComparison") {
           elements.push(<FFTvsQFTComparisonAnimation key={key++} />);
+        } else if (componentName === "BB84ProtocolAnimation") {
+          elements.push(<BB84ProtocolAnimation key={key++} />);
         }
         // Additional components can be registered here in the future
       }

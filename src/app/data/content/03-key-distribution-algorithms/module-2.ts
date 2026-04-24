@@ -26,7 +26,7 @@ In pre-digital eras, this was solved via physical couriers. In modern digital ne
       content: `## There are 3 standardized classical algorithms used for key exchange:\n\n\n\n\n
       
       - ### Diffie-Hellman
-      - ### Deffie-Hellman over Elliptic curves
+      - ### Diffie-Hellman over Elliptic curves
       - ### RSA`
 
     },

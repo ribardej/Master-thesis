@@ -70,7 +70,8 @@ Following the fall of DES, a public competition was held to find a new standard.
 
 ### Advantages of AES
 - **Larger Key Space:** AES uses key sizes of 128, 192, or 256 bits. Even the smallest (128-bit) key is practically impossible to brute-force with current computers.
-- **Efficient Structure:** It is tailored to encrypt a block of 16 bytes by applying multiple rounds of both substitution and transposition (permutation) steps, completely destroying any statistical link between the plaintext and ciphertext.`,    },
+- **Efficient Structure:** It is tailored to encrypt a block of 16 bytes by applying multiple rounds of both substitution and transposition (permutation) steps, completely destroying any statistical link between the plaintext and ciphertext.`,
+    },
     {
       title: "AES: Block Cipher Mechanics",
       content: `# Block Cipher
@@ -141,11 +142,11 @@ This ensures round keys are statistically distinct and non-linearly derived from
 
 The authors (Daemen and Rijmen) established several key properties of AES:
 
-- **Strong Avalanche Effect:** Changing just one bit in the plaintext or the key drastically changes approximately 50% of the output ciphertext bits. This entirely obscures patterns.
+- **Strong Avalanche Effect:** Changing just one bit in the plaintext or the key changes approximately 50% of the output ciphertext bits. This entirely obscures patterns.
 - **Resistance to Statistical Analysis:** The specific math of the S-box makes it highly resistant to Differential and Linear Cryptanalysis.
 - **Indistinguishable from Noise:** Without the key, the ciphertext exhibits a uniform statistical distribution appearing exactly like pure random noise.
 - **Versatility & Efficiency:** AES was intentionally designed to run extremely efficiently on tiny 8-bit smartcards up to high-performance 64-bit multi-core processors. Variable key lengths (128/192/256) offer flexibility against future computing advancements.`    },
-{
+    {
       title: "AES: Current Best Attacks",
       content: `# Security of AES
 

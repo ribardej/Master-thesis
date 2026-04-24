@@ -188,7 +188,7 @@ function DivideAndConquer({ fftStep }: { fftStep: number }) {
               ))}
               {isCurrent && (
                 <span className="text-[8px] text-indigo-500 font-medium ml-2 animate-pulse absolute left-[100%] whitespace-nowrap">
-                  {isDividing ? `← ${level.label}` : `← combine (butterfly)`}
+                  {isDividing ? `← ${level.label}` : `← combine`}
                 </span>
               )}
             </div>

@@ -34,8 +34,7 @@ TLS is the most widely deployed security protocol on the internet. Its evolution
 
 ### Improvements in TLS v1.3
 - Removed all legacy and insecure algorithms (RSA key exchange, CBC mode, etc.)
-- Reduced the handshake from **2 round trips** to just **1 round trip**
-- Encrypts the certificate — server identity is now hidden from eavesdroppers
+- Made the handshake faster
 - Mandates **forward secrecy** with ephemeral key exchange (ECDHE)`
     },
     {

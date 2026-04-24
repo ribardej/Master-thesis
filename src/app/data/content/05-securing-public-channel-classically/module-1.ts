@@ -40,9 +40,7 @@ export const lesson5: Lesson = {
 
       - Apps like **Signal**, **WhatsApp**, and **iMessage** use the **Signal Protocol** for end-to-end encryption
 
-      - The key difference is that in TLS, you trust the **server** (e.g., your bank). In the Signal Protocol, even the server operator **cannot** read your messages - only you and your friend hold the keys
-
-      - This makes Signal the go-to protocol for **private peer-to-peer communication**`
+      - The key difference is that in TLS, you trust the **server** (e.g., your bank). In the Signal Protocol, even the server operator **cannot** read your messages - only you and your friend hold the keys`
     },
     {
       title: "TLS - The Most Important Protocol",
@@ -64,7 +62,7 @@ export const lesson5: Lesson = {
 
       - The server proves its identity by sending a **certificate** (verified via PKI)
 
-      - Both parties perform a **key exchange** (ECDHE) to derive a shared secret
+      - Both parties perform a **key exchange** (ECDH) to derive a shared secret
 
       - The server **signs** the exchange to authenticate itself (ECDSA)
 
@@ -81,7 +79,7 @@ export const lesson5: Lesson = {
 
       - **TLS** secures web traffic, **SSH** secures remote access, **IPsec** secures networks, and the **Signal Protocol** secures messaging
 
-      - The TLS handshake demonstrates how symmetric encryption, key exchange, digital signatures, hashing, and PKI work together in a single protocol
+      - The TLS handshake demonstrates how symmetric encryption, key exchange, digital signatures, and PKI work together in a single protocol
 
       - If it were not for the threat of large Quantum Computers, this would be the last slide
       -- In the next chapter, we will see what a large Quantum Computer would be capable of ->`

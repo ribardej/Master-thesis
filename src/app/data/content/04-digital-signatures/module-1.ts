@@ -26,7 +26,7 @@ export const lesson4: Lesson = {
     },
     {
       title: "What Digital Signatures Provide",
-      content: `# What does a digital signature guarantee?
+      content: `## What else does a digital signature guarantee?
 
       A digital signature provides three critical security properties:
 

@@ -67,14 +67,14 @@ export function DHKeyDistributionAnimation() {
         <h3 className="text-xl font-bold text-gray-800 m-0 pt-1">Analogy for Diffie-Hellman Key Exchange</h3>
         <div className="flex flex-col gap-2">
           <div className="flex gap-2">
-            <button 
+            <button
               onClick={togglePause}
               className="flex-1 flex justify-center items-center gap-2 text-sm text-gray-600 hover:text-indigo-600 transition-colors bg-white px-3 py-1.5 rounded-md border shadow-sm cursor-pointer"
             >
               {isPaused ? <Play size={14} /> : <Pause size={14} />}
               {isPaused ? "Play" : "Pause"}
             </button>
-            <button 
+            <button
               onClick={reset}
               className="flex-1 flex justify-center items-center gap-2 text-sm text-gray-600 hover:text-indigo-600 transition-colors bg-white px-3 py-1.5 rounded-md border shadow-sm cursor-pointer"
             >
@@ -98,11 +98,11 @@ export function DHKeyDistributionAnimation() {
           <div className="text-center w-28">
             <p className="font-bold text-gray-800">You</p>
             <div className="flex flex-col items-center mt-1 min-h-[5rem] space-y-1">
-              <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 0 || step === 2? "text-yellow-600 scale-120 drop-shadow-md" : "text-yellow-600"}`}>
+              <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 0 || step === 2 ? "text-yellow-600 scale-120 drop-shadow-md" : "text-yellow-600"}`}>
                 <PaintBucket size={12} /> Common Paint
               </div>
               {step >= 1 && (
-                <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 1 || step === 4  || step === 2? "text-red-600 scale-120 ease-in-out drop-shadow-md" : "text-red-600"}`}>
+                <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 1 || step === 4 || step === 2 ? "text-red-600 scale-120 ease-in-out drop-shadow-md" : "text-red-600"}`}>
                   <Droplet size={12} fill="currentColor" /> Secret Paint
                 </div>
               )}
@@ -228,7 +228,7 @@ export function DHKeyDistributionAnimation() {
               <div className="flex items-center gap-1 text-xs font-medium text-yellow-600">
                 <PaintBucket size={12} /> Common Paint
               </div>
-              {step >= 3 && step!== 5 && (
+              {step >= 3 && step !== 5 && (
                 <div className="flex items-center gap-1 text-xs font-medium animate-fade-in bg-gray-50 px-2 py-0.5 rounded border border-gray-200">
                   <Droplets size={12} className="text-orange-500" fill="currentColor" />
                   <span className="text-gray-400">&</span>
@@ -247,11 +247,11 @@ export function DHKeyDistributionAnimation() {
           <div className="text-center w-28">
             <p className="font-bold text-gray-800">Your friend</p>
             <div className="flex flex-col items-center mt-1 min-h-[5rem] space-y-1">
-              <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 0 || step === 2? "text-yellow-600 scale-120 drop-shadow-md" : "text-yellow-600"}`}>
+              <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 0 || step === 2 ? "text-yellow-600 scale-120 drop-shadow-md" : "text-yellow-600"}`}>
                 <PaintBucket size={12} /> Common Paint
               </div>
               {step >= 1 && (
-                <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 1 || step === 4  || step === 2? "text-blue-600 scale-120 drop-shadow-md" : "text-blue-600"}`}>
+                <div className={`flex items-center gap-1 text-xs font-medium transition-all duration-500 ${step === 1 || step === 4 || step === 2 ? "text-blue-600 scale-120 drop-shadow-md" : "text-blue-600"}`}>
                   <Droplet size={12} fill="currentColor" /> Secret Paint
                 </div>
               )}
@@ -284,11 +284,10 @@ export function DHKeyDistributionAnimation() {
             onClick={() => {
               setStep(s);
             }}
-            className={`flex-1 h-2 rounded-full transition-all duration-300 cursor-pointer ${
-              step === s
-                ? "bg-gray-600 shadow-sm"
-                : "bg-gray-200 hover:bg-gray-300"
-            }`}
+            className={`flex-1 h-2 rounded-full transition-all duration-300 cursor-pointer ${step === s
+              ? "bg-gray-600 shadow-sm"
+              : "bg-gray-200 hover:bg-gray-300"
+              }`}
           />
         ))}
       </div>
