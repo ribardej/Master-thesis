@@ -17,14 +17,14 @@ Post-Quantum Cryptography (PQC) and Quantum Key Distribution (QKD) both aim to p
 **Post-Quantum Cryptography (PQC):**
 - Runs on **classical hardware** (software-only deployment)
 - Security relies on the **computational hardness** of mathematical problems (e.g., Module-LWE for ML-KEM)
-- These hardness assumptions are **unproven** — a future breakthrough could invalidate them
+- These hardness assumptions are **unproven** - a future breakthrough could invalidate them
 - Provides key exchange **and** digital signatures
 
 **Quantum Key Distribution (QKD):**
 - Requires **specialized quantum hardware** (photon sources, detectors, quantum channels)
 - Security derives from the **fundamental laws of quantum mechanics**
-- It is **unconditionally secure** — unbreakable regardless of computational power
-- Provides **only key exchange** — no digital signatures`
+- It is **unconditionally secure** - unbreakable regardless of computational power
+- Provides **only key exchange** - no digital signatures`
     },
     {
       title: "Photon Polarization",
@@ -32,7 +32,7 @@ Post-Quantum Cryptography (PQC) and Quantum Key Distribution (QKD) both aim to p
 
 In QKD, information is encoded in the **polarization state** of single photons. Polarization describes the orientation of a photon's electromagnetic oscillation.
 
-A photon's polarization can be measured along a chosen **basis** — a pair of orthogonal directions:
+A photon's polarization can be measured along a chosen **basis** - a pair of orthogonal directions:
 
 - **Rectilinear basis** ($\\oplus$): Vertical ($\\uparrow$, 0°) and Horizontal ($\\rightarrow$, 90°)
 - **Diagonal basis** ($\\otimes$): Diagonal ($\\nearrow$, 45°) and Anti-diagonal ($\\searrow$, 135°)
@@ -46,55 +46,55 @@ If measured in the **wrong** basis, the result is completely **random** (50/50 c
       title: "BB84: The Protocol",
       content: `# The BB84 Protocol
 
-Proposed by Charles Bennett and Gilles Brassard in 1984, BB84 is the first and most widely known QKD scheme. It allows two parties (Alice and Bob) to establish a shared secret key by transmitting polarized photons.
+Proposed by Charles Bennett and Gilles Brassard in 1984, BB84 is the first and most widely known QKD scheme. It allows two parties (You your friend) to establish a shared secret key by transmitting polarized photons.
 
 ### Encoding Convention
-Alice encodes classical bits into photon polarizations depending on her randomly chosen basis:
+You encode classical bits into photon polarizations depending on her randomly chosen basis:
 
 | Bit Value | Rectilinear ($\\oplus$) | Diagonal ($\\otimes$) |
 |-----------|----------------------|---------------------|
 | 0         | $\\uparrow$ (Vertical)     | $\\nearrow$ (45°)         |
 | 1         | $\\rightarrow$ (Horizontal)  | $\\searrow$ (135°)        |
 
-For each bit she wants to send, Alice:
-1. Generates a **random bit** (0 or 1)
-2. Chooses a **random basis** ($\\oplus$ or $\\otimes$)
-3. Prepares a photon in the corresponding polarization state
-4. Sends the photon to Bob through a **quantum channel** (dedicated optical fiber)`
+For each bit she wants to send, you:
+1. Generate a **random bit** (0 or 1)
+2. Choose a **random basis** ($\\oplus$ or $\\otimes$)
+3. Prepare a photon in the corresponding polarization state
+4. Send the photon to your friend through a **quantum channel** (dedicated optical fiber)`
     },
     {
       title: "BB84: Transmission and Measurement",
       content: `# BB84: step-by-step
 
-### Alice's Side (Transmission)
-For each bit, Alice randomly selects a basis and prepares the photon accordingly. Neither the bit value nor the basis choice follows any pattern — both are **uniformly random**.
+### Your Side (Transmission)
+For each bit, you randomly select a basis and prepare the photon accordingly. Neither the bit value nor the basis choice follows any pattern - both are **uniformly random**.
 
-### Bob's Side (Measurement)
-Bob does **not** know which basis Alice used. For each incoming photon, he **independently** and **randomly selects** a basis ($\\oplus$ or $\\otimes$) and measures the photon. If he chooses:
-- **The same basis:** Bob gets the **correct bit** with certainty (deterministic)
-- **A different basis:** Bob gets a **random result** (50% chance of 0 or 1)
+### Your Friend's Side (Measurement)
+Your friend does **not** know which basis you used. For each incoming photon, he **independently** and **randomly selects** a basis ($\\oplus$ or $\\otimes$) and measures the photon. If he chooses:
+- **The same basis:** your friend gets the **correct bit** with certainty (deterministic)
+- **A different basis:** your friend gets a **random result** (50% chance of 0 or 1)
 
 ### Why Different Bases Give Random Results
 A vertically polarized photon ($\\uparrow$, encoding bit 0 in $\\oplus$) measured in the diagonal basis ($\\otimes$) has equal probability of being detected as $\\nearrow$ (0) or $\\searrow$ (1).
 
-The photon's quantum state is **projected** onto the measurement basis — and if the bases are incompatible, the outcome is fundamentally unpredictable.`
+The photon's quantum state is **projected** onto the measurement basis - and if the bases are incompatible, the outcome is fundamentally unpredictable.`
     },
     {
       title: "BB84: Sifting",
       content: `# BB84: Basis Reconciliation (Sifting)
 
-After all photons have been transmitted and measured, Alice and Bob switch to a **classical public channel** (e.g., an authenticated internet connection).
+After all photons have been transmitted and measured, you and your friend switch to a **classical public channel** (e.g., an authenticated internet connection).
 
 ### The Sifting Process
-1. For each photon, Alice announces **which basis** she used ($\\oplus$ or $\\otimes$)
-2. Bob compares Alice's basis to the basis he used for measurement
-3. They **keep** only the bits where their bases matched
-4. They **discard** all bits where their bases differed
+1. For each photon, you announce **which basis** you used ($\\oplus$ or $\\otimes$)
+2. Your friend compares your basis to the basis he used for measurement
+3. You **keep** only the bits where your bases matched
+4. You **discard** all bits where your bases differed
 
 ### Key Properties of Sifting
 - Only the **bases** are revealed publicly, **never** the bit values
-- On average, Alice and Bob will agree on bases for **~50%** of the transmitted photons
-- The remaining bits form the **Sifted Key** — identical for both parties (assuming no noise or eavesdropping)
+- On average, you and your friend will agree on bases for **~50%** of the transmitted photons
+- The remaining bits form the **Sifted Key** - identical for both parties (assuming no noise or eavesdropping)
 
 An eavesdropper monitoring the public channel learns which bases were used, but this information is useless without the actual photon measurements.`
     },
@@ -105,72 +105,54 @@ An eavesdropper monitoring the public channel learns which bases were used, but 
     },
     {
       title: "Eavesdropping Detection",
-      content: `# Eavesdropping Detection
+      content: `# Eavesdropping detection
 
 The critical security feature of BB84 is the ability to detect eavesdropping **after** the sifted key is established.
 
-### How Eve Attacks
-If Eve intercepts a photon, she must **measure** it (she cannot copy it due to the No-Cloning Theorem). She then resends a new photon to Bob. But since Eve doesn't know Alice's basis:
-- She picks a **random basis** to measure
-- With **50% probability**, she picks the wrong basis and **destroys** the original polarization
-- She resends a photon based on her (possibly incorrect) measurement
+### How an Attacker Attacks
+If an attacker intercepts a photon, he must **measure** it (he cannot copy it due to the No-Cloning Theorem). He then resends a new photon to your friend. But since an attacker doesn't know your basis:
+- He picks a **random basis** to measure
+- With **50% probability**, he picks the wrong basis and **destroys** the original polarization
+- He resends a photon based on his (possibly incorrect) measurement
 
 ### The Error Rate
-When Eve uses the wrong basis, she introduces a detectable error:
-- She gets the wrong bit with 50% probability (wrong basis)
-- Bob then has a 50% chance of measuring this corrupted photon incorrectly
+When an attacker uses the wrong basis, he introduces a detectable error:
+- He gets the wrong bit with 50% probability (wrong basis)
+- Your friend then has a 50% chance of measuring this corrupted photon incorrectly
 
-Overall, Eve's interception causes a **25% error rate** on the bits she intercepted (probability: $\\frac{1}{2} \\times \\frac{1}{2} = \\frac{1}{4}$).
+Overall, an attacker's interception causes a **25% error rate** on the bits he intercepted (probability: $\\frac{1}{2} \\times \\frac{1}{2} = \\frac{1}{4}$).
 
 ### Verification
-Alice and Bob publicly compare a random subset of $n$ sifted-key bits. If the error rate exceeds a threshold, they abort. The probability of Eve escaping detection is at most $\\left(\\frac{3}{4}\\right)^n$.`
+You and your friend publicly compare a random subset of $n$ sifted-key bits. If the error rate exceeds a threshold, you abort. The probability of an attacker escaping detection is at most $\\left(\\frac{3}{4}\\right)^n$.`
     },
     {
       title: "Eve's Intercept-Resend Attack",
-      content: `# Eve's Intercept-Resend Attack: Detailed Analysis
+      content: `# Detecting an intercept-resend attack
 
-Consider a single photon where Alice sends $\\uparrow$ (bit 0) in the rectilinear basis ($\\oplus$):
+Consider a single photon where you send $\\uparrow$ (bit 0) in the rectilinear basis ($\\oplus$):
 
-### Case 1: Eve picks the correct basis ($\\oplus$)
-- Eve measures $\\uparrow$ → gets bit 0 (correct)
-- Eve resends $\\uparrow$ to Bob
-- Bob's measurement is **unaffected** — no error introduced
+### Case 1: Attacker picks the correct basis ($\\oplus$)
+- Attacker measures $\\uparrow$ - gets bit 0 (correct)
+- Attacker resends $\\uparrow$ to your friend
+- Your friend's measurement is **unaffected** - no error introduced
 
-### Case 2: Eve picks the wrong basis ($\\otimes$)
-- Eve measures $\\uparrow$ in the diagonal basis → gets $\\nearrow$ or $\\searrow$ with equal probability
-- Suppose Eve gets $\\nearrow$ (bit 0) and resends $\\nearrow$
-- If Bob measures in $\\oplus$ (matching Alice): He gets $\\uparrow$ or $\\rightarrow$ with 50/50 probability
--- 50% chance of **wrong result** — detectable error!
+### Case 2: Attacker picks the wrong basis ($\\otimes$)
+- Attacker measures $\\uparrow$ in the diagonal basis -> gets $\\nearrow$ or $\\searrow$ with equal probability
+- Suppose the attacker gets $\\nearrow$ (bit 0) and resends $\\nearrow$
+- If your friend measures in $\\oplus$ (matching you): He gets $\\uparrow$ or $\\rightarrow$ with 50/50 probability
+-- 50% chance of **wrong result** - detectable error!
 
 ### Overall Detection Probability (per intercepted bit)
-$$ P(\\text{error}) = P(\\text{Eve wrong basis}) \\times P(\\text{Bob wrong result}) = \\frac{1}{2} \\times \\frac{1}{2} = \\frac{1}{4} $$
+$$ P(\\text{error}) = P(\\text{attacker wrong basis}) \\times P(\\text{friend wrong result}) = \\frac{1}{2} \\times \\frac{1}{2} = \\frac{1}{4} $$
 
-For $n$ verification bits, the probability that Eve goes undetected:
+For $n$ verification bits, the probability that the attacker goes undetected:
 $$ P(\\text{undetected}) = \\left(\\frac{3}{4}\\right)^n $$
 
 With just $n = 50$ verification bits: $P \\approx 5.7 \\times 10^{-7}$`
     },
     {
-      title: "Privacy Amplification and Error Correction",
-      content: `# Post-Processing: Error Correction & Privacy Amplification
-
-In practice, the quantum channel introduces some noise even without eavesdropping. The raw sifted key will contain errors that must be corrected while minimizing information leakage.
-
-### Error Correction
-Alice and Bob use classical error-correction protocols (e.g., Cascade or LDPC codes) over the public channel to reconcile their keys. This process necessarily reveals some information about the key.
-
-### Privacy Amplification
-After error correction, Alice and Bob apply a **universal hash function** to their reconciled key. This compresses the key, removing any partial information an eavesdropper might have gained from:
-- Intercepted photons
-- Information leaked during error correction
-- Imperfect hardware
-
-### The Final Key
-The output is a shorter but **provably secure** key. The length of this final key depends on the estimated amount of information leakage. If the error rate is too high (suggesting significant eavesdropping), the protocol produces **no key at all** — security is never compromised.`
-    },
-    {
       title: "QKD Limitations: Partial Solution",
-      content: `# Limitation 1: QKD is Only a Partial Solution
+      content: `# Limitation 1: QKD is only a partial solution
 
 QKD addresses **only** the key distribution problem. It provides a shared secret key, but it does **not** provide:
 
@@ -181,7 +163,7 @@ QKD addresses **only** the key distribution problem. It provides a shared secret
 - **Digital Signatures**: QKD offers no mechanism for non-repudiation or message integrity verification
 
 ### The Authentication Problem
-To authenticate the classical channel used for sifting, Alice and Bob must rely on:
+To authenticate the classical channel used for sifting, you and your friend must rely on:
 - **Pre-shared symmetric keys** (requires prior secure contact), or
 - **Classical asymmetric cryptography** (which may be quantum-vulnerable)
 
@@ -189,7 +171,7 @@ This means QKD **does not eliminate the need** for classical cryptographic infra
     },
     {
       title: "QKD Limitations: Hardware",
-      content: `# Limitation 2: Special-Purpose Hardware
+      content: `# Limitation 2: Special-purpose hardware
 
 Unlike PQC, which can be deployed as a **software update**, QKD requires dedicated physical infrastructure.
 
@@ -208,15 +190,15 @@ Unlike PQC, which can be deployed as a **software update**, QKD requires dedicat
     },
     {
       title: "QKD Limitations: Infrastructure and Range",
-      content: `# Limitation 3: Infrastructure Cost and Limited Range
+      content: `# Limitation 3: Infrastructure cost and limited range
 
-### The Range Problem
+### The range problem
 Photons are absorbed by optical fiber. After approximately **100–200 km**, the signal loss becomes too severe for reliable key exchange. Unlike classical signals, quantum states **cannot be amplified** (No-Cloning Theorem prevents quantum repeaters from simply copying the signal).
 
 ### Trusted Relays
 To extend range, QKD networks use **trusted relay nodes**:
-1. Alice establishes a key $K_1$ with Relay 1
-2. Relay 1 establishes a key $K_2$ with Relay 2 (or Bob)
+1. You establish a key $K_1$ with Relay 1
+2. Relay 1 establishes a key $K_2$ with Relay 2 (or your friend)
 3. The relay decrypts with $K_1$ and re-encrypts with $K_2$
 
 ### Security Implications
@@ -230,39 +212,39 @@ Building and maintaining a QKD network with trusted relays is **orders of magnit
     },
     {
       title: "QKD Limitations: Implementation Attacks",
-      content: `# Limitation 4: Implementation vs. Theoretical Security
+      content: `# Limitation 4: Implementation vs. theoretical security
 
 While the **physics** of BB84 is provably secure, the **engineering** introduces real vulnerabilities. Several attacks exploit hardware imperfections:
 
-### Detector Blinding Attack
-An adversary shines a bright laser at Bob's single-photon detectors, forcing them into a **linear mode** where they behave classically. Eve can then control which detector "clicks" — effectively choosing Bob's measurement results without detection.
+### Detector blinding attack
+An adversary shines a bright laser at your friend's single-photon detectors, forcing them into a **linear mode** where they behave classically. The attacker can then control which detector "clicks" - effectively choosing your friend's measurement results without detection.
 
-### Photon Number Splitting (PNS) Attack
-Real photon sources occasionally emit **multiple photons** per pulse. Eve can split off the extra photon, measure it, and learn Alice's bit — all without disturbing the photon that reaches Bob.
+### Photon Number Splitting (PNS) attack
+Real photon sources occasionally emit **multiple photons** per pulse. The attacker can split off the extra photon, measure it, and learn your bit - all without disturbing the photon that reaches your friend.
 
-### Time-Shift Attack
-Exploiting timing differences between Bob's detectors, Eve shifts the arrival time of photons to bias which detector responds, gaining partial information about the key.
+### Time-Shift attack
+Exploiting timing differences between your friend's detectors, the attacker shifts the arrival time of photons to bias which detector responds, gaining partial information about the key.
 
-### The Fundamental Issue
+### The fundamental issue
 Theoretical security proofs assume **ideal hardware**. Real-world devices always have imperfections, and the tolerance for error is extremely low. Every new hardware platform requires extensive security analysis.`
     },
     {
       title: "QKD Limitations: Denial of Service",
       content: `# Limitation 5: Denial of Service Vulnerability
 
-The very feature that makes QKD secure — its **extreme sensitivity to interference** — is also its greatest operational weakness.
+The very feature that makes QKD secure - its **extreme sensitivity to interference** - is also its greatest operational weakness.
 
-### The Attack
+### The attack
 An adversary does not need to break the encryption. They simply need to **introduce noise** on the quantum channel:
 - Tapping into the optical fiber
 - Shining light into the channel
 - Physically disturbing the fiber
 
-### The Effect
-Alice and Bob detect a high error rate and **abort the protocol** — exactly as designed. But the result is that no key is ever established, effectively a **Denial of Service (DoS)**.
+### The effect
+You and your friend detect a high error rate and **abort the protocol** - exactly as designed. But the result is that no key is ever established, effectively a **Denial of Service (DoS)**.
 
 ### Why This Matters
-- The adversary gains nothing (no information), but **neither do Alice and Bob**
+- The adversary gains nothing (no information), but **neither do you and your friend**
 - Classical encrypted channels can still function under interference (with degraded performance)
 - A QKD channel under attack produces **zero throughput**
 - This makes QKD unsuitable for **mission-critical** applications where availability is paramount`
@@ -273,11 +255,11 @@ Alice and Bob detect a high error rate and **abort the protocol** — exactly as
 
 The National Security Agency (NSA) does **not** currently recommend QKD for use in National Security Systems (NSS). Their official position, published in the Post-Quantum Cybersecurity Resources, summarizes the five limitations:
 
-1. **Partial solution** — does not provide authentication or signatures
-2. **Special hardware** — cannot leverage existing network infrastructure
-3. **Trusted relays** — introduce insider threat risks and negate theoretical security
-4. **Implementation gaps** — hardware vulnerabilities undermine provable security
-5. **DoS vulnerability** — extreme sensitivity to interference is operationally unacceptable
+1. **Partial solution** - does not provide authentication or signatures
+2. **Special hardware** - cannot leverage existing network infrastructure
+3. **Trusted relays** - introduce insider threat risks and negate theoretical security
+4. **Implementation gaps** - hardware vulnerabilities undermine provable security
+5. **DoS vulnerability** - extreme sensitivity to interference is operationally unacceptable
 
 ### NSA's Recommendation
 The NSA views **post-quantum cryptographic algorithms** (PQC) as the more:

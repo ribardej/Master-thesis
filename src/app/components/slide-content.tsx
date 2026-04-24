@@ -22,6 +22,9 @@ import { TLSHandshakeBasicAnimation } from "./animations/tls-handshake-basic";
 import { TLSHandshakeDetailedAnimation } from "./animations/tls-handshake-detailed";
 import { FFTvsQFTComparisonAnimation } from "./animations/fft-vs-qft";
 import { BB84ProtocolAnimation } from "./animations/bb84-protocol";
+import { PQCChannelAnimation } from "./animations/pqc-channel";
+import { QKDChannelAnimation } from "./animations/qkd-channel";
+import { HybridTLSHandshakeAnimation } from "./animations/hybrid-tls-handshake";
 
 export function SlideContent({ content }: { content: string }) {
   const lines = content.trim().split("\n");
@@ -276,6 +279,12 @@ export function SlideContent({ content }: { content: string }) {
           elements.push(<FFTvsQFTComparisonAnimation key={key++} />);
         } else if (componentName === "BB84ProtocolAnimation") {
           elements.push(<BB84ProtocolAnimation key={key++} />);
+        } else if (componentName === "PQCChannelAnimation") {
+          elements.push(<PQCChannelAnimation key={key++} />);
+        } else if (componentName === "QKDChannelAnimation") {
+          elements.push(<QKDChannelAnimation key={key++} />);
+        } else if (componentName === "HybridTLSHandshakeAnimation") {
+          elements.push(<HybridTLSHandshakeAnimation key={key++} />);
         }
         // Additional components can be registered here in the future
       }
