@@ -51,6 +51,8 @@ export const lesson6: Lesson = {
 
       - Quantum computers exploit principles of quantum mechanics like **superposition** and **entanglement** to speed up calculations
       -- However upon measurement the superposition **collapses** into one state
+      -- The most important quantum algorithm is **Quantum Fourier Transform (QFT)**, used to find out a prevailing frequency from a whole spectrum (if ther is one)
+      -- Shor's algorithm uses QFT as the **key step** to speedup the calculations
 
       - They can solve specific class of mathematical problems **exponentially faster** than classical computers
       -- **Some** problems, **not every** problem

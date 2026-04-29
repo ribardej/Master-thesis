@@ -146,7 +146,7 @@ Consider a single photon where you send $\\uparrow$ (bit 0) in the rectilinear b
 $$ P(\\text{error}) = P(\\text{attacker wrong basis}) \\times P(\\text{friend wrong result}) = \\frac{1}{2} \\times \\frac{1}{2} = \\frac{1}{4} $$
 
 For $n$ verification bits, the probability that the attacker goes undetected:
-$$ P(\\text{undetected}) = \\left(\\frac{3}{4}\\right)^n $$
+$$ P(\\text{undetected}) = \\left(1 - \\frac{1}{4}\\right)^n = \\left(\\frac{3}{4}\\right)^n $$
 
 With just $n = 50$ verification bits: $P \\approx 5.7 \\times 10^{-7}$`
     },
@@ -282,7 +282,7 @@ Unless the significant engineering and infrastructure limitations are overcome, 
 - **Practical limitations** severely constrain real-world deployment:
 -- No authentication (needs classical crypto)
 -- Requires expensive, dedicated quantum hardware
--- Limited range (~100-200 km without trusted relays)
+-- Limited range (~50-100 km without trusted relays)
 -- Hardware vulnerabilities (detector blinding, PNS attacks)
 -- Inherent DoS vulnerability
 

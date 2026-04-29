@@ -25,6 +25,8 @@ import { BB84ProtocolAnimation } from "./animations/bb84-protocol";
 import { PQCChannelAnimation } from "./animations/pqc-channel";
 import { QKDChannelAnimation } from "./animations/qkd-channel";
 import { HybridTLSHandshakeAnimation } from "./animations/hybrid-tls-handshake";
+import { LWEGaussianEliminationAnimation } from "./animations/lwe-gaussian-elimination";
+import { KyberKEMFlowAnimation } from "./animations/kyber-kem-flow";
 
 export function SlideContent({ content }: { content: string }) {
   const lines = content.trim().split("\n");
@@ -285,6 +287,10 @@ export function SlideContent({ content }: { content: string }) {
           elements.push(<QKDChannelAnimation key={key++} />);
         } else if (componentName === "HybridTLSHandshakeAnimation") {
           elements.push(<HybridTLSHandshakeAnimation key={key++} />);
+        } else if (componentName === "LWEGaussianElimination") {
+          elements.push(<LWEGaussianEliminationAnimation key={key++} />);
+        } else if (componentName === "KyberKEMFlow") {
+          elements.push(<KyberKEMFlowAnimation key={key++} />);
         }
         // Additional components can be registered here in the future
       }
