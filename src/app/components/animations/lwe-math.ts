@@ -112,7 +112,7 @@ export function fullElimination(A: number[][], b: number[]): EqRow[][] {
   let sys = buildSystem(A, b);
   stages.push(sys);
 
-  for (let col = 0; col < N && col < M - 1; col++) {
+  for (let col = 0; col < N - 1 && col < M - 1; col++) {
     const next = eliminateColumn(sys, col, col);
     if (!next) break;
     sys = next;
@@ -146,46 +146,95 @@ export function errorRange(errCoeffs: number[]): [number, number] {
   return [lo, hi];
 }
 
-// Back-substitution attempt: given error guess, subtract from b, solve A·s = b-e mod q
-// Returns s if solvable, null otherwise
-export function trySolve(A: number[][], b: number[], eGuess: number[]): number[] | null {
-  // Subtract guessed error from b
-  const bAdj = b.map((v, i) => mod(v - eGuess[i], Q));
+export interface ElimStepLog {
+  type: "eq34" | "eq2" | "eq1" | "conflict" | "success";
+  text: string;
+  math?: string;
+}
 
-  // Build augmented matrix [A | bAdj] for first 3 rows (3×3 system)
-  const aug = A.slice(0, N).map((row, i) => [...row, bAdj[i]]);
+export interface ElimSolveResult {
+  success: boolean;
+  s: number[] | null;
+  logs: ElimStepLog[];
+}
 
-  // Forward elimination
-  for (let col = 0; col < N; col++) {
-    // Find pivot
-    let pivotRow = -1;
-    for (let r = col; r < N; r++) {
-      if (aug[r][col] !== 0) { pivotRow = r; break; }
+export function solveFromElimination(sys: EqRow[], eGuess: number[]): ElimSolveResult {
+  const logs: ElimStepLog[] = [];
+  
+  // Calculate targets for all equations
+  const errVals = sys.map(row => row.errCoeffs.reduce((sum, c, i) => sum + c * eGuess[i], 0));
+  const targets = sys.map((row, i) => mod(row.rhs - errVals[i], Q));
+
+  // Solve s_3 from Eq 3 (index 2)
+  const c3_eq3 = sys[2].coeffs[2];
+  if (c3_eq3 === 0) {
+    logs.push({ type: "conflict", text: "Eq 3 has no s_3 coefficient, cannot solve." });
+    return { success: false, s: null, logs };
+  }
+  const s3_val3 = mod(targets[2] * modInverse(c3_eq3, Q), Q);
+  logs.push({ 
+    type: "eq34", 
+    text: "Plugging e into Eq 3:", 
+    math: `${c3_eq3}·s₃ = ${sys[2].rhs} − (${errVals[2]}) ≡ ${targets[2]}  ⇒  s₃ = ${s3_val3}` 
+  });
+
+  // Solve s_3 from Eq 4 (index 3)
+  const c3_eq4 = sys[3].coeffs[2];
+  let s3_val4 = -1;
+  if (c3_eq4 !== 0) {
+    s3_val4 = mod(targets[3] * modInverse(c3_eq4, Q), Q);
+    logs.push({ 
+      type: "eq34", 
+      text: "Plugging e into Eq 4:", 
+      math: `${c3_eq4}·s₃ = ${sys[3].rhs} − (${errVals[3]}) ≡ ${targets[3]}  ⇒  s₃ = ${s3_val4}` 
+    });
+    
+    if (s3_val3 !== s3_val4) {
+      logs.push({ type: "conflict", text: `Conflict! Eq 3 gives s₃=${s3_val3}, but Eq 4 gives s₃=${s3_val4}. Error guess is incorrect.` });
+      return { success: false, s: null, logs };
     }
-    if (pivotRow === -1) return null;
-    if (pivotRow !== col) [aug[col], aug[pivotRow]] = [aug[pivotRow], aug[col]];
-
-    const inv = modInverse(aug[col][col], Q);
-    if (inv === 0) return null;
-
-    // Scale pivot row
-    for (let j = 0; j <= N; j++) aug[col][j] = mod(aug[col][j] * inv, Q);
-
-    // Eliminate
-    for (let r = 0; r < N; r++) {
-      if (r === col) continue;
-      const f = aug[r][col];
-      for (let j = 0; j <= N; j++) aug[r][j] = mod(aug[r][j] - f * aug[col][j], Q);
+  } else {
+    // If c3_eq4 is 0, target[3] must be 0
+    if (targets[3] !== 0) {
+      logs.push({ type: "eq34", text: "Plugging e into Eq 4:", math: `0 = ${targets[3]}` });
+      logs.push({ type: "conflict", text: "Conflict! Eq 4 is impossible (0 ≠ target). Error guess is incorrect." });
+      return { success: false, s: null, logs };
     }
   }
 
-  const s = aug.map(row => row[N]);
-
-  // Verify against ALL rows (including row 4)
-  for (let i = 0; i < M; i++) {
-    const lhs = mod(A[i].reduce((sum, a, j) => sum + a * s[j], 0), Q);
-    if (lhs !== bAdj[i]) return null;
+  const s3 = s3_val3;
+  
+  // Solve s_2 from Eq 2 (index 1)
+  const c2_eq2 = sys[1].coeffs[1];
+  const c3_eq2 = sys[1].coeffs[2];
+  if (c2_eq2 === 0) {
+    logs.push({ type: "conflict", text: "Eq 2 has no s_2 coefficient." });
+    return { success: false, s: null, logs };
   }
+  const lhs2 = mod(targets[1] - c3_eq2 * s3, Q);
+  const s2 = mod(lhs2 * modInverse(c2_eq2, Q), Q);
+  logs.push({ 
+    type: "eq2", 
+    text: "Back-substituting s₃ into Eq 2:", 
+    math: `${c2_eq2}·s₂ + ${c3_eq2}(${s3}) ≡ ${targets[1]}  ⇒  s₂ = ${s2}` 
+  });
 
-  return s;
+  // Solve s_1 from Eq 1 (index 0)
+  const c1_eq1 = sys[0].coeffs[0];
+  const c2_eq1 = sys[0].coeffs[1];
+  const c3_eq1 = sys[0].coeffs[2];
+  if (c1_eq1 === 0) {
+    logs.push({ type: "conflict", text: "Eq 1 has no s_1 coefficient." });
+    return { success: false, s: null, logs };
+  }
+  const lhs1 = mod(targets[0] - c2_eq1 * s2 - c3_eq1 * s3, Q);
+  const s1 = mod(lhs1 * modInverse(c1_eq1, Q), Q);
+  logs.push({ 
+    type: "eq1", 
+    text: "Back-substituting s₂, s₃ into Eq 1:", 
+    math: `${c1_eq1}·s₁ + ${c2_eq1}(${s2}) + ${c3_eq1}(${s3}) ≡ ${targets[0]}  ⇒  s₁ = ${s1}` 
+  });
+
+  logs.push({ type: "success", text: "All equations satisfied!" });
+  return { success: true, s: [s1, s2, s3], logs };
 }

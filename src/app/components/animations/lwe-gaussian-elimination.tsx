@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { M, N, randomError, matVecMul, vecAdd, fullElimination, Q } from "./lwe-math";
+import { M, N, randomError, randomMatrix, randomSecret, matVecMul, vecAdd, fullElimination, Q } from "./lwe-math";
 import { Step1, Step2, Step3, Step4 } from "./lwe-steps";
 
 const STEP_LABELS = [
@@ -11,12 +11,13 @@ const STEP_LABELS = [
 
 export function LWEGaussianEliminationAnimation() {
   const [step, setStep] = useState(0);
+  const [subStep, setSubStep] = useState(0);
 
-  // Step 1 state: string inputs
-  const [aStr, setAStr] = useState<string[][]>(
-    Array.from({ length: M }, () => Array(N).fill(""))
+  // Step 1 state: string inputs (randomized by default)
+  const [aStr, setAStr] = useState<string[][]>(() =>
+    randomMatrix().map((row) => row.map(String))
   );
-  const [sStr, setSStr] = useState<string[]>(Array(N).fill(""));
+  const [sStr, setSStr] = useState<string[]>(() => randomSecret().map(String));
 
   // Computed values (set when advancing from step 1)
   const [A, setA] = useState<number[][]>([]);
@@ -33,7 +34,7 @@ export function LWEGaussianEliminationAnimation() {
 
   // Advance from step 1 → 2: parse inputs, generate error, compute b
   const goToStep2 = () => {
-    const parsedA = aStr.map(row => row.map(Number));
+    const parsedA = aStr.map((row) => row.map(Number));
     const parsedS = sStr.map(Number);
     const newE = randomError();
     const newAs = matVecMul(parsedA, parsedS, Q);
@@ -49,8 +50,9 @@ export function LWEGaussianEliminationAnimation() {
 
   const restart = () => {
     setStep(0);
-    setAStr(Array.from({ length: M }, () => Array(N).fill("")));
-    setSStr(Array(N).fill(""));
+    setSubStep(0);
+    setAStr(randomMatrix().map((row) => row.map(String)));
+    setSStr(randomSecret().map(String));
     setA([]);
     setS([]);
     setE([]);
@@ -61,16 +63,29 @@ export function LWEGaussianEliminationAnimation() {
   // Keyboard navigation
   useEffect(() => {
     const handleNext = (ev: Event) => {
-      if (step < 3) {
+      if (step === 2 && stages.length > 0 && subStep < stages.length - 1) {
+        ev.preventDefault();
+        setSubStep((prev) => prev + 1);
+      } else if (step < 3) {
         ev.preventDefault();
         if (step === 0) goToStep2();
-        else setStep(prev => prev + 1);
+        else {
+          if (step + 1 === 2) setSubStep(0);
+          setStep((prev) => prev + 1);
+        }
       }
     };
     const handlePrev = (ev: Event) => {
-      if (step > 0) {
+
+      if (step === 2 && subStep > 0) {
         ev.preventDefault();
-        setStep(prev => prev - 1);
+        setSubStep((prev) => prev - 1);
+      } else if (step > 0) {
+        ev.preventDefault();
+        if (step - 1 === 2) {
+          setSubStep(stages.length > 0 ? stages.length - 1 : 0);
+        }
+        setStep((prev) => prev - 1);
       }
     };
     window.addEventListener("slide-next", handleNext);
@@ -79,18 +94,15 @@ export function LWEGaussianEliminationAnimation() {
       window.removeEventListener("slide-next", handleNext);
       window.removeEventListener("slide-prev", handlePrev);
     };
-  }, [step, aStr, sStr]);
+  }, [step, subStep, stages.length, aStr, sStr]);
 
   return (
     <div className="flex flex-col items-center w-full max-w-4xl mx-auto p-4 bg-white rounded-xl shadow-sm border border-gray-100 text-sm overflow-hidden">
       {/* Header */}
       <div className="w-full mb-4 px-2">
         <h3 className="text-lg font-bold text-gray-800 m-0">
-          LWE Gaussian Elimination — Interactive Tool
+          Interactive Tool - solving LWE(4, 3, 17, 2)
         </h3>
-        <p className="text-xs text-gray-500 mt-0.5">
-          LWE(4, 3, 17, 2) — experience why the error makes LWE hard
-        </p>
       </div>
 
       {/* Step indicator */}
@@ -98,25 +110,32 @@ export function LWEGaussianEliminationAnimation() {
         {STEP_LABELS.map((label, i) => (
           <React.Fragment key={i}>
             <div className="flex flex-col items-center gap-1">
-              <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all duration-300 ${
-                i === step
+              <div
+                className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all duration-300 ${i === step
                   ? "bg-indigo-600 text-white border-indigo-600 shadow-md"
                   : i < step
-                  ? "bg-indigo-100 text-indigo-600 border-indigo-300"
-                  : "bg-gray-100 text-gray-400 border-gray-200"
-              }`}>
+                    ? "bg-indigo-100 text-indigo-600 border-indigo-300"
+                    : "bg-gray-100 text-gray-400 border-gray-200"
+                  }`}
+              >
                 {i + 1}
               </div>
-              <span className={`text-[10px] font-medium transition-colors ${
-                i === step ? "text-indigo-600" : i < step ? "text-indigo-400" : "text-gray-400"
-              }`}>
+              <span
+                className={`text-[10px] font-medium transition-colors ${i === step
+                  ? "text-indigo-600"
+                  : i < step
+                    ? "text-indigo-400"
+                    : "text-gray-400"
+                  }`}
+              >
                 {label}
               </span>
             </div>
             {i < STEP_LABELS.length - 1 && (
-              <div className={`flex-1 h-0.5 mx-1 rounded transition-colors ${
-                i < step ? "bg-indigo-300" : "bg-gray-200"
-              }`} />
+              <div
+                className={`flex-1 h-0.5 mx-1 rounded transition-colors ${i < step ? "bg-gray-400" : "bg-gray-200"
+                  }`}
+              />
             )}
           </React.Fragment>
         ))}
@@ -126,35 +145,79 @@ export function LWEGaussianEliminationAnimation() {
       <div className="w-full min-h-[320px] flex items-start justify-center">
         {step === 0 && (
           <Step1
-            A={aStr} s={sStr} setA={setAStr} setS={setSStr}
+            A={aStr}
+            s={sStr}
+            setA={setAStr}
+            setS={setSStr}
             onNext={goToStep2}
           />
         )}
         {step === 1 && (
           <Step2
-            A={A} s={s} e={e} b={b} As={As}
-            onNext={() => setStep(2)}
+            A={A}
+            s={s}
+            e={e}
+            b={b}
+            As={As}
+            onNext={() => {
+              setSubStep(0);
+              setStep(2);
+            }}
             onBack={() => setStep(0)}
           />
         )}
         {step === 2 && stages.length > 0 && (
           <Step3
             stages={stages}
+            subStep={subStep}
+            setSubStep={setSubStep}
             onNext={() => setStep(3)}
             onBack={() => setStep(1)}
           />
         )}
-        {step === 3 && (
+        {step === 3 && stages.length > 0 && (
           <Step4
-            A={A} b={b} actualE={e} actualS={s}
+            finalSys={stages[stages.length - 1]}
+            actualE={e}
+            actualS={s}
             onRestart={restart}
           />
         )}
       </div>
 
+      {/* Progress tiles */}
+      <div className="mt-6 w-full flex gap-1 px-4">
+        {STEP_LABELS.map((_, s) => (
+          <button
+            key={s}
+            onClick={() => {
+              if (s < step) {
+                if (s === 2) setSubStep(stages.length > 0 ? stages.length - 1 : 0);
+                setStep(s);
+              } else if (s === step + 1 && step === 0) {
+                goToStep2();
+              } else if (s === step + 1 && step === 1) {
+                setSubStep(0);
+                setStep(s);
+              } else if (s === step + 1 && step === 2) {
+                setStep(s);
+              }
+            }}
+            className={`flex-1 h-2 rounded-full transition-all duration-300 cursor-pointer ${step === s
+              ? "bg-gray-600 shadow-sm"
+              : s < step
+                ? "bg-gray-300 hover:bg-gray-400"
+                : "bg-gray-200 hover:bg-gray-300"
+              }`}
+          />
+        ))}
+      </div>
+
       {/* Footer */}
-      <div className="mt-3 w-full flex justify-between items-center text-xs text-gray-400 px-4">
-        <span>Step {step + 1} / {STEP_LABELS.length}</span>
+      <div className="mt-2 w-full flex justify-between items-center text-xs text-gray-400 px-4">
+        <span>
+          Step {step + 1} / {STEP_LABELS.length}
+        </span>
         <span>Use arrow keys to navigate</span>
       </div>
     </div>

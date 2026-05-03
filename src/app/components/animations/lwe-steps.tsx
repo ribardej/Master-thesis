@@ -3,7 +3,7 @@ import { Shuffle, ArrowRight, ArrowLeft, RotateCcw, Check, X } from "lucide-reac
 import {
   Q, M, N, B, mod, randomMatrix, randomSecret, randomError,
   matVecMul, vecAdd, fullElimination, formatErrExpr, errorRange,
-  trySolve, type EqRow
+  solveFromElimination, type EqRow
 } from "./lwe-math";
 
 /* ── Shared helpers ── */
@@ -132,12 +132,7 @@ export function Step1({ A, s, setA, setS, onNext }: {
         </div>
       </div>
 
-      <button onClick={onNext} disabled={!allFilled}
-        className={`flex items-center gap-1.5 text-sm font-medium px-4 py-2 rounded-md border transition-colors cursor-pointer ${
-          allFilled ? "bg-indigo-600 text-white hover:bg-indigo-700 border-indigo-700" : "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
-        }`}>
-        Next <ArrowRight size={14} />
-      </button>
+
     </div>
   );
 }
@@ -210,28 +205,20 @@ export function Step2({ A, s, e, b, As, onNext, onBack }: {
         </div>
       </div>
 
-      <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-3 text-xs text-indigo-700 max-w-lg text-center">
+      <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-4 text-xs text-indigo-700 max-w-lg text-center">
         Without the error, recovering <b>s</b> from <b>A</b> and <b>b</b> would be trivial via Gaussian elimination.
         The small error <b>e</b> makes this computationally hard. Let's see why.
       </div>
 
-      <div className="flex gap-2">
-        <button onClick={onBack} className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-800 bg-gray-50 px-3 py-2 rounded-md border transition-colors cursor-pointer">
-          <ArrowLeft size={14} /> Back
-        </button>
-        <button onClick={onNext} className="flex items-center gap-1 text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700 px-4 py-2 rounded-md border border-indigo-700 transition-colors cursor-pointer">
-          Next <ArrowRight size={14} />
-        </button>
-      </div>
+
     </div>
   );
 }
 
 /* ══════════════════ STEP 3 ══════════════════ */
-export function Step3({ stages, onNext, onBack }: {
-  stages: EqRow[][]; onNext: () => void; onBack: () => void;
+export function Step3({ stages, subStep, setSubStep, onNext, onBack }: {
+  stages: EqRow[][]; subStep: number; setSubStep: (s: number) => void; onNext: () => void; onBack: () => void;
 }) {
-  const [subStep, setSubStep] = useState(0);
   const maxSub = stages.length;
   const sys = stages[Math.min(subStep, maxSub - 1)];
 
@@ -247,9 +234,8 @@ export function Step3({ stages, onNext, onBack }: {
       <div className="flex gap-2 items-center">
         {labels.slice(0, maxSub).map((label, i) => (
           <button key={i} onClick={() => setSubStep(i)}
-            className={`text-xs px-2.5 py-1 rounded-full border transition-colors cursor-pointer ${
-              subStep === i ? "bg-indigo-600 text-white border-indigo-700" : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
-            }`}>{label}</button>
+            className={`text-xs px-2.5 py-1 rounded-full border transition-colors cursor-pointer ${subStep === i ? "bg-indigo-600 text-white border-indigo-700" : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
+              }`}>{label}</button>
         ))}
       </div>
 
@@ -264,9 +250,8 @@ export function Step3({ stages, onNext, onBack }: {
                 const sev = severity(range);
                 const isModified = subStep > 0 && i > (subStep - 1);
                 return (
-                  <div key={i} className={`flex items-center gap-2 font-mono text-xs px-2 py-1.5 rounded transition-all duration-500 ${
-                    isModified ? "bg-indigo-50 border border-indigo-200 shadow-sm" : "bg-white border border-gray-100"
-                  }`}>
+                  <div key={i} className={`flex items-center gap-2 font-mono text-xs px-2 py-1.5 rounded transition-all duration-500 ${isModified ? "bg-indigo-50 border border-indigo-200 shadow-sm" : "bg-white border border-gray-100"
+                    }`}>
                     <div className="flex gap-0.5 items-center min-w-[180px]">
                       {eq.coeffs.map((c, j) => (
                         <React.Fragment key={j}>
@@ -331,35 +316,28 @@ export function Step3({ stages, onNext, onBack }: {
         <div className="bg-white p-3 rounded-lg border text-sm text-gray-600 text-center shadow-sm">
           {subStep === 0 && "We start with 4 equations in 3 unknowns modulo 17. Each equation has a small unknown error eᵢ ∈ [-2, 2]."}
           {subStep === 1 && "After eliminating s₁, the error coefficients grow. The error range has expanded significantly."}
-          {subStep >= 2 && "The error range has exploded — it exceeds q many times over. The RHS values are now indistinguishable from random mod 17. Gaussian elimination fails!"}
+          {subStep >= 2 && "The error range has exploded — it exceeds q many times over. The right side values are now indistinguishable from random mod 17. As the dimension grows, this error propagation gets even worse."}
         </div>
       </div>
 
-      <div className="flex gap-2">
-        <button onClick={onBack} className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-800 bg-gray-50 px-3 py-2 rounded-md border transition-colors cursor-pointer">
-          <ArrowLeft size={14} /> Back
-        </button>
-        <button onClick={onNext} className="flex items-center gap-1 text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700 px-4 py-2 rounded-md border border-indigo-700 transition-colors cursor-pointer">
-          Next <ArrowRight size={14} />
-        </button>
-      </div>
+
     </div>
   );
 }
 
 /* ══════════════════ STEP 4 ══════════════════ */
-export function Step4({ A, b, actualE, actualS, onRestart }: {
-  A: number[][]; b: number[]; actualE: number[]; actualS: number[]; onRestart: () => void;
+export function Step4({ finalSys, actualE, actualS, onRestart }: {
+  finalSys: EqRow[]; actualE: number[]; actualS: number[]; onRestart: () => void;
 }) {
   const [guess, setGuess] = useState<string[]>(Array(M).fill("0"));
-  const [result, setResult] = useState<{ correct: boolean; solvedS: number[] | null } | null>(null);
+  const [result, setResult] = useState<{ correct: boolean; res: ReturnType<typeof solveFromElimination> } | null>(null);
   const [revealed, setRevealed] = useState(false);
 
   const checkGuess = () => {
     const eGuess = guess.map(Number);
-    const solvedS = trySolve(A, b, eGuess);
-    const correct = solvedS !== null && actualS.every((v, i) => v === solvedS[i]);
-    setResult({ correct, solvedS });
+    const res = solveFromElimination(finalSys, eGuess);
+    const correct = res.success && actualS.every((v, i) => v === res.s![i]);
+    setResult({ correct, res });
   };
 
   const reveal = () => setRevealed(true);
@@ -367,23 +345,33 @@ export function Step4({ A, b, actualE, actualS, onRestart }: {
   return (
     <div className="flex flex-col items-center gap-4 w-full">
       <p className="text-sm text-gray-600 text-center max-w-lg">
-        The <b>LWE decision problem</b>: given <b>A</b> and <b>b</b>, is <b>b = As + e</b> for some small <b>e</b>, or is <b>b</b> random?
-        Try to guess the error vector <b>e</b> and recover <b>s</b>.
+        The <b>LWE decision problem</b>: given equations, is <b>b = As + e</b> for some small <b>e</b>?
+        Let's try to find <b>s</b> using the eliminated equations.
       </p>
 
       <div className="flex gap-6 items-start">
-        {/* Public info: A and b */}
+        {/* Public info: Eliminated system */}
         <div className="flex flex-col gap-2">
-          <span className="text-[10px] uppercase font-bold text-gray-500 text-center">Public: A and b</span>
-          <div className="flex items-center gap-2">
-            <div className="bg-gray-50 border rounded p-2">
-              {A.map((row, i) => (
-                <div key={i} className="flex gap-1">
-                  {row.map((v, j) => (
-                    <span key={j} className="w-7 h-6 flex items-center justify-center font-mono text-xs text-gray-700">{v}</span>
-                  ))}
-                  <span className="w-4 text-center text-gray-300">|</span>
-                  <span className="w-7 h-6 flex items-center justify-center font-mono text-xs text-green-700 font-semibold">{b[i]}</span>
+          <span className="text-[10px] uppercase font-bold text-gray-500 text-center">Eliminated System</span>
+          <div className="bg-gray-50 rounded-lg border p-3">
+            <div className="flex flex-col gap-1.5">
+              {finalSys.map((eq, i) => (
+                <div key={i} className="flex items-center gap-2 font-mono text-xs px-2 py-1.5 rounded bg-white border border-gray-100">
+                  <div className="flex gap-0.5 items-center min-w-[180px]">
+                    {eq.coeffs.map((c, j) => (
+                      <React.Fragment key={j}>
+                        <span className={`inline-block w-[22px] text-center font-semibold ${c === 0 ? "text-gray-300" : "text-gray-800"}`}>{c}</span>
+                        <span className="text-gray-400 text-[10px]">s<sub>{j + 1}</sub></span>
+                        {j < N - 1 && <span className="text-gray-300 mx-0.5">+</span>}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                  <span className="text-gray-400">=</span>
+                  <span className="font-semibold text-gray-800 w-[20px] text-center">{eq.rhs}</span>
+                  <span className="text-gray-300">−</span>
+                  <span className="text-[10px] text-gray-500 font-medium">
+                    ({formatErrExpr(eq.errCoeffs)})
+                  </span>
                 </div>
               ))}
             </div>
@@ -407,19 +395,32 @@ export function Step4({ A, b, actualE, actualS, onRestart }: {
 
         {/* Result */}
         {result && (
-          <div className="flex flex-col gap-2 items-center">
+          <div className="flex flex-col gap-2 items-start max-w-md">
             <span className="text-[10px] uppercase font-bold text-gray-500">Result</span>
-            {result.correct ? (
-              <div className="bg-green-50 border border-green-300 rounded-lg p-3 text-center">
-                <div className="text-green-700 font-bold text-sm flex items-center gap-1 justify-center"><Check size={14} /> Correct!</div>
-                <div className="text-xs text-green-600 mt-1">s = [{result.solvedS?.join(", ")}]</div>
+            <div className={`border rounded-lg p-3 w-full ${result.correct ? 'bg-green-50 border-green-300' : 'bg-red-50 border-red-300'}`}>
+              <div className={`font-bold text-sm flex items-center gap-1 mb-2 ${result.correct ? 'text-green-700' : 'text-red-700'}`}>
+                {result.correct ? <Check size={14} /> : <X size={14} />}
+                {result.correct ? "Correct!" : "No solution"}
               </div>
-            ) : (
-              <div className="bg-red-50 border border-red-300 rounded-lg p-3 text-center">
-                <div className="text-red-700 font-bold text-sm flex items-center gap-1 justify-center"><X size={14} /> No solution</div>
-                <div className="text-xs text-red-600 mt-1">This error guess doesn't lead to a valid s.</div>
+
+              <div className={`text-xs space-y-2 ${result.correct ? 'text-green-800' : 'text-red-800'}`}>
+                {result.res.logs.map((log, idx) => (
+                  <div key={idx} className={`${log.type === 'conflict' ? 'font-bold text-red-600 bg-red-100 p-1.5 rounded' : ''} ${log.type === 'success' ? 'font-bold text-green-600' : ''}`}>
+                    {log.text}
+                    {log.math && (
+                      <div className="bg-white/60 p-1.5 rounded text-center font-mono mt-1 text-gray-800 border shadow-sm">
+                        {log.math}
+                      </div>
+                    )}
+                  </div>
+                ))}
+                {result.correct && (
+                  <div className="mt-2 text-center font-bold text-green-700 bg-green-200/50 p-2 rounded">
+                    s = [{result.res.s?.join(", ")}]
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         )}
       </div>
@@ -440,7 +441,7 @@ export function Step4({ A, b, actualE, actualS, onRestart }: {
 
       <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-3 text-xs text-indigo-700 max-w-lg text-center">
         Even in this tiny example with only 3 unknowns, guessing the correct error among 5⁴ = 625 possibilities is non-trivial.
-        Real LWE uses <b>n = 256</b> and <b>q = 3329</b> — the search space is astronomically large.
+        Real LWE uses <b>n = 256</b> and <b>q = 3329</b> — the search space becomes eqhaustive.
       </div>
 
       <button onClick={onRestart}

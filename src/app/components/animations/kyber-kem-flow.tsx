@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { User, Shield, KeyRound, Lock, Hash, CheckCircle2, XCircle, RefreshCw, Pause, Play, Send } from "lucide-react";
+import { Play, Pause, RotateCcw, ArrowRight } from "lucide-react";
 import { useGlobalAnimationSpeed, AnimationSpeedControl } from "./animation-speed-store";
 
 export function KyberKEMFlowAnimation() {
-  const [step, setStep] = useState(0);
-  const [isPaused, setIsPaused] = useState(true);
   const [speed] = useGlobalAnimationSpeed();
-  const maxSteps = 10;
+  const [step, setStep] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const maxSteps = 9;
+
+  useEffect(() => {
+    if (step >= maxSteps) setStep(0);
+  }, [maxSteps, step]);
 
   useEffect(() => {
     if (isPaused) return;
@@ -14,23 +18,23 @@ export function KyberKEMFlowAnimation() {
       setStep((prev) => (prev + 1) % maxSteps);
     }, 5000 / speed);
     return () => clearTimeout(timer);
-  }, [isPaused, speed, step]);
+  }, [isPaused, speed, step, maxSteps]);
 
   useEffect(() => {
-    const handleNext = (e: Event) => {
+    const handleNext = (ev: Event) => {
       if (step < maxSteps - 1) {
-        e.preventDefault();
+        ev.preventDefault();
         setStep((prev) => prev + 1);
       }
     };
-    const handlePrev = (e: Event) => {
+    const handlePrev = (ev: Event) => {
       if (step > 0) {
-        e.preventDefault();
+        ev.preventDefault();
         setStep((prev) => prev - 1);
       }
     };
-    const handleSpace = (e: Event) => {
-      e.preventDefault();
+    const handleSpace = (ev: Event) => {
+      ev.preventDefault();
       setIsPaused((p) => !p);
     };
     window.addEventListener("slide-next", handleNext);
@@ -41,243 +45,222 @@ export function KyberKEMFlowAnimation() {
       window.removeEventListener("slide-prev", handlePrev);
       window.removeEventListener("slide-space", handleSpace);
     };
-  }, [step]);
+  }, [step, maxSteps]);
 
   const reset = () => {
     setStep(0);
-    setIsPaused(true);
+    setIsPaused(false);
   };
 
-  const togglePause = () => {
-    if (isPaused) {
-      setStep((prev) => (prev + 1) % maxSteps);
+  const getDescription = () => {
+    switch (step) {
+      case 0: return "1. Key Gen: Alice samples secret s and small error e from the set of small polynomials S_η.";
+      case 1: return "2. Key Gen: Alice computes public key t = A·s + e and publishes (A, t). She keeps s secret.";
+      case 2: return "3. Encapsulate: Bob generates random message m and samples randomness r, e₁, e₂ from S_η.";
+      case 3: return "4. Encapsulate: Bob computes ciphertext c₁ = Aᵀr + e₁  and  c₂ = tᵀr + e₂ + ⌈q/2⌋·m.";
+      case 4: return "5. Transmission: Bob sends ciphertext (c₁, c₂) to Alice and derives shared key K = G(m, H(ek)).";
+      case 5: return "6. Decapsulate: Alice computes c₂ − sᵀc₁ = ⌈q/2⌋·m + small error, and rounds to recover m'.";
+      case 6: return "7. FO Transform: Alice re-derives (K', R') = G(m', H(ek)) and re-encrypts m' to produce c'.";
+      case 7: return "8. Valid: c = c' ✓ → Alice returns K'. Both parties now share the same key K.";
+      case 8: return "9. Rejection: If c ≠ c', Alice returns K̄ = J(z, c) — a pseudorandom key. Attacker learns nothing.";
+      default: return "";
     }
-    setIsPaused(!isPaused);
-  };
-
-  const descriptions: Record<number, React.ReactNode> = {
-    0: <p><strong>Key Generation:</strong> Alice runs <strong>K-PKE.KeyGen</strong> to create a Kyber-PKE encryption key (A, t) and a decryption key s.</p>,
-    1: <p><strong>Key Generation:</strong> Alice samples a random <strong>z ∈ &#123;0,1&#125;²⁵⁶</strong> for implicit rejection and assembles the decapsulation key dk = (s, ek, H(ek), z).</p>,
-    2: <p><strong>Encapsulation:</strong> Bob obtains Alice&apos;s encapsulation key <strong>ek = (A, t)</strong> and generates a random message <strong>m ∈ &#123;0,1&#125;²⁵⁶</strong>.</p>,
-    3: <p><strong>Encapsulation:</strong> Bob computes <strong>(K, R) = G(m, H(ek))</strong>. K is the shared key; R is the deterministic seed for encryption — this makes the process <strong>reproducible</strong>.</p>,
-    4: <p><strong>Encapsulation:</strong> Bob encrypts m using K-PKE.Enc with the deterministic seed R. The ciphertext c is sent to Alice along with output key K.</p>,
-    5: <p><strong>Decapsulation:</strong> Alice decrypts the ciphertext c using her private key s to recover <strong>m&apos;</strong>.</p>,
-    6: <p><strong>Decapsulation:</strong> Alice computes <strong>(K&apos;, R&apos;) = G(m&apos;, H(ek))</strong> and a rejection key <strong>K̄ = J(z, c)</strong>.</p>,
-    7: <p><strong>Re-encryption Check:</strong> Alice re-encrypts m&apos; using R&apos; to produce c&apos;. She then compares <strong>c vs c&apos;</strong> to verify authenticity.</p>,
-    8: <p><strong>Valid Ciphertext (c = c&apos;):</strong> The re-encryption matches! Alice returns <strong>K&apos;</strong> — the legitimate shared secret. Both parties now share K.</p>,
-    9: <p><strong>Invalid Ciphertext (c ≠ c&apos;):</strong> If re-encryption doesn&apos;t match, the ciphertext was tampered with. Alice returns <strong>K̄ = J(z, c)</strong> — a pseudorandom rejection key that reveals nothing about s.</p>,
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-5 bg-gray-50 rounded-xl border border-gray-200 my-4 shadow-sm">
-      {/* Header */}
-      <div className="flex justify-between items-start mb-4">
-        <div>
-          <h3 className="text-lg font-bold text-gray-800 m-0">Kyber-KEM Protocol Flow</h3>
-          <p className="text-xs text-gray-500 mt-0.5">Fujisaki-Okamoto transform: K-PKE → ML-KEM</p>
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <div className="flex gap-2">
-            <button
-              onClick={togglePause}
-              className="flex-1 flex justify-center items-center gap-1.5 text-xs text-gray-600 hover:text-indigo-600 transition-colors bg-white px-2.5 py-1 rounded-md border shadow-sm cursor-pointer"
-            >
-              {isPaused ? <Play size={12} /> : <Pause size={12} />}
-              {isPaused ? "Play" : "Pause"}
-            </button>
-            <button
-              onClick={reset}
-              className="flex-1 flex justify-center items-center gap-1.5 text-xs text-gray-600 hover:text-indigo-600 transition-colors bg-white px-2.5 py-1 rounded-md border shadow-sm cursor-pointer"
-            >
-              <RefreshCw size={12} />
-              Restart
-            </button>
-          </div>
-          <AnimationSpeedControl baseTimeMs={5000} />
-        </div>
-      </div>
-
-      {/* Protocol diagram */}
-      <div className="relative">
-        {/* Alice and Bob headers */}
-        <div className="flex justify-between mb-3">
-          <div className="flex items-center gap-2 w-36">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 shadow-sm transition-all duration-500 ${
-              step >= 8 ? "bg-emerald-100 border-emerald-300" : "bg-pink-100 border-pink-300"
-            }`}>
-              <User size={18} className={step >= 8 ? "text-emerald-600" : "text-pink-600"} />
-            </div>
-            <div>
-              <p className="font-bold text-gray-800 text-xs">Alice</p>
-              <p className="text-[10px] text-gray-500">Key owner</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 w-36 justify-end">
-            <div>
-              <p className="font-bold text-gray-800 text-xs text-right">Bob</p>
-              <p className="text-[10px] text-gray-500 text-right">Sender</p>
-            </div>
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center border-2 shadow-sm transition-all duration-500 ${
-              step >= 8 ? "bg-emerald-100 border-emerald-300" : "bg-blue-100 border-blue-300"
-            }`}>
-              <User size={18} className={step >= 8 ? "text-emerald-600" : "text-blue-600"} />
-            </div>
-          </div>
-        </div>
-
-        {/* Timeline */}
-        <div className="relative mx-5">
-          <div className="absolute left-[68px] top-0 bottom-0 w-0.5 bg-gray-200" />
-          <div className="absolute right-[68px] top-0 bottom-0 w-0.5 bg-gray-200" />
-
-          <div className="flex flex-col gap-1 py-2">
-
-            {/* Phase: KEY GENERATION */}
-            <PhaseLabel text="KEY GENERATION" active={step <= 1} />
-
-            {/* Step 0: K-PKE.KeyGen */}
-            <ActionRow
-              active={step === 0}
-              done={step > 0}
-              side="left"
-              label="K-PKE.KeyGen"
-              icon={<KeyRound size={11} />}
-              details="Generate (A, t) and s"
-              color="pink"
-            />
-
-            {/* Step 1: Assemble dk */}
-            <ActionRow
-              active={step === 1}
-              done={step > 1}
-              side="left"
-              label="Assemble Keys"
-              icon={<Shield size={11} />}
-              details="ek = (A,t), dk = (s, ek, H(ek), z)"
-              color="pink"
-            />
-
-            {/* Phase: ENCAPSULATION */}
-            <PhaseLabel text="ENCAPSULATION" active={step >= 2 && step <= 4} />
-
-            {/* Step 2: Bob gets ek, generates m */}
-            <ActionRow
-              active={step === 2}
-              done={step > 2}
-              side="right"
-              label="Sample m"
-              icon={<Hash size={11} />}
-              details="m ∈ᵣ {0,1}²⁵⁶"
-              color="blue"
-            />
-
-            {/* Step 3: Derive K, R */}
-            <ActionRow
-              active={step === 3}
-              done={step > 3}
-              side="right"
-              label="Hash"
-              icon={<Hash size={11} />}
-              details="(K, R) = G(m, H(ek))"
-              color="blue"
-            />
-
-            {/* Step 4: Encrypt + send */}
-            <MessageRow
-              active={step === 4}
-              done={step > 4}
-              direction="left"
-              label="Ciphertext c"
-              icon={<Send size={11} className="rotate-180" />}
-              details="c = K-PKE.Enc(ek, m; R)"
-              color="indigo"
-            />
-
-            {/* Phase: DECAPSULATION */}
-            <PhaseLabel text="DECAPSULATION" active={step >= 5 && step <= 9} />
-
-            {/* Step 5: Decrypt */}
-            <ActionRow
-              active={step === 5}
-              done={step > 5}
-              side="left"
-              label="Decrypt"
-              icon={<Lock size={11} />}
-              details="m' = K-PKE.Dec(s, c)"
-              color="pink"
-            />
-
-            {/* Step 6: Re-derive */}
-            <ActionRow
-              active={step === 6}
-              done={step > 6}
-              side="left"
-              label="Re-derive"
-              icon={<Hash size={11} />}
-              details="(K', R') = G(m', H(ek)),  K̄ = J(z, c)"
-              color="pink"
-            />
-
-            {/* Step 7: Re-encrypt and compare */}
-            <ActionRow
-              active={step === 7}
-              done={step > 7}
-              side="left"
-              label="Re-encrypt"
-              icon={<Shield size={11} />}
-              details="c' = K-PKE.Enc(ek, m'; R')  →  c =? c'"
-              color="amber"
-            />
-
-            {/* Step 8: Accept - c == c' */}
-            <div className={`flex items-center justify-center py-1 transition-all duration-500 ${step >= 8 ? "opacity-100" : "opacity-20"} ${step === 8 ? "scale-[1.02]" : ""}`}>
-              <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border-2 transition-all duration-500 ${
-                step === 8 ? "bg-emerald-50 border-emerald-400 shadow-md" : step > 8 ? "bg-emerald-50 border-emerald-200" : "bg-gray-50 border-gray-200"
-              }`}>
-                <CheckCircle2 size={14} className="text-emerald-600" />
-                <div className="text-[10px]">
-                  <span className="font-bold text-emerald-800">c = c&apos; → return K&apos;</span>
-                  <span className="text-emerald-600 ml-2">Both parties share the key K</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Step 9: Reject - c != c' */}
-            <div className={`flex items-center justify-center py-1 transition-all duration-500 ${step >= 9 ? "opacity-100" : "opacity-20"} ${step === 9 ? "scale-[1.02]" : ""}`}>
-              <div className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border-2 transition-all duration-500 ${
-                step === 9 ? "bg-red-50 border-red-400 shadow-md" : "bg-gray-50 border-gray-200"
-              }`}>
-                <XCircle size={14} className="text-red-600" />
-                <div className="text-[10px]">
-                  <span className="font-bold text-red-800">c ≠ c&apos; → return K̄ = J(z, c)</span>
-                  <span className="text-red-600 ml-2">Implicit rejection — attacker learns nothing</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      {/* Description */}
-      <div className="mt-3 bg-white p-3 rounded-lg border text-sm text-gray-600 text-center min-h-[3rem] flex items-center justify-center shadow-sm">
-        {descriptions[step]}
-      </div>
-
-      {/* Progress tiles */}
-      <div className="mt-3 w-full flex gap-1.5">
-        {Array.from({ length: maxSteps }, (_, s) => (
+    <div className="flex flex-col items-center w-full max-w-4xl mx-auto p-4 bg-white rounded-xl shadow-sm border border-gray-100 text-sm overflow-hidden">
+      {/* Top Controls Row */}
+      <div className="flex flex-wrap w-full items-center justify-between mb-4 px-2">
+        <h3 className="text-lg font-bold text-gray-800 m-0">Kyber-KEM Protocol</h3>
+        <div className="flex gap-2 items-center">
           <button
-            aria-label={`Go to step ${s + 1}`}
-            key={s}
-            onClick={() => setStep(s)}
-            className={`flex-1 h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-              step === s ? "bg-indigo-600 shadow-sm" : s < step ? "bg-indigo-300" : "bg-gray-200 hover:bg-gray-300"
-            }`}
-          />
-        ))}
+            onClick={() => setIsPaused(!isPaused)}
+            className="flex justify-center items-center gap-1.5 text-xs text-gray-600 hover:text-indigo-600 transition-colors bg-gray-50 px-3 py-1.5 rounded border shadow-sm cursor-pointer"
+          >
+            {isPaused ? <Play size={14} /> : <Pause size={14} />}
+            {isPaused ? "Play" : "Pause"}
+          </button>
+          <button
+            onClick={reset}
+            className="flex justify-center items-center gap-1.5 text-xs text-gray-600 hover:text-indigo-600 transition-colors bg-gray-50 px-3 py-1.5 rounded border shadow-sm cursor-pointer"
+          >
+            <RotateCcw size={14} />
+            Restart
+          </button>
+          <div className="scale-90 origin-right">
+            <AnimationSpeedControl baseTimeMs={5000} />
+          </div>
+        </div>
       </div>
-      <div className="mt-2 flex w-full justify-between items-center text-xs text-gray-400 px-4">
+
+      {/* Header Info */}
+      <div className="h-8 flex items-center justify-center mb-4 px-2 w-full">
+        <h3 className="text-sm font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 text-center">
+          {getDescription()}
+        </h3>
+      </div>
+
+      {/* Animation Grid */}
+      <div className="flex w-full items-stretch justify-center gap-2 min-h-[380px] relative">
+
+        {/* ALICE COLUMN */}
+        <div className="flex-1 flex flex-col items-center bg-pink-50/50 border border-pink-200 rounded-xl p-3 z-10 w-[30%]">
+          <div className="font-bold text-pink-700 text-base mb-3">Alice</div>
+
+          <div className="flex flex-col gap-2.5 w-full">
+            {/* Secret key */}
+            <Card show={step >= 0} border="border-2 border-red-200">
+              <Label color="text-red-700">Secret Key (private)</Label>
+              <Mono>s ∈ S<sub>η</sub></Mono>
+            </Card>
+
+            {/* Error */}
+            <Card show={step >= 0}>
+              <Label>Error (small, discarded)</Label>
+              <Mono>e ∈ S<sub>η</sub></Mono>
+            </Card>
+
+            {/* Compute t */}
+            <Card show={step >= 1}>
+              <Label>Compute public key</Label>
+              <Mono size="sm">t = A · s + e</Mono>
+              <Detail>Publish ek = (A, t)</Detail>
+            </Card>
+
+            {/* Decryption */}
+            <Card show={step >= 5} border="border-green-200">
+              <Label color="text-green-700">Decrypt</Label>
+              <Mono size="sm">c₂ − s<sup>T</sup>c₁</Mono>
+              <Detail>= ⌈q/2⌋·m + <em>small noise</em></Detail>
+              <Mono size="sm" bold color="text-green-700">Round → m'</Mono>
+            </Card>
+
+            {/* FO Transform */}
+            <Card show={step >= 6} border="border-amber-200">
+              <Label color="text-amber-700">FO Transform</Label>
+              <Detail>(K', R') = G(m', H(ek))</Detail>
+              <Detail>c' = Enc(ek, m'; R')</Detail>
+              <Detail>K̄ = J(z, c)</Detail>
+            </Card>
+
+            {/* Valid result */}
+            <div className={`transition-all duration-500 w-full flex justify-center ${step >= 7 ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
+              <div className="bg-green-100 text-green-800 px-3 py-1.5 rounded-lg border-2 border-green-400 font-bold font-mono text-xs shadow-inner">
+                c = c' → return K'
+              </div>
+            </div>
+
+            {/* Rejection result */}
+            <div className={`transition-all duration-500 w-full flex justify-center ${step >= 8 ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
+              <div className="bg-red-100 text-red-800 px-3 py-1.5 rounded-lg border-2 border-red-400 font-bold font-mono text-xs shadow-inner">
+                c ≠ c' → return K̄
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* PUBLIC CHANNEL COLUMN */}
+        <div className="flex-1 flex flex-col items-center bg-gray-50 border-x border-gray-200 px-2 py-3 relative w-[40%]">
+          <div className="font-bold text-gray-600 text-sm mb-3">Public Channel</div>
+
+          {/* Public parameter A */}
+          <div className={`transition-opacity duration-500 bg-white border border-gray-300 shadow-sm rounded px-3 py-2 flex flex-col items-center w-full max-w-[180px] ${step >= 0 ? "opacity-100" : "opacity-0"}`}>
+            <span className="text-[9px] uppercase font-bold text-gray-500 border-b border-gray-100 pb-1 mb-1 w-full text-center">Public Parameter</span>
+            <span className="font-mono text-xs font-bold text-gray-700">A ∈ R<sub>q</sub><sup>k×k</sup></span>
+          </div>
+
+          {/* Public Key */}
+          <div className={`transition-opacity duration-500 bg-white border border-blue-300 shadow-sm rounded px-3 py-2 flex flex-col items-center w-full max-w-[180px] mt-2 ${step >= 1 ? "opacity-100" : "opacity-0"}`}>
+            <span className="text-[10px] uppercase font-bold text-blue-600 border-b border-gray-100 pb-1 mb-1 w-full text-center">Alice's Public Key</span>
+            <span className="font-mono text-xs font-bold text-blue-800">ek = (A, t)</span>
+          </div>
+
+          {/* Flying Cipher */}
+          <div className="flex-1 w-full flex flex-col justify-center relative min-h-[100px]">
+            <div className={`absolute left-0 right-0 flex flex-col items-center gap-1 transition-all duration-700 ease-in-out ${step === 4 ? "top-1/4 opacity-100" : step > 4 ? "top-1/4 opacity-0 scale-90 -translate-x-5" : "top-0 opacity-0 translate-x-5"}`}>
+              <div className="bg-purple-100 border border-purple-300 text-purple-800 px-3 py-1.5 rounded-full shadow-md font-mono text-xs flex items-center gap-2 font-bold z-20">
+                <ArrowRight size={12} className="text-gray-400 rotate-180" />
+                (c₁, c₂)
+                <ArrowRight size={12} className="text-gray-400 rotate-180" />
+              </div>
+            </div>
+
+            {/* Shared key */}
+            <div className={`absolute left-0 right-0 bottom-2 flex justify-center transition-all duration-500 ${step >= 7 ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
+              <div className="bg-emerald-50 border-2 border-emerald-300 rounded-lg px-3 py-2 text-center shadow-sm">
+                <span className="text-[9px] uppercase font-bold text-emerald-600 block">Shared Key</span>
+                <span className="font-mono text-xs font-bold text-emerald-800">K</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* BOB COLUMN */}
+        <div className="flex-1 flex flex-col items-center bg-blue-50/50 border border-blue-200 rounded-xl p-3 z-10 w-[30%]">
+          <div className="font-bold text-blue-700 text-base mb-3">Bob</div>
+
+          <div className="flex flex-col gap-2.5 w-full">
+            {/* Message */}
+            <Card show={step >= 2} border="border-blue-100">
+              <Label>Random message</Label>
+              <Mono bold>m ∈<sub>R</sub> {"{0,1}"}²⁵⁶</Mono>
+            </Card>
+
+            {/* Randomness */}
+            <Card show={step >= 2} border="border-blue-100">
+              <Label>Sample randomness</Label>
+              <Mono size="sm">r, e₁, e₂ ∈ S<sub>η</sub></Mono>
+            </Card>
+
+            {/* Compute c₁ */}
+            <Card show={step >= 3} border="border-blue-100">
+              <Label>Encrypt c₁</Label>
+              <Mono size="sm" bold color="text-blue-700">c₁ = A<sup>T</sup>r + e₁</Mono>
+            </Card>
+
+            {/* Compute c₂ */}
+            <Card show={step >= 3} border="border-blue-100">
+              <Label>Encrypt c₂</Label>
+              <Mono size="sm" bold color="text-blue-700">c₂ = t<sup>T</sup>r + e₂ + ⌈q/2⌋·m</Mono>
+            </Card>
+
+            {/* Derive K */}
+            <Card show={step >= 4} border="border-indigo-200">
+              <Label color="text-indigo-700">Derive shared key</Label>
+              <Mono size="sm">(K, R) = G(m, H(ek))</Mono>
+              <Detail>K is the shared secret</Detail>
+              <Detail>R seeds the encryption</Detail>
+            </Card>
+
+            {/* Bob's key */}
+            <div className={`transition-all duration-500 w-full mt-auto flex justify-center ${step >= 4 ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
+              <div className="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-lg border-2 border-indigo-300 font-bold font-mono text-xs shadow-inner mt-1">
+                Shared key: K
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Progress Tiles */}
+      <div className="mt-4 flex flex-col items-center gap-3 w-full">
+        <div className="w-full flex gap-1 px-4">
+          {[...Array(maxSteps)].map((_, s) => (
+            <button
+              key={s}
+              onClick={() => setStep(s)}
+              className={`flex-1 h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                step === s
+                  ? "bg-blue-600 shadow-sm"
+                  : s < step
+                  ? "bg-indigo-300 hover:bg-indigo-400"
+                  : "bg-gray-200 hover:bg-gray-300"
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="mt-4 flex w-full justify-between items-center text-xs text-gray-400 px-4">
         <span>Step {step + 1} / {maxSteps}</span>
         <span>Use Space to pause, arrows to step</span>
       </div>
@@ -285,149 +268,25 @@ export function KyberKEMFlowAnimation() {
   );
 }
 
-/* Helper Components */
+/* ── Shared helper components ── */
 
-function PhaseLabel({ text, active }: { text: string; active: boolean }) {
+function Card({ show, border, children }: { show: boolean; border?: string; children: React.ReactNode }) {
   return (
-    <div className={`flex items-center justify-center py-0.5 transition-all duration-500 ${active ? "opacity-100" : "opacity-40"}`}>
-      <span className={`text-[9px] font-bold uppercase tracking-widest px-3 py-0.5 rounded-full border transition-all duration-500 ${
-        active ? "bg-gray-100 text-gray-700 border-gray-300" : "bg-gray-50 text-gray-400 border-gray-200"
-      }`}>
-        {text}
-      </span>
+    <div className={`transition-all duration-500 w-full bg-white p-2 rounded shadow-sm flex flex-col items-center ${border || "border border-pink-100"} ${show ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"}`}>
+      {children}
     </div>
   );
 }
 
-function ActionRow({
-  active,
-  done,
-  side,
-  label,
-  icon,
-  details,
-  color,
-}: {
-  active: boolean;
-  done: boolean;
-  side: "left" | "right";
-  label: string;
-  icon: React.ReactNode;
-  details: string;
-  color: string;
-}) {
-  const visible = active || done;
-  const isLeft = side === "left";
-  const colorClasses: Record<string, { bg: string; text: string; border: string }> = {
-    pink: { bg: "bg-pink-50", text: "text-pink-700", border: "border-pink-300" },
-    blue: { bg: "bg-blue-50", text: "text-blue-700", border: "border-blue-300" },
-    amber: { bg: "bg-amber-50", text: "text-amber-700", border: "border-amber-300" },
-    indigo: { bg: "bg-indigo-50", text: "text-indigo-700", border: "border-indigo-300" },
-  };
-  const c = colorClasses[color] || colorClasses.indigo;
-
-  return (
-    <div className={`flex items-center py-0.5 transition-all duration-500 ${visible ? "opacity-100" : "opacity-20"} ${active ? "scale-[1.01]" : ""}`}>
-      {/* Left label */}
-      <div className="w-[68px] flex justify-end pr-2">
-        {isLeft && visible && (
-          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded transition-all duration-300 ${
-            active ? `${c.bg} ${c.text} border ${c.border} shadow-sm` : `${c.text} opacity-60`
-          }`}>
-            {icon} {label}
-          </span>
-        )}
-      </div>
-      {/* Center detail */}
-      <div className="flex-1 flex items-center justify-center">
-        {visible && (
-          <span className={`text-[10px] px-2 py-0.5 rounded border transition-all duration-300 font-mono ${
-            active ? `${c.bg} ${c.border} ${c.text} shadow-sm font-medium` : "bg-white border-gray-100 text-gray-500"
-          }`}>
-            {details}
-          </span>
-        )}
-      </div>
-      {/* Right label */}
-      <div className="w-[68px] flex justify-start pl-2">
-        {!isLeft && visible && (
-          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded transition-all duration-300 ${
-            active ? `${c.bg} ${c.text} border ${c.border} shadow-sm` : `${c.text} opacity-60`
-          }`}>
-            {label} {icon}
-          </span>
-        )}
-      </div>
-    </div>
-  );
+function Label({ children, color }: { children: React.ReactNode; color?: string }) {
+  return <span className={`text-[9px] uppercase font-bold ${color || "text-gray-500"}`}>{children}</span>;
 }
 
-function MessageRow({
-  active,
-  done,
-  direction,
-  label,
-  icon,
-  details,
-  color,
-}: {
-  active: boolean;
-  done: boolean;
-  direction: "left" | "right";
-  label: string;
-  icon: React.ReactNode;
-  details: string;
-  color: string;
-}) {
-  const visible = active || done;
-  const arrowRight = direction === "right";
-  const colorClasses: Record<string, { text: string; border: string; bg: string }> = {
-    indigo: { text: "text-indigo-700", border: "border-indigo-300", bg: "bg-indigo-50" },
-    pink: { text: "text-pink-700", border: "border-pink-300", bg: "bg-pink-50" },
-    blue: { text: "text-blue-700", border: "border-blue-300", bg: "bg-blue-50" },
-  };
-  const c = colorClasses[color] || colorClasses.indigo;
+function Mono({ children, size, bold, color }: { children: React.ReactNode; size?: "sm" | "xs"; bold?: boolean; color?: string }) {
+  const sz = size === "xs" ? "text-[10px]" : size === "sm" ? "text-xs" : "text-sm";
+  return <span className={`font-mono ${sz} ${bold ? "font-semibold" : ""} ${color || "text-gray-700"}`}>{children}</span>;
+}
 
-  return (
-    <div className={`flex items-center py-0.5 transition-all duration-500 ${visible ? "opacity-100" : "opacity-20"} ${active ? "scale-[1.02]" : ""}`}>
-      {/* Left label */}
-      <div className="w-[68px] flex justify-end pr-2">
-        {!arrowRight && visible && (
-          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded transition-all duration-300 ${
-            active ? `${c.bg} ${c.text} border ${c.border} shadow-sm` : `${c.text} opacity-60`
-          }`}>
-            {label}
-          </span>
-        )}
-      </div>
-      {/* Arrow */}
-      <div className="flex-1 flex items-center px-1">
-        <div className={`flex-1 relative h-6 flex items-center ${!visible ? "opacity-30" : ""}`}>
-          <div className="absolute inset-y-0 left-0 right-0 flex items-center">
-            <div className={`w-full h-px bg-indigo-300`} />
-          </div>
-          <div className={`absolute ${arrowRight ? "right-0" : "left-0"} text-indigo-400`}>
-            {arrowRight ? "▶" : "◀"}
-          </div>
-          {visible && (
-            <div className={`absolute inset-0 flex items-center ${arrowRight ? "justify-start pl-3" : "justify-end pr-3"}`}>
-              <span className={`text-[9px] bg-white px-1.5 py-0.5 rounded border transition-all duration-300 ${c.border} ${c.text} ${active ? "shadow-sm font-medium" : ""}`}>
-                {icon} {details}
-              </span>
-            </div>
-          )}
-        </div>
-      </div>
-      {/* Right label */}
-      <div className="w-[68px] flex justify-start pl-2">
-        {arrowRight && visible && (
-          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded transition-all duration-300 ${
-            active ? `${c.bg} ${c.text} border ${c.border} shadow-sm` : `${c.text} opacity-60`
-          }`}>
-            {label}
-          </span>
-        )}
-      </div>
-    </div>
-  );
+function Detail({ children }: { children: React.ReactNode }) {
+  return <span className="text-[10px] text-gray-500 font-mono">{children}</span>;
 }

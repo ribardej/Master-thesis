@@ -2,15 +2,15 @@ import type { Lesson } from "../../types";
 
 export const lesson7: Lesson = {
   id: "module-2-lesson-7",
-  title: "ML-KEM",
+  title: "Post Quantum Cryptography",
   slides: [
     {
       title: "ML-KEM",
-      content: `# Chapter 7: ML-KEM in Detail`
+      content: `# Chapter 7: Post Quantum Cryptography in Detail`
     },
     {
       title: "LWE: Math Prerequisites",
-      content: `# Learning with Errors — Mathematical Prerequisites
+      content: `# Learning with Errors - math prerequisites
 
 - **Integers modulo $q$** ($\\mathbb{Z}_q$): The ring of integers $\\{0, 1, \\dots, q-1\\}$ with arithmetic performed modulo $q$
 
@@ -39,13 +39,21 @@ Given $A \\in_R \\mathbb{Z}_q^{m \\times n}$ and $b = As + e \\pmod{q}$, find $s
 
 $$\\underbrace{\\begin{bmatrix} & & \\\\\\\\ & A & \\\\\\\\ & & \\end{bmatrix}}_{m \\times n} \\times \\underbrace{\\begin{bmatrix} \\\\\\ s \\\\\\ \\end{bmatrix}}_{n \\times 1} + \\underbrace{\\begin{bmatrix} \\\\\\\\ e \\\\\\\\\\ \\end{bmatrix}}_{m \\times 1} = \\underbrace{\\begin{bmatrix} \\\\\\\\\ b \\\\\\\\\\ \\end{bmatrix}}_{m \\times 1} \\pmod{q}$$
 
-Without the error $e$, this is just a system of linear equations — solvable by Gaussian elimination. The small error $e$ makes the problem **computationally hard**.`
+Without the error $e$, this is just a system of linear equations - solvable by Gaussian elimination. The small error $e$ makes the problem **computationally hard**.`
     },
     {
       title: "LWE: Gaussian Elimination",
       content: `
 [COMPONENT: LWEGaussianElimination]`
     },
+    {
+      title: "LWE: Gaussian Elimination",
+      content: `## How to solve LWE using lattices
+      - I will show a specific mapping of LWE instance to Bounded Distance Decoding (BDD) and consequently to Shortest Vector Problem (SVP), which can be solved more efficiently than just guessing the error.
+      -- primal attack using a Kannan embedding
+      `
+    },
+
     {
       title: "LWE-based PKE",
       content: `# LWE-based Public Key Encryption
@@ -74,22 +82,22 @@ Where $\\text{Round}_q(x) = \\begin{cases} 0, & \\text{if } -q/4 \\le x \\text{ 
 The basic LWE-based PKE has a fundamental **practical limitation**:
 
 - It can only encrypt **one bit per ciphertext**
-- The matrix $A$ is completely **unstructured** — requiring $O(n^2)$ storage and computation
+- The matrix $A$ is completely **unstructured** - requiring $O(n^2)$ storage and computation
 
 Cryptographers explored **structured variants** of LWE:
 - **Ring-LWE**: Replace $\\mathbb{Z}_q$ with a polynomial ring $R_q$
 -- Allows encryption of **$n$ bits** at a time
 -- Matrix $A$ gains algebraic structure → more efficient
 
-- **Module-LWE (MLWE)**: A middle ground — vectors of polynomials
+- **Module-LWE (MLWE)**: A middle ground - vectors of polynomials
 -- Flexible security levels by changing vector dimension $k$
 -- Keeps $n$ and $q$ fixed → efficient implementation
 
-No known attacks leverage the additional structure of Ring-LWE or MLWE — the problems remain believed to be hard.`
+No known attacks leverage the additional structure of Ring-LWE or MLWE - the problems remain believed to be equally hard as LWE.`
     },
     {
       title: "Ring-LWE: Polynomial Ring",
-      content: `# Polynomial Ring $R_q$
+      content: `## Polynomial-Ring Learning With Errors (RLWE) - math prerequisites
 
 Introduced by Lyubashevsky, Peikert, and Regev in 2010.
 
@@ -117,10 +125,10 @@ Multiplication is a two-step process: polynomial product, then reduction modulo 
 
 **Example** ($n=4$, $q=17$): $a(x) = 4 + 15x^2 + 2x^3$, $b(x) = 14 + 3x + 5x^2 + 9x^3$
 
-**Step 1 — Classical polynomial product:**
+**Step 1 - Classical polynomial product:**
 $$s(x) = a(x) \\times b(x) \\equiv 5 + 12x + 9x^2 + 7x^3 + 13x^4 + 9x^5 + x^6 \\pmod{17}$$
 
-**Step 2 — Reduction by** $(x^n + 1)$: Since $x^n \\equiv -1 \\pmod{x^n+1}$:
+**Step 2 - Reduction by** $(x^n + 1)$: Since $x^n \\equiv -1 \\pmod{x^n+1}$:
 - $x^4 \\to -1$, $\\quad x^5 \\to -x$, $\\quad x^6 \\to -x^2$
 
 $$s(x) \\bmod (x^4+1) = (5-13) + (12-9)x + (9-1)x^2 + 7x^3$$
@@ -136,9 +144,16 @@ If $c(x) = a(x) \\times b(x)$ in $R_q$, then:
 $$\\begin{bmatrix} c_0 \\\\\\ c_1 \\\\\\ \\vdots \\\\\\ c_{n-1} \\end{bmatrix} = \\underbrace{\\begin{bmatrix} a_0 & -a_{n-1} & \\cdots & -a_1 \\\\\\ a_1 & a_0 & \\cdots & -a_2 \\\\\\ \\vdots & \\vdots & & \\vdots \\\\\\ a_{n-1} & a_{n-2} & \\cdots & a_0 \\end{bmatrix}}_{\\overline{\\text{circ}}(a)} \\begin{bmatrix} b_0 \\\\\\ b_1 \\\\\\ \\vdots \\\\\\ b_{n-1} \\end{bmatrix}$$
 
 **Example** ($n=4$, $q=17$, $a(x) = 4 + 15x^2 + 2x^3$):
-$$\\overline{\\text{circ}}(a) = \\begin{bmatrix} 4 & 15 & 2 & 0 \\\\\\ 0 & 4 & 15 & 2 \\\\\\ 15 & 0 & 4 & 15 \\\\\\ 2 & 15 & 0 & 4 \\end{bmatrix} \\pmod{17}$$
+$$\\overline{\\text{circ}}(a) = \\begin{bmatrix} 4 & 15 & 2 & 0 \\\\\\ 0 & 4 & 15 & 2 \\\\\\ 15 & 0 & 4 & 15 \\\\\\ 2 & 15 & 0 & 4 \\end{bmatrix} \\pmod{17}$$`
+    },
+    {
+      title: "Ring-LWE: Matrix Multiplication Example",
+      content: `# Polynomial Multiplication via Anti-circulant Matrices
 
-This matrix structure is the key to understanding **why Ring-LWE is a special case of LWE** with a structured matrix $A$.`
+The product $a(x) \\times b(x)$:
+$$a(x) \\times b(x) = \\begin{bmatrix} 4 & 15 & 2 & 0 \\\\\\ 0 & 4 & 15 & 2 \\\\\\ 15 & 0 & 4 & 15 \\\\\\ 2 & 15 & 0 & 4 \\end{bmatrix} \\times \\begin{bmatrix} 14 \\\\\\ 3 \\\\\\ 5 \\\\\\ 9 \\end{bmatrix} = \\begin{bmatrix} 9 \\\\\\ 3 \\\\\\ 8 \\\\\\ 7 \\end{bmatrix} \\pmod{17}$$
+
+This matrix structure shows **why Ring-LWE is a special case of LWE** with a structured matrix $A$.`
     },
     {
       title: "Norms and Small Polynomials",
@@ -154,7 +169,7 @@ $$\\|f\\|_\\infty = \\max_i \\|f_i\\|_\\infty$$
 **Set of small polynomials** $S_\\xi$: For a positive integer $\\xi$ small compared to $q/2$:
 $$S_\\xi = \\{f \\in R_q \\mid \\|f\\|_\\infty \\le \\xi\\}$$
 
-These definitions are crucial for ML-KEM — the **secret key** and **error polynomials** are always sampled from $S_\\xi$ with small $\\xi$, ensuring that decryption errors remain bounded.`
+These definitions are crucial for ML-KEM - the **secret key** and **error polynomials** are always sampled from $S_\\xi$ with small $\\xi$, ensuring that decryption errors remain bounded.`
     },
     {
       title: "Ring-LWE: Definition",
@@ -168,13 +183,13 @@ Given the $a_i$ and $b_i$, determine $s$.
 
 This is equivalent to solving a **special case of LWE** where the matrix $A$ has anti-circulant block structure:
 
-$$\\underbrace{\\begin{bmatrix} \\overline{\\text{circ}}(a_1) \\\\\\ \\vdots \\\\\\ \\overline{\\text{circ}}(a_k) \\end{bmatrix}}_{kn \\times n} \\times \\underbrace{\\begin{bmatrix} s \\end{bmatrix}}_{n \\times 1} + \\underbrace{\\begin{bmatrix} e_1 \\\\\\ \\vdots \\\\\\ e_k \\end{bmatrix}}_{kn \\times 1} = \\underbrace{\\begin{bmatrix} b_1 \\\\\\ \\vdots \\\\\\ b_k \\end{bmatrix}}_{kn \\times 1}$$
+$$\\underbrace{\\begin{bmatrix} \\overline{\\text{circ}}(a_1) \\\\\\\\ \\vdots \\\\\\\\ \\overline{\\text{circ}}(a_k) \\end{bmatrix}}_{kn \\times n} \\times \\underbrace{\\begin{bmatrix} \\\\ s \\\\\\ \\end{bmatrix}}_{n \\times 1} + \\underbrace{\\begin{bmatrix} e_1 \\\\\\\\ \\vdots \\\\\\\\ e_k \\end{bmatrix}}_{kn \\times 1} = \\underbrace{\\begin{bmatrix} b_1 \\\\\\\\ \\vdots \\\\\\\\ b_k \\end{bmatrix}}_{kn \\times 1}$$
 
 The structured matrix makes Ring-LWE **more efficient** than standard LWE, while no known attacks exploit this structure.`
     },
     {
       title: "Ring-LWE based PKE",
-      content: `# Ring-LWE based PKE
+      content: `# Ring-LWE based Public Key Encryption scheme
 
 Introduced by Lindner-Peikert (2010). Parameters: $(n, q, B)$
 
@@ -186,7 +201,7 @@ Introduced by Lindner-Peikert (2010). Parameters: $(n, q, B)$
 **Encryption (Bob):** To encrypt $m \\in \\{0,1\\}^n$:
 1. Select $r, z, z' \\in_R S_B$
 2. Compute $c_1 = ar + z$ and $c_2 = br + z' + m\\lceil q/2 \\rfloor$
-3. Send $c = (c_1, c_2)$ to Alice — both $c_1, c_2 \\in R_q$
+3. Send $c = (c_1, c_2)$ to Alice - both $c_1, c_2 \\in R_q$
 
 **Decryption (Alice):**
 1. Compute $m = \\text{Round}_q(c_2 - s \\cdot c_1)$
@@ -195,7 +210,7 @@ The Ring-LWE PKE encrypts **$n$ bits at a time** (the degree of the reduction po
     },
     {
       title: "Module-LWE: Prerequisites",
-      content: `# Module-LWE — Mathematical Prerequisites
+      content: `# Module-LWE - math prerequisites
 
 **The Module $R_q^k$**: Column vectors of dimension $k$ where each entry is a polynomial from $R_q$:
 
@@ -207,7 +222,7 @@ $$\\mathbf{p} = \\begin{bmatrix} p_1(x) \\\\\\ p_2(x) \\\\\\ \\vdots \\\\\\ p_k(
 
 $$\\mathbf{a} \\cdot \\mathbf{b} = a_1 b_1 + a_2 b_2 + \\cdots + a_k b_k \\in R_q$$
 
-The result is a **single polynomial** in $R_q$ — each $a_i b_i$ is a polynomial multiplication in $R_q$, and the products are summed.`
+The result is a **single polynomial** in $R_q$ - each $a_i b_i$ is a polynomial multiplication in $R_q$, and the products are summed.`
     },
     {
       title: "Module-LWE: Definition",
@@ -219,7 +234,7 @@ Let $a_1, \\dots, a_k \\in_R R_q^\\ell$ and $b_i = a_i^T s + e_i \\in R_q$.
 
 Given the $a_i$ and $b_i$, find $s$.
 
-$$\\underbrace{\\begin{bmatrix} \\overline{\\text{circ}}(a_{11}) & \\cdots & \\overline{\\text{circ}}(a_{\\ell 1}) \\\\\\ \\vdots & & \\vdots \\\\\\ \\overline{\\text{circ}}(a_{1k}) & \\cdots & \\overline{\\text{circ}}(a_{\\ell k}) \\end{bmatrix}}_{kn \\times \\ell n} \\times \\underbrace{\\begin{bmatrix} s_1 \\\\\\ \\vdots \\\\\\ s_\\ell \\end{bmatrix}}_{\\ell n \\times 1} + \\underbrace{\\begin{bmatrix} e_1 \\\\\\ \\vdots \\\\\\ e_k \\end{bmatrix}}_{kn \\times 1} = \\underbrace{\\begin{bmatrix} b_1 \\\\\\ \\vdots \\\\\\ b_k \\end{bmatrix}}_{kn \\times 1}$$
+$$\\underbrace{\\begin{bmatrix} \\overline{\\text{circ}}(a_{11}) & \\cdots & \\overline{\\text{circ}}(a_{\\ell 1}) \\\\\\\\\ \\vdots & & \\vdots \\\\\\\\\ \\overline{\\text{circ}}(a_{1k}) & \\cdots & \\overline{\\text{circ}}(a_{\\ell k}) \\end{bmatrix}}_{kn \\times \\ell n} \\times \\underbrace{\\begin{bmatrix} s_1 \\\\\\ \\vdots \\\\\\ s_\\ell \\end{bmatrix}}_{\\ell n \\times 1} + \\underbrace{\\begin{bmatrix} e_1 \\\\\\\\\ \\vdots \\\\\\\\\ e_k \\end{bmatrix}}_{kn \\times 1} = \\underbrace{\\begin{bmatrix} b_1 \\\\\\\\\ \\vdots \\\\\\\\\ b_k \\end{bmatrix}}_{kn \\times 1}$$
 
 - Setting $\\ell = 1$ gives **Ring-LWE**
 - Setting $n = 1$ (replacing $R_q$ with $\\mathbb{Z}_q$) gives standard **LWE**
@@ -229,15 +244,15 @@ $$\\underbrace{\\begin{bmatrix} \\overline{\\text{circ}}(a_{11}) & \\cdots & \\o
       title: "Relation to Lattices",
       content: `# Relation to Lattices
 
-LWE, Ring-LWE, and MLWE are fundamentally **geometric problems** — the most efficient approaches to solve them are geometric. That is why ML-KEM is classified as **lattice-based**.
+LWE, Ring-LWE, and MLWE are fundamentally **lattice problems** - the most efficient approach to solve them is via reduction to corresponding lattices. That is why ML-KEM is classified as **lattice-based**.
 
 Finding the secret $s$ given noisy equations is equivalent to the **Bounded Distance Decoding** (BDD) problem on a lattice:
 
 - **LWE → Standard ($q$-ary) Lattices:** The matrix $A$ generates a lattice $\\mathcal{L}(A)$. The vector $b = As + e$ is a point **close to** the lattice point $As$. Recovering $s$ means finding the nearest lattice point.
 
-- **Ring-LWE → Ideal Lattices:** The ring $R_q$ corresponds to lattices with **rotational symmetry** — shifting a polynomial by $x$ keeps it in the lattice. Fast multiplication, but security relies on this structured lattice class.
+- **Ring-LWE → Ideal Lattices:** The ring $R_q$ corresponds to lattices with **rotational symmetry** - shifting a polynomial by $x$ keeps it in the lattice. Fast multiplication, but security relies on this structured lattice class.
 
-- **MLWE → Module Lattices:** A middle ground — **less structure** than ideal lattices (stronger security assurance), **more structure** than standard lattices (maintains efficiency). This trade-off is why MLWE was chosen for ML-KEM.
+- **MLWE → Module Lattices:** - **less structure** than ideal lattices (stronger security assurance), **more structure** than standard lattices (maintains efficiency). This trade-off is why MLWE was chosen for ML-KEM.
 
 Security relies on the conjecture that finding the shortest or closest vector in high-dimensional lattices is infeasible for both **classical and quantum** computers.`
     },
@@ -274,7 +289,7 @@ $$= e^T r + e_2 - s^T e_1 + \\lceil q/2 \\rfloor m$$
 
 Decryption succeeds if every coefficient $E_i$ of the error polynomial $E(x) = e^T r + e_2 - s^T e_1$ satisfies $\\|E_i\\|_\\infty < q/4$.
 
-**CPA Security:** Kyber-PKE is secure against **chosen-plaintext attacks** — an attacker learns nothing about $s$ from encrypting messages with the public key.
+**CPA Security:** Kyber-PKE is secure against **chosen-plaintext attacks** - an attacker learns nothing about $s$ from encrypting messages with the public key.
 
 **CCA Vulnerability:** However, it is **not secure** against **chosen-ciphertext attacks**. An active attacker could craft malicious ciphertexts (not using small error polynomials) that cause decryption failures, leaking information about $s$.`
     },
@@ -289,9 +304,9 @@ A **KEM** wraps the PKE to produce a shared secret key instead of encrypting arb
 - The receiver **decapsulates**: decrypts to recover the message and derives the same shared key
 
 **The Fujisaki-Okamoto (FO) Transform** converts Kyber-PKE into Kyber-KEM by:
-1. Making encryption **deterministic** — the randomness is derived from a hash of the message
-2. Adding **implicit rejection** — if a ciphertext is tampered with, a pseudorandom key is returned instead of failing
-3. Enabling **re-encryption check** — the receiver can verify ciphertext authenticity
+1. Making encryption **deterministic** - the randomness is derived from a hash of the message
+2. Adding **implicit rejection** - if a ciphertext is tampered with, a pseudorandom key is returned instead of failing
+3. Enabling **re-encryption check** - the receiver can verify ciphertext authenticity
 
 This ensures **plaintext awareness**: an attacker cannot create a valid ciphertext without knowing the underlying message.`
     },
@@ -342,7 +357,7 @@ The official ML-KEM standard is derived from CRYSTALS-Kyber with standardizing r
 | **ML-KEM-768** | 256 | 3329 | 3 | 2 | 2 | 192-bit |
 | **ML-KEM-1024** | 256 | 3329 | 4 | 2 | 2 | 256-bit |
 
-Note how $n=256$ and $q=3329$ are **fixed** across all levels — only $k$ changes, demonstrating the practical advantage of the MLWE construction.`
+Note how $n=256$ and $q=3329$ are **fixed** across all levels - only $k$ changes, demonstrating the practical advantage of the MLWE construction.`
     },
     {
       title: "Further Reading",
