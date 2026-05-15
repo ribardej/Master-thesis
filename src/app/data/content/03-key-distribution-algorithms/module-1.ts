@@ -57,8 +57,10 @@ export const lesson3: Lesson = {
     },
     {
       title: "Summary",
-      content: `### If you combine a key distribution algorithm (RSA / DH / ECDH) with symmetric encryption, you are fully protected against passive attackers\n\n\n\n\n
-      - That sounds great, unfortunately not every attacker stays **passive**
+      content: `# The result\n\n\n\n\n
+      
+      - If you **combine** a key distribution algorithm (RSA / DH / ECDH) with **symmetric encryption**, you are **fully** protected against **passive** attackers\n\n\n
+      - That sounds great, unfortunately **not every** attacker stays passive
       `
     },
     {
@@ -68,7 +70,7 @@ export const lesson3: Lesson = {
 
       - This would mean they can not only intercept your conversation, but also **drop** and **replace** your messages
 
-      - Active attacker could establish two different sets of keys (one for You and one for your friend)
+      - Active attacker could establish two different sets of keys (one for you and one for your friend)
 
       - Consequently decrypt, **read the contents** and re-encrypt all your conversation **without** you even noticing`
     },
@@ -79,9 +81,9 @@ export const lesson3: Lesson = {
     },
     {
       title: "Summary",
-      content: `## How is it even possible to distinguish an attacker from your friend?
+      content: `## Is it even possible to distinguish an attacker from your friend?
 
-      - Well, you need to introduce **digital signatures** ->`
+      - Yes but you need to introduce **digital signatures** ->`
     },
   ],
 };

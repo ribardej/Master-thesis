@@ -12,19 +12,18 @@ export const lesson7: Lesson = {
       title: "Post-Quantum Cryptography",
       content: `# The core idea behind Post-Quantum Cryptography (PQC)
 
-- In the previous chapter, we saw that **Shor's algorithm** breaks RSA and (EC)DH by exploiting the **hidden periodic structure** of their underlying mathematical problems using the Quantum Fourier Transform
+- In the previous chapter, we saw that **Shor's algorithm** breaks RSA and (EC)DH by exploiting the **hidden periodic structure** of their underlying mathematical problems using the **Quantum Fourier Transform**
 
 - PQC algorithms are designed around mathematical problems that are believed to **lack any exploitable periodic structure**
--- Without a period to find, Shor's algorithm offers **no advantage**
--- The best known quantum attacks against these problems are **generic search** (Grover's), providing at most a **quadratic speedup**
--- However it is **not proven** that there can not be efficient quantum, or even classical, algorithms that break the problems.
+-- Without a secret period to find, Shor's algorithm offers **no advantage**
+-- However it is **not proven** that there can not be efficient quantum, or even classical, algorithms that would break the math problems.
 
-- PQC algorithms run on **classical hardware** — no quantum computer is needed
+- PQC algorithms run on **classical hardware** - no special hardware or quantum computer is needed
 -- They are designed as **drop-in replacements** for existing algorithms like RSA, DH, and ECDSA`
     },
     {
       title: "Post-Quantum Cryptography",
-      content: `# The NIST Post-Quantum Standardization Process
+      content: `## The NIST Post-Quantum standardization process
 
 NIST (National Institute of Standards and Technology) launched a **public, international competition** in 2016 to identify and standardize quantum-resistant cryptographic algorithms:
 
@@ -32,24 +31,24 @@ NIST (National Institute of Standards and Technology) launched a **public, inter
 - **2017 (Round 1)**: 69 valid submissions received (26 KEMs + 23 signature schemes + 20 eliminated)
 - **2019 (Round 2)**: Narrowed to 26 candidates
 - **2020 (Round 3)**: 7 finalists + 8 alternates selected for final evaluation
-- **2022**: Winners announced — ML-KEM + 3 signature schemes selected
+- **2022**: Winners announced - ML-KEM + 3 signature schemes selected
 - **2024**: Official standards published as **FIPS 203, 204, 205**
 - **2025**: NIST selected HQC as a backup algorithm for ML-KEM
 
-The process was deliberately **open and transparent** — all submissions, public comments, and cryptanalysis results were published, allowing the global cryptography community to scrutinize each candidate`
+The process was deliberately **open and transparent** - all submissions, public comments, and cryptanalysis results were published, allowing the global cryptography community to scrutinize each candidate`
     },
     {
       title: "Post-Quantum Cryptography",
-      content: `# Key Distribution — Standardized Algorithms
+      content: `# Key Distribution - standardized algorithms
 
-## ML-KEM (FIPS 203) — Primary Standard
+## ML-KEM (FIPS 203) - primary standard
 - Based on the **Module Learning with Errors (MLWE)** problem
 - Classified as a **lattice-based** scheme
 - Evolved from the CRYSTALS-Kyber submission
 - Offers three security levels: ML-KEM-512, ML-KEM-768, ML-KEM-1024
-- **Efficient** — small key sizes and fast operations compared to other PQC families
+- **Efficient** - small key sizes and fast operations compared to other PQC families
 
-## HQC — Backup Standard (under standardization)
+## HQC - backup standard (under standardization)
 - Based on the **Hamming Quasi-Cyclic** code decoding problem
 - Classified as a **code-based** scheme
 - Provides an alternative based on a **fundamentally different** hard problem
@@ -57,39 +56,38 @@ The process was deliberately **open and transparent** — all submissions, publi
     },
     {
       title: "Post-Quantum Cryptography",
-      content: `# Digital Signatures — Standardized Algorithms
+      content: `# Digital Signatures - standardized algorithms
 
-## ML-DSA (FIPS 204) — Primary Standard
+## ML-DSA (FIPS 204) - primary standard
 - Based on the **Module Learning with Errors (MLWE)** problem (same family as ML-KEM)
 - Classified as a **lattice-based** scheme
 - Evolved from the CRYSTALS-Dilithium submission
 - Offers three security levels: ML-DSA-44, ML-DSA-65, ML-DSA-87
 
-## SLH-DSA / SPHINCS+ (FIPS 205) — Backup Standard
+## SLH-DSA / SPHINCS+ (FIPS 205) - backup standard
 - Based on the security of **hash functions** (e.g., SHA-256, SHAKE)
-- Classified as a **hash-based** scheme — the most conservative assumption in PQC
+- Classified as a **hash-based** scheme - the most conservative assumption in PQC
 - Larger signatures and slower, but relies on **minimal cryptographic assumptions**
 -- If hash functions remain secure, SLH-DSA remains secure
 
 ## FN-DSA (under standardization)
 - Based on the **NTRU lattice** problem
-- Evolved from the FALCON submission — offers very **compact signatures**`
+- Evolved from the FALCON submission - offers very **compact signatures**`
     },
     {
       title: "Post-Quantum Cryptography",
-      content: `# Why the Public Selection Process Matters
+      content: `# Why the public selection process matters
 
 A transparent, adversarial review process is essential because **proprietary cryptographic designs hide vulnerabilities**.
 
 ## The Case of SIKE
 - **SIKE** (Supersingular Isogeny Key Encapsulation) was a promising **Round 3** alternate candidate
 - Based on the **Supersingular Isogeny Diffie-Hellman (SIDH)** problem
-- It had the **smallest key sizes** of all PQC candidates — very attractive for deployment
+- It had the **smallest key sizes** of all PQC candidates - very attractive for deployment
 - Then, in **2022**, Wouter Castryck and Thomas Decru published a **classical attack** that broke SIKE in **under an hour on a single CPU core**
--- This was not a quantum attack — it was a **purely classical** mathematical breakthrough
--- **All public key encryption** algorithms (RSA, DH, ECDH, ML-KEM, HQC) rely on math problems with **unproven** hardness. 
+-- This was not a quantum attack - it was a **purely classical** mathematical breakthrough
+-- **All public key encryption** algorithms (RSA, ECDH, ECDSA, ML-KEM, ML-DSA) rely on math problems with **unproven** hardness. 
 
-## The Lesson
 - Without open scrutiny, SIKE could have been **deployed worldwide** before anyone discovered the flaw
 - The NIST process ensured that this weakness was found **before** standardization, not after`
     },

@@ -9,6 +9,19 @@ export const lesson7: Lesson = {
       content: `# Chapter 7: Post Quantum Cryptography in Detail`
     },
     {
+      title: "ML-KEM",
+      content: `# PQC
+      
+      As explained in the Overview section, Post Quantum Cryptography is a set of **classical protocols** that are believed to be resistant against attackers with **quantum computers**, however without a guarantee.
+      -- Similarly, there **was not a guarantee** that RSA or (EC)DH would be resistant against attackers with classical computers at the time they were introduced.
+
+      In this chapter, we will focus on the **ML-KEM protocol**, that is categorized as lattice-based since the best known attack works by reducing it to a certain lattice problem.
+      - The protocol itself is based on the **Learning With Errors** problem, which is not a lattice problem by definition.
+
+      Other protocols such as HQC or post quantum digital signature schemes are not covered in this detailed chapter since my thesis topic is the ML-KEM protocol.
+      `
+    },
+    {
       title: "LWE: Math Prerequisites",
       content: `# Learning with Errors - math prerequisites
 
@@ -47,18 +60,36 @@ Without the error $e$, this is just a system of linear equations - solvable by G
 [COMPONENT: LWEGaussianElimination]`
     },
     {
+      title: "Lattices",
+      content: `## Lattices
+
+A **lattice** $\\mathcal{L}$ is a discrete additive subgroup of $\\mathbb{R}^n$. Equivalently, given linearly independent vectors $\\mathbf{b}_1, \\dots, \\mathbf{b}_d \\in \\mathbb{R}^n$, the lattice they generate is:
+
+$$\\mathcal{L}(\\mathbf{b}_1, \\dots, \\mathbf{b}_d) = \\left\\{ \\sum_{i=1}^{d} z_i \\mathbf{b}_i \\;\\middle|\\; z_i \\in \\mathbb{Z} \\right\\}$$
+
+The vectors $\\mathbf{b}_1, \\dots, \\mathbf{b}_d$ form a **basis** of the lattice. A lattice can have many different bases, but the set of lattice points is always the same.
+
+**Example** ($d = 2$, $n = 2$): Let $\\mathbf{b}_1 = \\begin{bmatrix} 2 \\\\\\ 1 \\end{bmatrix}$, $\\mathbf{b}_2 = \\begin{bmatrix} 0 \\\\\\ 3 \\end{bmatrix}$. The lattice $\\mathcal{L}(\\mathbf{b}_1, \\mathbf{b}_2)$ consists of all points $z_1 \\begin{bmatrix} 2 \\\\\\ 1 \\end{bmatrix} + z_2 \\begin{bmatrix} 0 \\\\\\ 3 \\end{bmatrix}$ for $z_1, z_2 \\in \\mathbb{Z}$.
+
+Two fundamental hard problems on lattices:
+- **Shortest Vector Problem (SVP)**: Find the shortest non-zero vector in the lattice
+- **Bounded Distance Decoding (BDD)**: Given a target point **close** to a lattice point, find that nearest lattice point`
+    },
+    {
       title: "LWE: Gaussian Elimination",
       content: `## How to solve LWE using lattices
-      - I will show a specific mapping of LWE instance to Bounded Distance Decoding (BDD) and consequently to Shortest Vector Problem (SVP), which can be solved more efficiently than just guessing the error.
-      -- primal attack using a Kannan embedding
+      - An LWE instance can be viewed as a specific lattice problem. Namely, the Bounded Distance Decoding (BDD).
+      
+      - The fastest way to solve BDD (and also LWE) is to consequently convert it to the Shortest Vector Problem (SVP), which can be solved more efficiently.
+      -- This way of solving LWE is called the Primal attack using a Kannan embedding
+      -- Time complexity is exponential, namely $2^{0.292n + o(n)}$, where $n$ is dimension of the secret vector
       `
     },
-
     {
       title: "LWE-based PKE",
       content: `# LWE-based Public Key Encryption
 
-Introduced by Lindner-Peikert (2010). **Encrypts just one bit** Parameters: $(n, q, B)$
+Introduced by Lindner-Peikert (2011). **Encrypts just one bit** Parameters: $(n, q, B)$
 
 **Key Generation (Alice):**
 1. Select $s \\in_R [-B, B]^n$, $e \\in_R [-B, B]^n$, $A \\in_R \\mathbb{Z}_q^{n \\times n}$
@@ -76,10 +107,33 @@ Introduced by Lindner-Peikert (2010). **Encrypts just one bit** Parameters: $(n,
 Where $\\text{Round}_q(x) = \\begin{cases} 0, & \\text{if } -q/4 \\le x \\text{ mods } q \\le  q/4\\\\ 1, & else \\end{cases} $`
     },
     {
-      title: "Motivation for Ring-LWE",
-      content: `# From LWE to Ring-LWE
+      title: "LWE-based PKE: The Idea",
+      content: `## The Idea Behind the Encryption Scheme
 
-The basic LWE-based PKE has a fundamental **practical limitation**:
+**Intuition:** The message bit $m$ is scaled by $\\lceil q/2 \\rfloor$ to "separate" it from the noise. All secret vectors and errors are **small** (bounded by $B$), so their products remain small. The rounding function can then distinguish between $0$ and $\\lceil q/2 \\rfloor$ despite the accumulated noise.
+
+**Algebraic proof:** Expand the decryption expression $c_2 - s^T c_1$:
+
+$$c_2 - s^T c_1 = (b^T r + z' + m \\lceil q/2 \\rfloor) - s^T(A^T r + z)$$
+
+Substitute $b = As + e$, so $b^T = s^T A^T + e^T$:
+
+$$= s^T A^T r + e^T r + z' + m \\lceil q/2 \\rfloor - s^T A^T r - s^T z$$
+
+The terms $s^T A^T r$ cancel:
+
+$$= \\underbrace{e^T r + z' - s^T z}_{\\text{small error } E} + m \\lceil q/2 \\rfloor$$
+
+Since $s, e, r, z, z'$ are all bounded by $B$, the total error $E$ satisfies $|E| \\le nB^2 + B + nB^2 = 2nB^2 + B$.
+-- Decryption succeeds when $|E| < q/4$, which holds for appropriate parameter choices
+-- If $m=0$: the result is close to $0$ → $\\text{Round}_q$ outputs $0$
+-- If $m=1$: the result is close to $\\lceil q/2 \\rfloor$ → $\\text{Round}_q$ outputs $1$`
+    },
+    {
+      title: "Motivation for Ring-LWE",
+      content: `# From LWE to Ring and Module LWE
+
+The basic LWE-based PKE has fundamental **practical limitations**:
 
 - It can only encrypt **one bit per ciphertext**
 - The matrix $A$ is completely **unstructured** - requiring $O(n^2)$ storage and computation
@@ -99,14 +153,36 @@ No known attacks leverage the additional structure of Ring-LWE or MLWE - the pro
       title: "Ring-LWE: Polynomial Ring",
       content: `## Polynomial-Ring Learning With Errors (RLWE) - math prerequisites
 
-Introduced by Lyubashevsky, Peikert, and Regev in 2010.
+Introduced by Lyubashevsky, Peikert, and Regev in 2010. Instead of a secret vector $s \\in \\mathbb{Z}_q^n $ Uses anti-cyclic polynomial rings
 
-The polynomial ring $R_q$ is defined as the quotient ring:
+The anti-cyclic polynomial ring $R_q$ is defined as the quotient ring:
 $$ R_q = \\mathbb{Z}_q[x] / (x^n + 1) $$
 
 Elements of $R_q$ are polynomials of degree less than $n$ with coefficients in $\\mathbb{Z}_q$.
 
-**Addition** is performed coefficient-wise modulo $q$. Example with $n=4$, $q=17$:
+`
+    },
+    {
+      title: "Norms and Small Polynomials",
+      content: `## Size of Integers and Polynomials
+
+**Size (infinity norm) of an integer:** For $r \\in \\mathbb{Z}_q$ (odd $q \\ge 3$):
+$$\\|r\\|_\\infty = |r \\text{ mods } q|$$
+So $0 \\le \\|r\\|_\\infty \\le (q-1)/2$. For $q=17$: $\\|5\\|_\\infty = 5$ and $\\|14\\|_\\infty = 3$
+
+**Size of a polynomial:** For $f(x) = f_0 + f_1 x + \\cdots + f_{n-1}x^{n-1} \\in R_q$:
+$$\\|f\\|_\\infty = \\max_i \\|f_i\\|_\\infty$$
+
+**Set of small polynomials** $S_\\xi$: For a positive integer $\\xi$ small compared to $q/2$:
+$$S_\\xi = \\{f \\in R_q \\mid \\|f\\|_\\infty \\le \\xi\\}$$
+
+LWE based encryption schemes use small integers/polynomials to ensure the decryption error is negligably small.`
+    },
+    {
+      title: "Ring-LWE: Multiplication in R_q",
+      content: `# Arithmetics in $R_q$
+
+**Addition** is performed coefficient-wise modulo $q$. Example in $ R_{17} = \\mathbb{Z}_{17}[x] / (x^4 + 1) $:
 
 $a(x) = 4 + 15x^2 + 2x^3$, $\\quad b(x) = 14 + 3x + 5x^2 + 9x^3$
 
@@ -144,7 +220,7 @@ If $c(x) = a(x) \\times b(x)$ in $R_q$, then:
 $$\\begin{bmatrix} c_0 \\\\\\ c_1 \\\\\\ \\vdots \\\\\\ c_{n-1} \\end{bmatrix} = \\underbrace{\\begin{bmatrix} a_0 & -a_{n-1} & \\cdots & -a_1 \\\\\\ a_1 & a_0 & \\cdots & -a_2 \\\\\\ \\vdots & \\vdots & & \\vdots \\\\\\ a_{n-1} & a_{n-2} & \\cdots & a_0 \\end{bmatrix}}_{\\overline{\\text{circ}}(a)} \\begin{bmatrix} b_0 \\\\\\ b_1 \\\\\\ \\vdots \\\\\\ b_{n-1} \\end{bmatrix}$$
 
 **Example** ($n=4$, $q=17$, $a(x) = 4 + 15x^2 + 2x^3$):
-$$\\overline{\\text{circ}}(a) = \\begin{bmatrix} 4 & 15 & 2 & 0 \\\\\\ 0 & 4 & 15 & 2 \\\\\\ 15 & 0 & 4 & 15 \\\\\\ 2 & 15 & 0 & 4 \\end{bmatrix} \\pmod{17}$$`
+$$\\overline{\\text{circ}}(a) = \\begin{bmatrix} 4 & -2 & -15 & 0 \\\\\\ 0 & 4 & -2 & -15 \\\\\\ 15 & 0 & 4 & -2 \\\\\\ 2 & 15 & 0 & 4 \\end{bmatrix} = \\begin{bmatrix} 4 & 15 & 2 & 0 \\\\\\ 0 & 4 & 15 & 2 \\\\\\ 15 & 0 & 4 & 15 \\\\\\ 2 & 15 & 0 & 4 \\end{bmatrix} \\pmod{17}$$`
     },
     {
       title: "Ring-LWE: Matrix Multiplication Example",
@@ -154,22 +230,6 @@ The product $a(x) \\times b(x)$:
 $$a(x) \\times b(x) = \\begin{bmatrix} 4 & 15 & 2 & 0 \\\\\\ 0 & 4 & 15 & 2 \\\\\\ 15 & 0 & 4 & 15 \\\\\\ 2 & 15 & 0 & 4 \\end{bmatrix} \\times \\begin{bmatrix} 14 \\\\\\ 3 \\\\\\ 5 \\\\\\ 9 \\end{bmatrix} = \\begin{bmatrix} 9 \\\\\\ 3 \\\\\\ 8 \\\\\\ 7 \\end{bmatrix} \\pmod{17}$$
 
 This matrix structure shows **why Ring-LWE is a special case of LWE** with a structured matrix $A$.`
-    },
-    {
-      title: "Norms and Small Polynomials",
-      content: `# Size of Integers, Polynomials, and Small Polynomial Sets
-
-**Size (infinity norm) of an integer:** For $r \\in \\mathbb{Z}_q$ (odd $q \\ge 3$):
-$$\\|r\\|_\\infty = |r \\text{ mods } q|$$
-So $0 \\le \\|r\\|_\\infty \\le (q-1)/2$. For $q=17$: $\\|5\\|_\\infty = 5$ and $\\|14\\|_\\infty = 3$
-
-**Size of a polynomial:** For $f(x) = f_0 + f_1 x + \\cdots + f_{n-1}x^{n-1} \\in R_q$:
-$$\\|f\\|_\\infty = \\max_i \\|f_i\\|_\\infty$$
-
-**Set of small polynomials** $S_\\xi$: For a positive integer $\\xi$ small compared to $q/2$:
-$$S_\\xi = \\{f \\in R_q \\mid \\|f\\|_\\infty \\le \\xi\\}$$
-
-These definitions are crucial for ML-KEM - the **secret key** and **error polynomials** are always sampled from $S_\\xi$ with small $\\xi$, ensuring that decryption errors remain bounded.`
     },
     {
       title: "Ring-LWE: Definition",
@@ -188,25 +248,24 @@ $$\\underbrace{\\begin{bmatrix} \\overline{\\text{circ}}(a_1) \\\\\\\\ \\vdots \
 The structured matrix makes Ring-LWE **more efficient** than standard LWE, while no known attacks exploit this structure.`
     },
     {
-      title: "Ring-LWE based PKE",
-      content: `# Ring-LWE based Public Key Encryption scheme
+      title: "Ring-LWE: Concrete Example",
+      content: `# Ring-LWE example
 
-Introduced by Lindner-Peikert (2010). Parameters: $(n, q, B)$
+Parameters: $n=4$, $k=2$, $q=17$, $B=1$. Ring: $R_{17} = \\mathbb{Z}_{17}[x]/(x^4+1)$.
 
-**Key Generation (Alice):**
-1. Select $s \\in_R S_B$, $a \\in_R R_q$, and $e \\in_R S_B$
-2. Compute $b = as + e \\in R_q$
-3. **Public key**: $(a, b)$; **Private key**: $s$
+Sample $s(x) = 1 + x - x^3$ ($\\|s\\|_\\infty = 1$, i.e. **small**), and $a_1, a_2 \\in_R R_{17}$, $e_1, e_2 \\in_R S_1$:
 
-**Encryption (Bob):** To encrypt $m \\in \\{0,1\\}^n$:
-1. Select $r, z, z' \\in_R S_B$
-2. Compute $c_1 = ar + z$ and $c_2 = br + z' + m\\lceil q/2 \\rfloor$
-3. Send $c = (c_1, c_2)$ to Alice - both $c_1, c_2 \\in R_q$
+$a_1(x) = 5 + 3x + 12x^2 + 7x^3$, $\\quad e_1(x) = 1 - x^2$
 
-**Decryption (Alice):**
-1. Compute $m = \\text{Round}_q(c_2 - s \\cdot c_1)$
+$a_2(x) = 9 + 14x + 2x^2 + 11x^3$, $\\quad e_2(x) = -1 + x$
 
-The Ring-LWE PKE encrypts **$n$ bits at a time** (the degree of the reduction polynomial), a major improvement over the 1-bit LWE PKE.`
+Compute $b_i = a_i \\cdot s + e_i$ in $R_{17}$. 
+
+This can be viewed as a **standard LWE instance** with structured $A$:
+
+$$\\underbrace{\\begin{bmatrix} \\ \\boxed{\\begin{smallmatrix} 5 & 10 & 5 & 14 \\\\\\ 3 & 5 & 10 & 5 \\\\\\ 12 & 3 & 5 & 10 \\\\\\ 7 & 12 & 3 & 5 \\end{smallmatrix} } \\ \\\\\\ \\boxed{\\begin{smallmatrix} 9 & 6 & 15 & 3 \\\\\\ 14 & 9 & 6 & 15 \\\\\\ 2 & 14 & 9 & 6 \\\\\\ 11 & 2 & 14 & 9 \\end{smallmatrix} } \\ \\end{bmatrix}}_{\\text{two anti-circulant blocks}} \\times \\begin{bmatrix} 1 \\\\\\ 1 \\\\\\ 0 \\\\\\ -1 \\end{bmatrix} + \\begin{bmatrix} 1 \\\\\\ 0 \\\\\\ -1 \\\\\\ 0 \\\\\\ -1 \\\\\\ 1 \\\\\\ 0 \\\\\\ 1 \\end{bmatrix} = \\begin{bmatrix} b_1 \\\\\\ b_2 \\end{bmatrix} \\pmod{17}$$
+
+Each $\\overline{\\text{circ}}(a_i)$ block is fully determined by a **single polynomial** $a_i$ - this structure is what makes Ring-LWE efficient while the problem remains believed to be as hard as general LWE.`
     },
     {
       title: "Module-LWE: Prerequisites",
@@ -241,20 +300,21 @@ $$\\underbrace{\\begin{bmatrix} \\overline{\\text{circ}}(a_{11}) & \\cdots & \\o
 - The practical advantage: **fix $n$ and $q$** for efficient arithmetic, vary $\\ell$ for different security levels`
     },
     {
-      title: "Relation to Lattices",
-      content: `# Relation to Lattices
+      title: "Module-LWE: Concrete Example",
+      content: `# Module-LWE example
 
-LWE, Ring-LWE, and MLWE are fundamentally **lattice problems** - the most efficient approach to solve them is via reduction to corresponding lattices. That is why ML-KEM is classified as **lattice-based**.
+Parameters: $n=4$, $k=3$, $\\ell=2$, $q=17$, $B=1$. The secret is a **vector** of polynomials $\\mathbf{s} = (s_1, s_2) \\in R_{17}^2$.
 
-Finding the secret $s$ given noisy equations is equivalent to the **Bounded Distance Decoding** (BDD) problem on a lattice:
+$s_1(x) = 1 - x^2$, $\\quad s_2(x) = x + x^3$ (both with $\\|\\cdot\\|_\\infty \\le 1$)
 
-- **LWE → Standard ($q$-ary) Lattices:** The matrix $A$ generates a lattice $\\mathcal{L}(A)$. The vector $b = As + e$ is a point **close to** the lattice point $As$. Recovering $s$ means finding the nearest lattice point.
+The matrix $A \\in R_{17}^{3 \\times 2}$ has $k \\cdot \\ell = 6$ polynomial entries. Each $a_{ij}$ generates an anti-circulant block. The expanded system $\\mathbf{b} = A\\mathbf{s} + \\mathbf{e}$ becomes once again just a **structured LWE** instance:
 
-- **Ring-LWE → Ideal Lattices:** The ring $R_q$ corresponds to lattices with **rotational symmetry** - shifting a polynomial by $x$ keeps it in the lattice. Fast multiplication, but security relies on this structured lattice class.
+$$\\underbrace{\\begin{bmatrix} \\ \\boxed{\\overline{\\text{circ}}(a_{11})} & \\boxed{\\overline{\\text{circ}}(a_{21})} \\ \\\\\\ \\boxed{\\overline{\\text{circ}}(a_{12})} & \\boxed{\\overline{\\text{circ}}(a_{22})} \\ \\\\\\ \\boxed{\\overline{\\text{circ}}(a_{13})} & \\boxed{\\overline{\\text{circ}}(a_{23})} \\ \\end{bmatrix}}_{12 \\times 8} \\times \\underbrace{\\begin{bmatrix} s_1 \\\\\\ s_2 \\end{bmatrix}}_{8 \\times 1} + \\underbrace{\\begin{bmatrix} e_1 \\\\\\ e_2 \\\\\\ e_3 \\end{bmatrix}}_{12 \\times 1} = \\underbrace{\\begin{bmatrix} b_1 \\\\\\ b_2 \\\\\\ b_3 \\end{bmatrix}}_{12 \\times 1} \\pmod{17}$$
 
-- **MLWE → Module Lattices:** - **less structure** than ideal lattices (stronger security assurance), **more structure** than standard lattices (maintains efficiency). This trade-off is why MLWE was chosen for ML-KEM.
-
-Security relies on the conjecture that finding the shortest or closest vector in high-dimensional lattices is infeasible for both **classical and quantum** computers.`
+The $12 \\times 8$ matrix consists of a $3 \\times 2$ **grid of anti-circulant blocks**, each of size $4 \\times 4$.
+- Each block is generated by a single random polynomial → efficient storage and multiplication
+- Compared to Ring-LWE ($\\ell=1$, single column of blocks), MLWE has **less structure** 
+-- stronger security assurance`
     },
     {
       title: "Kyber-PKE (K-PKE)",
@@ -263,7 +323,7 @@ Security relies on the conjecture that finding the shortest or closest vector in
 The core building block of ML-KEM. Input parameters: $q, n, k, \\eta_1, \\eta_2$.
 
 **Key Generation (Alice):**
-1. Select $A \\in_R R_q^{k \\times k}$, $s \\in_R S_{\\eta_1}^k$, $e \\in_R S_{\\eta_1}^k$
+1. Select $A \\in_R R_q^{k \\times k}$, $s \\in_R S_{\\eta_1}^k$, $e \\in_R S_{\\eta_2}^k$
 2. Compute $t = As + e$
 3. **Public key**: $(A, t)$; **Private key**: $s$
 
@@ -283,7 +343,7 @@ The core building block of ML-KEM. Input parameters: $q, n, k, \\eta_1, \\eta_2$
 
 $$v - s^T u = (t^T r + e_2 + \\lceil q/2 \\rfloor m) - s^T(A^T r + e_1)$$
 
-Substituting $t^T = s^T A^T + e^T$:
+Substituting $t^T = s^T A^T + e^T$ (to cancel out $s^T A^T r$):
 
 $$= e^T r + e_2 - s^T e_1 + \\lceil q/2 \\rfloor m$$
 
@@ -291,11 +351,11 @@ Decryption succeeds if every coefficient $E_i$ of the error polynomial $E(x) = e
 
 **CPA Security:** Kyber-PKE is secure against **chosen-plaintext attacks** - an attacker learns nothing about $s$ from encrypting messages with the public key.
 
-**CCA Vulnerability:** However, it is **not secure** against **chosen-ciphertext attacks**. An active attacker could craft malicious ciphertexts (not using small error polynomials) that cause decryption failures, leaking information about $s$.`
+**CCA Vulnerability:** However, it is **not secure** against **chosen-ciphertext attacks**. An active attacker could craft malicious ciphertexts (not using small error polynomials) that cause decryption failures, potentialy leaking information about $s$.`
     },
     {
       title: "Key Encapsulation Mechanism",
-      content: `# Why a Key Encapsulation Mechanism (KEM)?
+      content: `# Key Encapsulation Mechanism (KEM)
 
 Since Kyber-PKE is vulnerable to **chosen-ciphertext attacks**, a security improvement is needed.
 
@@ -303,12 +363,14 @@ A **KEM** wraps the PKE to produce a shared secret key instead of encrypting arb
 - The sender **encapsulates**: generates a random message, encrypts it, and derives a shared key
 - The receiver **decapsulates**: decrypts to recover the message and derives the same shared key
 
-**The Fujisaki-Okamoto (FO) Transform** converts Kyber-PKE into Kyber-KEM by:
+**The general Fujisaki-Okamoto (FO) Transform** converts Kyber-PKE into Kyber-KEM by:
 1. Making encryption **deterministic** - the randomness is derived from a hash of the message
 2. Adding **implicit rejection** - if a ciphertext is tampered with, a pseudorandom key is returned instead of failing
 3. Enabling **re-encryption check** - the receiver can verify ciphertext authenticity
 
-This ensures **plaintext awareness**: an attacker cannot create a valid ciphertext without knowing the underlying message.`
+This ensures that an attacker **cannot create a valid** ciphertext without knowing the underlying message.
+-- In principle, this is the same as the use of HMAC in symmetric encryption
+-- However do not confuse this with proper authentication`
     },
     {
       title: "Kyber-KEM",

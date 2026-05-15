@@ -235,7 +235,7 @@ export function DigitalSignatureBasicAnimation() {
         {step === 2 && <p><strong>Step 3:</strong> You send the message together with its signature. The attacker can see both, but cannot forge a new valid signature.</p>}
         {step === 3 && <p><strong>Step 4:</strong> Your <strong>Public Key</strong> is shared with your friend (and is visible to the attacker — but it can only be used to <strong>verify</strong>, not to sign).</p>}
         {step === 4 && <p><strong>Step 5:</strong> Your friend uses your <strong>Public Key</strong> to mathematically verify the signature against the received message.</p>}
-        {step === 5 && <p><strong>Step 6:</strong> Verification succeeds! Your friend is now certain the message is <strong>authentic</strong> (from you) and has <strong>not been tampered with</strong>.</p>}
+        {step === 5 && <p><strong>Step 6:</strong> If the verification succeeds, your friend can be certain the message is <strong>authentic</strong> (from you) and has <strong>not been tampered with</strong>.</p>}
       </div>
 
       {/* Progress Steps (Tiles) */}
@@ -248,8 +248,8 @@ export function DigitalSignatureBasicAnimation() {
               setStep(s);
             }}
             className={`flex-1 h-2 rounded-full transition-all duration-300 cursor-pointer ${step === s
-                ? "bg-gray-600 shadow-sm"
-                : "bg-gray-200 hover:bg-gray-300"
+              ? "bg-gray-600 shadow-sm"
+              : "bg-gray-200 hover:bg-gray-300"
               }`}
           />
         ))}

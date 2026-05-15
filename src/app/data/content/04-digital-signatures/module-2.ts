@@ -92,7 +92,7 @@ This ensures that any modification to the message $m$ changes the digest $h$, ca
       title: "RSA Signatures",
       content: `# RSA Digital Signatures
 
-RSA signatures use the same key pair $(e, n)$ and $(d, n)$ as RSA encryption (see Chapter 3), but the operations are **reversed**.
+RSA signatures use the same principle as RSA encryption (see Chapter 3), but the operations are **reversed**.
 
 **Key Generation:** Identical to RSA encryption - choose primes $p, q$, compute $n = p \\cdot q$, $\\phi(n) = (p-1)(q-1)$, choose public exponent $e$, compute private exponent $d$.
 

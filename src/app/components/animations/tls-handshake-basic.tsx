@@ -91,9 +91,8 @@ export function TLSHandshakeBasicAnimation() {
 
         {/* Client */}
         <div className="relative z-10 flex flex-col items-center gap-2 w-28">
-          <div className={`w-16 h-16 rounded-full flex items-center justify-center border-4 border-white shadow-md transition-all duration-500 ${
-            isEncrypted ? "bg-emerald-100" : "bg-sky-100"
-          }`}>
+          <div className={`w-16 h-16 rounded-full flex items-center justify-center border-4 border-white shadow-md transition-all duration-500 ${isEncrypted ? "bg-emerald-100" : "bg-sky-100"
+            }`}>
             <Monitor size={28} className={isEncrypted ? "text-emerald-600" : "text-sky-600"} />
           </div>
           <p className="font-bold text-gray-800 text-sm">Client</p>
@@ -124,11 +123,10 @@ export function TLSHandshakeBasicAnimation() {
         {/* Connection area with messages */}
         <div className="flex-1 relative mx-4 mt-8">
           {/* Connection line */}
-          <div className={`absolute top-0 left-0 right-0 h-0.5 transition-all duration-700 ${
-            isEncrypted
+          <div className={`absolute top-0 left-0 right-0 h-0.5 transition-all duration-700 ${isEncrypted
               ? "bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-400 shadow-sm shadow-emerald-200"
               : "bg-gray-300 border-t border-dashed border-gray-400"
-          }`} />
+            }`} />
 
           {isEncrypted && (
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-100 px-2 py-0.5 rounded text-[9px] font-bold text-emerald-700 border border-emerald-300 whitespace-nowrap">
@@ -258,14 +256,13 @@ export function TLSHandshakeBasicAnimation() {
 
         {/* Server */}
         <div className="relative z-10 flex flex-col items-center gap-2 w-28">
-          <div className={`w-16 h-16 rounded-full flex items-center justify-center border-4 border-white shadow-md transition-all duration-500 ${
-            isEncrypted ? "bg-emerald-100" : "bg-violet-100"
-          }`}>
+          <div className={`w-16 h-16 rounded-full flex items-center justify-center border-4 border-white shadow-md transition-all duration-500 ${isEncrypted ? "bg-emerald-100" : "bg-violet-100"
+            }`}>
             <Server size={28} className={isEncrypted ? "text-emerald-600" : "text-violet-600"} />
           </div>
           <p className="font-bold text-gray-800 text-sm">Server</p>
           <p className=" text-gray-800 text-[10px]">(example.com)</p>
-           
+
           <div className="flex flex-col items-center gap-1 min-h-[4rem]">
             <div className="flex items-center gap-1 text-[10px] font-medium text-amber-600">
               <FileCheck size={10} /> Certificate
@@ -297,11 +294,10 @@ export function TLSHandshakeBasicAnimation() {
         ].map((alg) => (
           <span
             key={alg.label}
-            className={`px-2 py-0.5 rounded-full text-[10px] font-bold border transition-all duration-500 ${
-              alg.active
+            className={`px-2 py-0.5 rounded-full text-[10px] font-bold border transition-all duration-500 ${alg.active
                 ? `bg-${alg.color}-50 text-${alg.color}-700 border-${alg.color}-300 shadow-sm`
                 : "bg-gray-100 text-gray-400 border-gray-200"
-            }`}
+              }`}
           >
             {alg.label}
           </span>
@@ -312,7 +308,7 @@ export function TLSHandshakeBasicAnimation() {
       <div className="mt-4 bg-white p-3 rounded-lg border text-sm text-gray-600 text-center min-h-[3.5rem] flex items-center justify-center shadow-sm">
         {step === 0 && <p><strong>Step 1:</strong> The client sends a <strong>Client Hello</strong> message containing supported cipher suites and a random nonce.</p>}
         {step === 1 && <p><strong>Step 2:</strong> The server responds with <strong>Server Hello</strong>, selecting the cipher suite and sending its random nonce.</p>}
-        {step === 2 && <p><strong>Step 3:</strong> The server sends its <strong>X.509 Certificate</strong> containing its public key, signed by a Certificate Authority.</p>}
+        {step === 2 && <p><strong>Step 3:</strong> The server sends its <strong>Certificate</strong> containing its public key, signed by a Certificate Authority.</p>}
         {step === 3 && <p><strong>Step 4:</strong> The client <strong>verifies the certificate chain</strong> using PKI — checking signatures all the way up to a trusted Root CA.</p>}
         {step === 4 && <p><strong>Step 5:</strong> Both parties perform <strong>ECDH key exchange</strong> — exchanging public key shares to derive the same shared secret.</p>}
         {step === 5 && <p><strong>Step 6:</strong> The server <strong>signs the handshake</strong> with its private key (ECDSA). The client verifies the signature to <strong>authenticate</strong> the server.</p>}
@@ -326,9 +322,8 @@ export function TLSHandshakeBasicAnimation() {
             aria-label={`Go to step ${s + 1}`}
             key={s}
             onClick={() => setStep(s)}
-            className={`flex-1 h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-              step === s ? "bg-gray-600 shadow-sm" : "bg-gray-200 hover:bg-gray-300"
-            }`}
+            className={`flex-1 h-1.5 rounded-full transition-all duration-300 cursor-pointer ${step === s ? "bg-gray-600 shadow-sm" : "bg-gray-200 hover:bg-gray-300"
+              }`}
           />
         ))}
       </div>

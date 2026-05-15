@@ -36,9 +36,9 @@ export const lesson4: Lesson = {
     },
     {
       title: "How Digital Signatures Work",
-      content: `# The Basic Principle\n\n\n
+      content: `# The basic principle\n\n\n
 
-      - Digital signatures use the **same asymmetric key pair** concept as RSA encryption, but in **reverse**
+      - Digital signatures use the **same concept** as RSA encryption, but in **reverse**
 
       - Instead of encrypting with the public key, the signer uses their **private key** to produce a signature
 
@@ -53,7 +53,7 @@ export const lesson4: Lesson = {
     },
     {
       title: "Solving the MITM Problem",
-      content: `## How Signatures prevent the active Man-in-the-Middle attack\n\n\n
+      content: `## How signatures prevent the active Man-in-the-Middle attack\n\n\n
 
       - Recall that in the MITM attack, the attacker intercepts the key exchange and substitutes his own keys
 
@@ -75,7 +75,7 @@ export const lesson4: Lesson = {
       -- **No, dont worry**
       -- There is a difference between the two problems
       
-      - The public key that needs to be transfered usually stays valid for years. Unlike the symmetric key, which lasts only during one session.
+      - The public key that needs to be transfered usually stays **valid for years**. Unlike the symmetric key, which lasts only during one session.
 
       - This life-span of the key makes it reasonable for us to create a **Public Key Infrastructure** using **digital certificates** to bind a public key with an identity.`
     },
@@ -91,7 +91,7 @@ export const lesson4: Lesson = {
 
       - When you connect, the entity sends you their certificate. Your device uses the CA's globally known public key, **pre-installed in your OS or browser**, to verify the CA's signature.
 
-      - If the CA's signature is valid, you can safely trust that the public key inside the certificate genuinely belongs to that entity!`
+      - If the CA's signature is valid, you can safely **trust that the public key** inside the certificate genuinely belongs to that entity!`
 
     },
     {
@@ -101,11 +101,13 @@ export const lesson4: Lesson = {
     },
     {
       title: "Summary",
-      content: `## Digital signatures, combined with public key infrastructure, complete the security model for authenticating communication on a public channel\n\n\n\n
+      content: `# Summary
+      
+      - Digital signatures, **combined** with public key infrastructure, **complete** the security model for authenticating communication on a public channel\n\n\n\n
 
-      - We have covered all the parts that are necessary for secure communication on a public channel\n\n
+      - We have now **covered all** the parts that are necessary for secure communication on a public channel\n\n
 
-      Next, we will look at the full process of establishing a secure connection between two parties ->`
+      Next, we will look at **the full process** of establishing a secure connection between two parties ->`
     },
   ],
 };

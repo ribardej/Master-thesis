@@ -305,7 +305,7 @@ export function QKDChannelAnimation() {
         {step === 2 && <p><strong>Step 2:</strong> Alice and Bob compare <strong>measurement bases</strong> over the public channel. Matching-basis bits form the sifted key.</p>}
         {step === 3 && <p><strong>Step 3:</strong> After error correction and privacy amplification, Alice and Bob share an identical <strong>quantum-derived key</strong>.</p>}
         {step === 4 && <p><strong>Step 4:</strong> They use the shared key for <strong>AES-256 encryption</strong>. Data travels over the public internet, encrypted with the QKD-derived key.</p>}
-        {step === 5 && <p><strong>⚠ Limitation:</strong> QKD provides <strong>no authentication</strong>. Without additional mechanisms (pre-shared keys or classical signatures), a MITM attack is possible.</p>}
+        {step === 5 && <p><strong>Limitation:</strong> QKD provides <strong>no authentication</strong>. Without additional mechanisms (pre-shared keys or classical signatures), a MITM attack is possible.</p>}
       </div>
 
       {/* Progress tiles */}

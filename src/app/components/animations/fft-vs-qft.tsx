@@ -222,7 +222,7 @@ function QFTDepthVisualization({ activeLayer, totalLayers, measured }: { activeL
   return (
     <div className="flex flex-col items-center my-2">
       <span className="text-[9px] font-semibold text-gray-400 uppercase tracking-wider mb-1">
-        QFT Circuit Depth ({totalLayers} layers on {n} qubits)
+        QFT Circuit
       </span>
       <svg width={svgWidth} height={svgHeight} viewBox={`0 0 ${svgWidth} ${svgHeight}`} className="mx-auto">
         {/* Qubit wire labels */}
@@ -552,7 +552,7 @@ export function FFTvsQFTComparisonAnimation() {
         {step === 8 && <p><strong>QFT — Initialization:</strong> The exact same 8 values are encoded as amplitudes of just 3 qubits in a superposition. The entire array exists simultaneously.</p>}
         {step === 9 && <p><strong>QFT — Processing:</strong> Quantum gates manipulate the phase of the qubits. Instead of explicit amplitude values, this shapes the <strong>probability amplitudes</strong> of measuring specific frequencies.</p>}
         {step === 10 && <p><strong>QFT — Measurement:</strong> By measuring, the quantum state <strong>collapses</strong>. We observe exactly ONE frequency, with outcomes distributed according to the probabilities. You do <strong>not</strong> get the amplitudes, only a random sample index!</p>}
-        {step === 11 && <p><strong>At cryptographic scale (N = 2²⁵⁶):</strong> FFT needs ≈ 2²⁶⁴ operations — physically impossible. QFT needs only 65,536 gates to measure one sample frequency. While you only get one index per run, a few runs are enough to uncover the period in Shor{"'"}s algorithm.</p>}
+        {step === 11 && <p><strong>At cryptographic scale (N = 2²⁵⁶):</strong> FFT needs ≈ 2²⁶⁴ operations — physically impossible. QFT needs only ≈ 65,536 gates to measure one sample frequency. While you only get one index per run, a few runs are enough to uncover the period in Shor{"'"}s algorithm.</p>}
       </div>
 
       {/* Progress bar */}

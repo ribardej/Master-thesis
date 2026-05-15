@@ -91,9 +91,8 @@ export function PQCChannelAnimation() {
 
         {/* Client */}
         <div className="relative z-10 flex flex-col items-center gap-2 w-28">
-          <div className={`w-16 h-16 rounded-full flex items-center justify-center border-4 border-white shadow-md transition-all duration-500 ${
-            isEncrypted ? "bg-emerald-100" : "bg-sky-100"
-          }`}>
+          <div className={`w-16 h-16 rounded-full flex items-center justify-center border-4 border-white shadow-md transition-all duration-500 ${isEncrypted ? "bg-emerald-100" : "bg-sky-100"
+            }`}>
             <Monitor size={28} className={isEncrypted ? "text-emerald-600" : "text-sky-600"} />
           </div>
           <p className="font-bold text-gray-800 text-sm">Client</p>
@@ -124,11 +123,10 @@ export function PQCChannelAnimation() {
         {/* Connection area with messages */}
         <div className="flex-1 relative mx-4 mt-8">
           {/* Connection line */}
-          <div className={`absolute top-0 left-0 right-0 h-0.5 transition-all duration-700 ${
-            isEncrypted
+          <div className={`absolute top-0 left-0 right-0 h-0.5 transition-all duration-700 ${isEncrypted
               ? "bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-400 shadow-sm shadow-emerald-200"
               : "bg-gray-300 border-t border-dashed border-gray-400"
-          }`} />
+            }`} />
 
           {isEncrypted && (
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-100 px-2 py-0.5 rounded text-[9px] font-bold text-emerald-700 border border-emerald-300 whitespace-nowrap">
@@ -260,9 +258,8 @@ export function PQCChannelAnimation() {
 
         {/* Server */}
         <div className="relative z-10 flex flex-col items-center gap-2 w-28">
-          <div className={`w-16 h-16 rounded-full flex items-center justify-center border-4 border-white shadow-md transition-all duration-500 ${
-            isEncrypted ? "bg-emerald-100" : "bg-violet-100"
-          }`}>
+          <div className={`w-16 h-16 rounded-full flex items-center justify-center border-4 border-white shadow-md transition-all duration-500 ${isEncrypted ? "bg-emerald-100" : "bg-violet-100"
+            }`}>
             <Server size={28} className={isEncrypted ? "text-emerald-600" : "text-violet-600"} />
           </div>
           <p className="font-bold text-gray-800 text-sm">Server</p>
@@ -297,11 +294,10 @@ export function PQCChannelAnimation() {
         ].map((alg) => (
           <span
             key={alg.label}
-            className={`px-2 py-0.5 rounded-full text-[10px] font-bold border transition-all duration-500 ${
-              alg.active
+            className={`px-2 py-0.5 rounded-full text-[10px] font-bold border transition-all duration-500 ${alg.active
                 ? `bg-${alg.color}-50 text-${alg.color}-700 border-${alg.color}-300 shadow-sm`
                 : "bg-gray-100 text-gray-400 border-gray-200"
-            }`}
+              }`}
           >
             {alg.label}
           </span>
@@ -316,7 +312,7 @@ export function PQCChannelAnimation() {
         {step === 3 && <p><strong>Step 4:</strong> Client <strong>verifies the certificate chain</strong> using PKI — checking ML-DSA signatures up to a trusted Root CA.</p>}
         {step === 4 && <p><strong>Step 5:</strong> Client decapsulates the ML-KEM ciphertext to recover the <strong>shared secret</strong>. Both parties derive the same key.</p>}
         {step === 5 && <p><strong>Step 6:</strong> Server <strong>signs the handshake</strong> using ML-DSA. Client verifies the signature to <strong>authenticate</strong> the server.</p>}
-        {step === 6 && <p><strong>Step 7:</strong> Both derive <strong>AES-256 symmetric keys</strong> from the shared secret. All data is now encrypted. <strong>Quantum-safe channel established!</strong></p>}
+        {step === 6 && <p><strong>Step 7:</strong> Both derive <strong>AES-256 symmetric keys</strong> from the shared secret. All data is now encrypted.</p>}
       </div>
 
       {/* Progress tiles */}
@@ -326,9 +322,8 @@ export function PQCChannelAnimation() {
             aria-label={`Go to step ${s + 1}`}
             key={s}
             onClick={() => setStep(s)}
-            className={`flex-1 h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-              step === s ? "bg-gray-600 shadow-sm" : "bg-gray-200 hover:bg-gray-300"
-            }`}
+            className={`flex-1 h-1.5 rounded-full transition-all duration-300 cursor-pointer ${step === s ? "bg-gray-600 shadow-sm" : "bg-gray-200 hover:bg-gray-300"
+              }`}
           />
         ))}
       </div>

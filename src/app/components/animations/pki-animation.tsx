@@ -215,7 +215,7 @@ export function PKIAnimationComponent() {
         {step === 2 && <p><strong>Step 3:</strong> The Intermediate CA <strong>signs</strong> your friend's certificate, binding their <strong>identity</strong> to their <strong>public key</strong>.</p>}
         {step === 3 && <p><strong>Step 4:</strong> Your friend sends you his certificate. It contains his public key + the Intermediate CA's signature.</p>}
         {step === 4 && <p><strong>Step 5:</strong> You verify the <strong>chain of signatures</strong>: friend's cert → signed by Intermediate CA → signed by Root CA → trusted by your OS.</p>}
-        {step === 5 && <p><strong>Step 6:</strong> The entire chain is valid! You can now <strong>trust</strong> that the public key truly belongs to your friend.</p>}
+        {step === 5 && <p><strong>Step 6:</strong> If the entire chain is valid, you can <strong>trust</strong> that the public key truly belongs to your friend.</p>}
       </div>
 
       {/* Progress Steps (Tiles) */}

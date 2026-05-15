@@ -304,7 +304,7 @@ export function Step3({ stages, subStep, setSubStep, onNext, onBack }: {
                 <span className="text-gray-500">q/2 = {(Q / 2).toFixed(1)}</span>
               </div>
               <p className="text-[10px] text-gray-400 mt-1">
-                {subStep >= 2 ? "Error ≫ q/2 → RHS is random mod q" : "Error must stay small for system to be solvable"}
+                {subStep >= 2 ? "Error ≫ q/2 → random values mod q" : "Error must stay small for system to be solvable"}
               </p>
             </div>
           </div>
@@ -352,7 +352,7 @@ export function Step4({ finalSys, actualE, actualS, onRestart }: {
       <div className="flex gap-6 items-start">
         {/* Public info: Eliminated system */}
         <div className="flex flex-col gap-2">
-          <span className="text-[10px] uppercase font-bold text-gray-500 text-center">Eliminated System</span>
+          <span className="text-[10px] font-bold text-gray-500 text-center">Eliminated System</span>
           <div className="bg-gray-50 rounded-lg border p-3">
             <div className="flex flex-col gap-1.5">
               {finalSys.map((eq, i) => (
@@ -380,7 +380,7 @@ export function Step4({ finalSys, actualE, actualS, onRestart }: {
 
         {/* Guess e */}
         <div className="flex flex-col gap-2 items-center">
-          <span className="text-[10px] uppercase font-bold text-amber-600">Your guess for e ∈ [-2, 2]⁴</span>
+          <span className="text-[10px] font-bold text-amber-600">Your guess for e ∈ [-2, 2]⁴</span>
           <div className="flex flex-col gap-1">
             {guess.map((v, i) => (
               <InputCell key={i} value={v} min={-2} max={2}
@@ -440,8 +440,7 @@ export function Step4({ finalSys, actualE, actualS, onRestart }: {
       )}
 
       <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-3 text-xs text-indigo-700 max-w-lg text-center">
-        Even in this tiny example with only 3 unknowns, guessing the correct error among 5⁴ = 625 possibilities is non-trivial.
-        Real LWE uses <b>n = 256</b> and <b>q = 3329</b> — the search space becomes eqhaustive.
+        The complexity grows exponentialy with n. Even in this tiny example with only 4 unknown errors, guessing the correct error among 5⁴ = 625 possibilities is non-trivial.
       </div>
 
       <button onClick={onRestart}

@@ -47,7 +47,7 @@ The outcome is inherently **probabilistic** - it is not determined until the mom
 
 When two or more qubits become **entangled**, they form a single quantum system described by a **unified wavefunction**. The state of each qubit **cannot** be described independently of the others.
 
-A **Bell state** is a maximally entangled state of two qubits:
+A **Bell state** is a maximally entangled state of two qubits. For example:
 
 $$ |\\Phi^+\\rangle = \\frac{1}{\\sqrt{2}}(|00\\rangle + |11\\rangle) $$
 
@@ -118,7 +118,7 @@ Lov K. Grover demonstrated that the $O(\\sqrt{N})$ limit is achievable with an i
 **1. Initialization:**
 Prepare a uniform superposition of all $N$ possible states - every key has **equal** probability amplitude.
 
-**2. Oracle Query:**
+**2. Black Box Query:**
 A quantum oracle **marks** the correct state by flipping the phase of its amplitude (from $+$ to $-$).
 
 **3. Diffusion Operator:**
@@ -142,10 +142,7 @@ Problems like the Discrete Logarithm Problem contain a **hidden periodic structu
 2. Using the **Quantum Fourier Transform (QFT)** to efficiently find the period
 3. Recovering $x$ from the period using classical computation
 
-This converts the hard problem of finding a discrete logarithm into a **tractable period-finding problem** - solved with an **exponential speedup**.
-
-### The Scenario
-Eve knows public parameters $(p, g)$ and intercepts the part secrets $s = g^x, s_b = g^y$. She needs to find $x$ or $y$ to compute the shared secret.`
+This converts the hard problem (factoriztion/discrete logarithm) into a **tractable period-finding problem** - solved with an **exponential speedup**.`
     },
     {
       title: "Shor's Algorithm: The Periodic Function",

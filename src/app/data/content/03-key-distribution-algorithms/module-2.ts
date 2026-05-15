@@ -23,7 +23,7 @@ In pre-digital eras, this was solved via physical couriers. In modern digital ne
     },
     {
       title: "The Key Distribution Problem",
-      content: `## There are 3 standardized classical algorithms used for key exchange:\n\n\n\n\n
+      content: `## There are 3 major standardized classical algorithms used for key exchange:\n\n\n\n\n
       
       - ### Diffie-Hellman
       - ### Diffie-Hellman over Elliptic curves
@@ -183,7 +183,7 @@ $$ d \\cdot e \\equiv 1 \\pmod{\\phi(n)} $$
 Once the keys are generated, RSA can be used to securely transmit data. 
 
 **Encryption:**
-To send a secret message $m$ to Your friend, you use your friend's **Public Key** $(e, n)$:
+To send a secret message $m$ to your friend, you use your friend's **Public Key** $(e, n)$:
 $$ c = m^e \\pmod n $$
 where $c$ is the resulting ciphertext. It's crucial that message $m$ is represented as an integer such that $0 \\le m < n$.
 

@@ -35,7 +35,7 @@ export const lesson9: Lesson = {
       -- Use **QKD** (e.g., BB84) for key distribution via a dedicated optical fiber (or satellite link)
       -- Provides unconditional security for key exchange (for short distances)
       -- Does **not** provide authentication or signatures
-      -- Requires specialized hardware
+      -- Requires **specialized hardware**
 
       - ### Option 3: Hybrid scheme
       -- Combine **classical** and **post-quantum** algorithms together
@@ -47,8 +47,8 @@ export const lesson9: Lesson = {
       content: `## Option 1: Pure PQC Channel\n\n\n\n
 
       - Replace the quantum-vulnerable algorithms in TLS with their post-quantum counterparts:
-      -- **ML-KEM** (FIPS 203) replaces ECDH for key distribution
-      -- **ML-DSA** (FIPS 204) replaces ECDSA for digital signatures
+      -- **ML-KEM** replaces ECDH for key distribution
+      -- **ML-DSA** replaces ECDSA for digital signatures
 
       - The rest of the protocol stays the same:
       -- AES-256-GCM for symmetric encryption (already quantum-safe with doubled key)
@@ -94,8 +94,7 @@ export const lesson9: Lesson = {
       -- If the PQ algorithm is broken -> the classical algorithm still protects
 
       - This is the **recommended transition strategy**:
-      -- NIST, NSA, BSI, and major tech companies (Google, Cloudflare, Mozilla) all recommend hybrid schemes
-      -- Google Chrome already uses a hybrid **X25519 + ML-KEM** key exchange
+      -- NIST, NSA, and major tech companies (Google, Cloudflare, Mozilla) all recommend hybrid schemes
 
       - Similarly, signatures can be hybridized: a certificate carries **both** an ECDSA and an ML-DSA signature`
     },
@@ -111,9 +110,7 @@ export const lesson9: Lesson = {
 
       - Hybrid schemes provide **robustness**:
       -- They are at least as secure as the **strongest** component
-      -- They allow a gradual, low-risk transition to post-quantum cryptography
-
-      - **NIST** recommends hybrid key exchange during the transition period`
+      -- They allow a gradual, low-risk transition to post-quantum cryptography`
     },
     {
       title: "Summary",

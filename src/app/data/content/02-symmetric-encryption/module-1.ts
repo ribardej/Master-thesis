@@ -10,12 +10,13 @@ export const lesson2: Lesson = {
     },
     {
       title: "Symmetric Encryption",
-      content: `### Symmetric Encryption protects your communication by scrambling messages so that even if an attacker intercepts them, they cannot read the contents.\n\n
-
+      content: `## The core idea
+      
+      - Symmetric Encryption protects your communication by **scrambling** messages so that even if an attacker intercepts them, they **cannot read** the contents.
 
       - It uses the **exact same key** for both encryption and decryption (hence the name "symmetric").
 
-      - It is highly efficient and significantly faster than asymmetric encryption (which we will cover later).`
+      - It is **highly efficient** and significantly faster than asymmetric encryption (which we will cover later).`
     },
     {
       title: "Visualizing the Flow",
@@ -24,10 +25,11 @@ export const lesson2: Lesson = {
     },
     {
       title: "Summary",
-      content: `### But if the confidentiality of the communication relies entirely on a shared secret key, how can the parties agree on this key using only the insecure channel they wish to protect?\n\n\n\n
+      content: `## But there is a catch 
+      \n\n\n\n\n\n\n\n\n
+      - If the confidentiality of the communication relies **entirely** on a **shared** secret key, how can the parties **agree on this key** using only the **insecure** channel they wish to protect?
 
-      The answer is: 
-      -- They have to use a **Key Distribution Algorithm** ->`
+      -- The answer: **Key Distribution Algorithms** ->`
     }
   ],
 };

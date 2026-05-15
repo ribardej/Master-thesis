@@ -31,6 +31,7 @@ export const lesson6: Lesson = {
       - In fact, the hardness of both the **prime factorization problem** and **discrete logarithm problem** was shown to be greatly reduced by the **General Number Field Sieve** (NFS) algorithm.
 
       - **NFS can not** be used to solve the **ECDH/ECDSA**. That is the reason why RSA and DH/DSA need to use much larger keys to achieve the same level of security as ECDH/ECDSA.
+      -- This is the reason why Elliptic curve cryptography is the most popular.
       
       - However it might be the case that an algorithm **easily solving** all these problems even on **classical computers** exists.
       -- We simply have not discovered it yet`
@@ -55,27 +56,28 @@ export const lesson6: Lesson = {
       -- Shor's algorithm uses QFT as the **key step** to speedup the calculations
 
       - They can solve specific class of mathematical problems **exponentially faster** than classical computers
+      -- Exponentially faster means going from $2^{256}$ operations to $256$ operations
       -- **Some** problems, **not every** problem
       
-      - This implies that there also exists a specific class of mathematical problems that **can not be solved** efficiently even on quantum computers.
+      - This implies that there also exists a specific class of mathematical problems that **currently can not be solved** efficiently even on quantum computers.
       -- On these problems relies the **Post Quantum Cryptography (PQC)**`
     },
     {
       title: "Grover's Algorithm",
       content: `## What about symmetric cryptography - Grover's Algorithm\n\n\n\n
 
-      - Symmetric encryption does not rely on hardness of some mathematical problems
+      - Symmetric encryption **does not rely** on hardness of some mathematical problems
       -- It relies on a complex shuffeling process that is unique to each possible key
 
-      - So if the shuffeling process is designed robustly enough to not reveal information about the key, there is no faster way how to recover the key rather than by brute-force
+      - So if the shuffeling process is designed robustly enough to not reveal information about the key, there is **no faster way** how to recover the key rather than by **brute-force**
 
       - The optimal quantum algorithm for brute-force key search is the **Grover's algorithm**
-      -- It provides a **quadratic speedup** for general brute-force attacks
+      -- It provides a **quadratic speedup** for general brute-force attacks (from $2^{256}$ to $2^{128}$)
       -- It is **mathematically proven to be the optimal algorithm** for general brute-force search`
     },
     {
       title: "Impact of Grover's Algorithm",
-      content: `## Practical Impact on AES\n\n\n\n
+      content: `## Practical impact on AES\n\n\n\n
 
       - Because the speedup is only quadratic, symmetric ciphers like AES remain practically **secure**
 
@@ -86,7 +88,7 @@ export const lesson6: Lesson = {
     },
     {
       title: "Summary",
-      content: `## Summary of Practical Impact\n\n\n\n
+      content: `# Summary\n\n\n\n
 
       - **Symmetric Encryption (AES)**: Remains secure, just double the key size
 
