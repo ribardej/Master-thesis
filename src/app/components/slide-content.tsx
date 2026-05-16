@@ -27,6 +27,7 @@ import { QKDChannelAnimation } from "./animations/qkd-channel";
 import { HybridTLSHandshakeAnimation } from "./animations/hybrid-tls-handshake";
 import { LWEGaussianEliminationAnimation } from "./animations/lwe-gaussian-elimination";
 import { KyberKEMFlowAnimation } from "./animations/kyber-kem-flow";
+import { BDDLatticeImage } from "./animations/bdd-lattice-image";
 
 export function SlideContent({ content }: { content: string }) {
   const lines = content.trim().split("\n");
@@ -291,6 +292,8 @@ export function SlideContent({ content }: { content: string }) {
           elements.push(<LWEGaussianEliminationAnimation key={key++} />);
         } else if (componentName === "KyberKEMFlow") {
           elements.push(<KyberKEMFlowAnimation key={key++} />);
+        } else if (componentName === "BDDLatticeImage") {
+          elements.push(<BDDLatticeImage key={key++} />);
         }
         // Additional components can be registered here in the future
       }
