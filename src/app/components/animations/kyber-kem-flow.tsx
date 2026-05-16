@@ -5,25 +5,25 @@ import { useGlobalAnimationSpeed, AnimationSpeedControl } from "./animation-spee
 type Scenario = "valid" | "attack";
 
 const VALID_STEPS = [
-  "1. Your friend samples secret s and error e from the set of small polynomials.",
-  "2. Your friend computes b = A·s + e and publishes ek = (A, b). The seed z is kept secret.",
-  "3. You generate random message m and derive (K, R) = G(m, H(ek)).",
-  "4. Using R as the deterministic seed, you compute ciphertext (c₁, c₂) via Kyber-PKE.",
-  "5. You send ciphertext c = (c₁, c₂) to your friend. You already know the shared key K.",
-  "6. Your friend decrypts c using secret key s: rounds c₂ - sᵀc₁ to recover m'.",
-  "7. Your friend re-derives (K', R') = G(m', H(ek)) and re-encrypts m' → c'.",
-  "8. c = c' - Your friend returns K' = K. Both parties share the same key!",
+  "1. You sample secret s and error e from the set of small polynomials.",
+  "2. You compute b = A·s + e and publish ek = (A, b). The seed z is kept secret.",
+  "3. Your friend generates random message m and derives (K, R) = G(m, H(ek)).",
+  "4. Using R as the deterministic seed, your friend computes ciphertext (c₁, c₂) via Kyber-PKE.",
+  "5. Transmission: Your friend sends ciphertext c = (c₁, c₂) to you. Your friend already knows the shared key K.",
+  "6. Decapsulate: You decrypt c using secret key s: rounds c₂ - sᵀc₁ to recover m'.",
+  "7. FO Transform: You re-derive (K', R') = G(m', H(ek)) and re-encrypt m' → c'.",
+  "8. c = c' - You return K' = K. Both parties share the same key!",
 ];
 
 const ATTACK_STEPS = [
-  "1. Your friend generates keys as before. ek = (A, b) is public, s and z are secret.",
-  "2. Your friend publishes the encapsulation key ek = (A, b).",
+  "1. You generate keys as before. ek = (A, b) is public, s and z are secret.",
+  "2. You publish the encapsulation key ek = (A, b).",
   "3. Attacker crafts a malicious ciphertext c - NOT using small error polynomials from S_η.",
-  "4. Attacker sends the crafted c to your friend, hoping to learn information about s.",
-  "5. Your friend decrypts c using s → gets m. The large errors cause wrong decryption.",
-  "6. Your friend re-derives (K, R) = G(m, H(ek)) and re-encrypts m → c'.",
+  "4. Attacker sends the crafted c to you, hoping to learn information about s.",
+  "5. You decrypt c using s → gets m. The large errors cause wrong decryption.",
+  "6. You re-derive (K, R) = G(m, H(ek)) and re-encrypt m → c'.",
   "7. c ≠ c' - the re-encrypted ciphertext doesn't match!",
-  "8. Your friend returns K̄ = J(z, c) - a pseudorandom key. Attacker learns nothing about s.",
+  "8. You return K̄ = J(z, c) - a pseudorandom key. Attacker learns nothing about s.",
 ];
 
 export function KyberKEMFlowAnimation() {
@@ -131,9 +131,9 @@ export function KyberKEMFlowAnimation() {
       {/* Animation Grid */}
       <div className="flex w-full items-stretch justify-center gap-2 min-h-[400px] relative">
 
-        {/* LEFT COLUMN: Your friend (key holder) */}
+        {/* LEFT COLUMN: You (key holder) */}
         <div className="flex-1 flex flex-col items-center bg-blue-50/50 border border-blue-200 rounded-xl p-3 z-10 w-[30%]">
-          <div className="font-bold text-blue-700 text-base mb-3">Your friend</div>
+          <div className="font-bold text-blue-700 text-base mb-3">You</div>
           <div className="flex flex-col gap-2 w-full">
 
             {/* Secret key */}
@@ -210,7 +210,7 @@ export function KyberKEMFlowAnimation() {
 
           {/* Encapsulation Key */}
           <div className={`transition-opacity duration-500 bg-white border border-blue-300 shadow-sm rounded px-3 py-2 flex flex-col items-center w-full max-w-[180px] mt-2 ${step >= 1 ? "opacity-100" : "opacity-0"}`}>
-            <span className="text-[10px] uppercase font-bold text-blue-600 border-b border-gray-100 pb-1 mb-1 w-full text-center">Your friend's Encapsulation Key</span>
+            <span className="text-[10px] uppercase font-bold text-blue-600 border-b border-gray-100 pb-1 mb-1 w-full text-center">Your Encapsulation Key</span>
             <span className="font-mono text-xs font-bold text-blue-800">ek = (A, b)</span>
           </div>
 
@@ -260,16 +260,16 @@ export function KyberKEMFlowAnimation() {
           </div>
         </div>
 
-        {/* RIGHT COLUMN: You (encapsulator) / Eve (attacker) */}
+        {/* RIGHT COLUMN: Your friend (encapsulator) / Attacker */}
         <div className={`flex-1 flex flex-col items-center rounded-xl p-3 z-10 w-[30%] ${isAttack ? "bg-red-50/50 border border-red-200" : "bg-pink-50/50 border border-pink-200"
           }`}>
           <div className={`font-bold text-base mb-3 ${isAttack ? "text-red-700" : "text-pink-700"}`}>
-            {isAttack ? "Attacker" : "You"}
+            {isAttack ? "Attacker" : "Your friend"}
           </div>
 
           <div className="flex flex-col gap-2.5 w-full">
             {!isAttack ? (
-              /* ── Valid scenario: You encapsulate ── */
+              /* ── Valid scenario: Your friend encapsulates ── */
               <>
                 {/* Message */}
                 <Card show={step >= 2} border="border-pink-100">
@@ -319,7 +319,7 @@ export function KyberKEMFlowAnimation() {
                 <Card show={step >= 3} border="border-red-300">
                   <Label color="text-red-700">Send crafted c</Label>
                   <Detail>Attacker sends c = (c₁, c₂)</Detail>
-                  <Detail>to your friend</Detail>
+                  <Detail>to you</Detail>
                 </Card>
 
                 {/* Attack result */}

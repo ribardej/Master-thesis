@@ -116,17 +116,17 @@ The lattice $L_A$ is periodic modulo $q$ in every coordinate - the blue box. The
 
 Introduced by Lindner-Peikert (2011). **Encrypts just one bit** Parameters: $(n, q, B)$
 
-**Key Generation (Alice):**
+**Key Generation (You):**
 1. Select $s \\in_R [-B, B]^n$, $e \\in_R [-B, B]^n$, $A \\in_R \\mathbb{Z}_q^{n \\times n}$
 2. Compute $b = As + e \\pmod{q}$
 3. **Public key**: $(A, b)$; **Private key**: $s$
 
-**Encryption (Bob):** To encrypt $m \\in \\{0,1\\}$:
+**Encryption (Your friend):** To encrypt $m \\in \\{0,1\\}$:
 1. Select $r, z \\in_R [-B, B]^n$ and $z' \\in_R [-B, B]$
 2. Compute $c_1 = A^T r + z$ and $c_2 = b^T r + z' + m \\lceil q/2 \\rfloor$
-3. Send $c = (c_1, c_2)$ to Alice
+3. Send $c = (c_1, c_2)$ to You
 
-**Decryption (Alice):**
+**Decryption (You):**
 1. Compute $m = \\text{Round}_q(c_2 - s^T c_1)$
 
 Where $\\text{Round}_q(x) = \\begin{cases} 0, & \\text{if } -q/4 \\le x \\text{ mods } q \\le  q/4\\\\ 1, & else \\end{cases} $`
@@ -360,17 +360,17 @@ The $12 \\times 8$ matrix consists of a $3 \\times 2$ **grid of anti-circulant b
 
 The core building block of ML-KEM. Input parameters: $q, n, k, \\eta_1, \\eta_2$.
 
-**Key Generation (Your friend):**
+**Key Generation (You):**
 1. Select $A \\in_R R_q^{k \\times k}$, $s \\in_R S_{\\eta_1}^k$, $e \\in_R S_{\\eta_2}^k$
 2. Compute $b = As + e$
 3. **Public key**: $(A, b)$; **Private key**: $s$
 
-**Encryption (You):** To encrypt $m \\in \\{0, 1\\}^n$:
+**Encryption (Your friend):** To encrypt $m \\in \\{0, 1\\}^n$:
 1. Select $r \\in_R S_{\\eta_1}^k$, $e_1 \\in_R S_{\\eta_2}^k$, $e_2 \\in_R S_{\\eta_2}$
 2. Compute $u = A^T r + e_1$ and $v = b^T r + e_2 + \\lceil q/2 \\rfloor \\cdot m$
 3. Output ciphertext $c = (u, v)$
 
-**Decryption (Your friend):**
+**Decryption (You):**
 1. Compute $m = \\text{Round}_q(v - s^T u)$`
     },
     {
@@ -417,18 +417,18 @@ This ensures that an attacker **cannot create a valid** ciphertext without knowi
 
 Domain parameters: $n=256, q, k, \\eta_1, \\eta_2$, hash functions $G$ (512-bit output), $H$ and $J$ (256-bit outputs).
 
-**Key Generation (Your friend):**
+**Key Generation (You):**
 1. Generate Kyber-PKE keys: encryption key $(A, b)$, decryption key $s$
 2. Select $z \\in_R \\{0,1\\}^{256}$
 3. **Encapsulation key**: $ek = (A, b)$; **Decapsulation key**: $dk = (s, ek, H(ek), z)$
 
-**Encapsulation (You):**
+**Encapsulation (Your friend):**
 1. Select $m \\in_R \\{0,1\\}^{256}$
 2. Compute $(K, R) = G(m, H(ek))$
 3. Encrypt $m$ with Kyber-PKE using $R$ as the deterministic seed → ciphertext $c$
 4. Output shared key $K$ and ciphertext $c$
 
-**Decapsulation (Your friend):**
+**Decapsulation (You):**
 1. Decrypt $c$ using Kyber-PKE → plaintext $m'$
 2. Compute $(K', R') = G(m', H(ek))$ and $\\overline{K} = J(z, c)$
 3. **Re-encrypt** $m'$ using $R'$ → ciphertext $c'$
