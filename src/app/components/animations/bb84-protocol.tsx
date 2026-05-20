@@ -206,11 +206,10 @@ export function BB84ProtocolAnimation() {
               {exchangeData.map((d, idx) => (
                 <td key={idx} className="px-2 py-2 text-center">
                   {step >= 1 ? (
-                    <span className={`inline-flex items-center justify-center w-8 h-8 rounded text-sm font-bold transition-all duration-500 ${
-                      d.aliceBasis === "rectilinear"
+                    <span className={`inline-flex items-center justify-center w-8 h-8 rounded text-sm font-bold transition-all duration-500 ${d.aliceBasis === "rectilinear"
                         ? "bg-blue-100 text-blue-700 border border-blue-300"
                         : "bg-purple-100 text-purple-700 border border-purple-300"
-                    } ${step === 1 ? "scale-110 shadow-md" : ""}`}>
+                      } ${step === 1 ? "scale-110 shadow-md" : ""}`}>
                       {basisSymbol(d.aliceBasis)}
                     </span>
                   ) : null}
@@ -227,14 +226,12 @@ export function BB84ProtocolAnimation() {
                   <td key={idx} className="px-2 py-2 text-center">
                     {step >= 2 ? (
                       <div className={`flex flex-col items-center transition-all duration-500 ${step === 2 || step === 3 ? "scale-110" : ""}`}>
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                          d.aliceBasis === "rectilinear"
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${d.aliceBasis === "rectilinear"
                             ? "bg-blue-50 border border-blue-200"
                             : "bg-purple-50 border border-purple-200"
-                        } ${step === 3 ? "animate-pulse" : ""}`}>
-                          <pol.icon size={16} className={`${
-                            d.aliceBasis === "rectilinear" ? "text-blue-600" : "text-purple-600"
-                          }`} />
+                          } ${step === 3 ? "animate-pulse" : ""}`}>
+                          <pol.icon size={16} className={`${d.aliceBasis === "rectilinear" ? "text-blue-600" : "text-purple-600"
+                            }`} />
                         </div>
                       </div>
                     ) : null}
@@ -250,7 +247,7 @@ export function BB84ProtocolAnimation() {
                   <div className="flex items-center gap-2">
                     <div className="flex-1 h-px bg-gradient-to-r from-transparent via-amber-300 to-transparent"></div>
                     <span className="text-amber-600 font-medium">
-                      {step === 3 ? "⚡ Quantum Channel ⚡" : "Quantum Channel"}
+                      {step === 3 ? "Quantum Channel" : "Quantum Channel"}
                     </span>
                     <div className="flex-1 h-px bg-gradient-to-r from-transparent via-amber-300 to-transparent"></div>
                   </div>
@@ -268,11 +265,10 @@ export function BB84ProtocolAnimation() {
               {exchangeData.map((d, idx) => (
                 <td key={idx} className="px-2 py-2 text-center">
                   {step >= 4 ? (
-                    <span className={`inline-flex items-center justify-center w-8 h-8 rounded text-sm font-bold transition-all duration-500 ${
-                      d.bobBasis === "rectilinear"
+                    <span className={`inline-flex items-center justify-center w-8 h-8 rounded text-sm font-bold transition-all duration-500 ${d.bobBasis === "rectilinear"
                         ? "bg-blue-100 text-blue-700 border border-blue-300"
                         : "bg-purple-100 text-purple-700 border border-purple-300"
-                    } ${step === 4 ? "scale-110 shadow-md" : ""}`}>
+                      } ${step === 4 ? "scale-110 shadow-md" : ""}`}>
                       {basisSymbol(d.bobBasis)}
                     </span>
                   ) : null}
@@ -289,14 +285,12 @@ export function BB84ProtocolAnimation() {
                   <td key={idx} className="px-2 py-2 text-center">
                     {step >= 5 ? (
                       <div className={`flex flex-col items-center transition-all duration-500 ${step === 5 ? "scale-110" : ""}`}>
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                          d.bobBasis === "rectilinear"
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${d.bobBasis === "rectilinear"
                             ? "bg-blue-50 border border-blue-200"
                             : "bg-purple-50 border border-purple-200"
-                        }`}>
-                          <pol.icon size={16} className={`${
-                            d.bobBasis === "rectilinear" ? "text-blue-600" : "text-purple-600"
-                          }`} />
+                          }`}>
+                          <pol.icon size={16} className={`${d.bobBasis === "rectilinear" ? "text-blue-600" : "text-purple-600"
+                            }`} />
                         </div>
                       </div>
                     ) : null}
@@ -325,7 +319,7 @@ export function BB84ProtocolAnimation() {
                 {step >= 6 ? (
                   <div className="flex items-center gap-2">
                     <div className="flex-1 h-px bg-gradient-to-r from-transparent via-indigo-300 to-transparent"></div>
-                    <span className="text-indigo-600 font-medium">📡 Public Classical Channel</span>
+                    <span className="text-indigo-600 font-medium">Public Classical Channel</span>
                     <div className="flex-1 h-px bg-gradient-to-r from-transparent via-indigo-300 to-transparent"></div>
                   </div>
                 ) : (
@@ -342,11 +336,10 @@ export function BB84ProtocolAnimation() {
               {exchangeData.map((d, idx) => (
                 <td key={idx} className="px-2 py-2 text-center">
                   {step >= 6 ? (
-                    <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full transition-all duration-500 ${
-                      d.match
+                    <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full transition-all duration-500 ${d.match
                         ? "bg-green-100 text-green-700 border-2 border-green-400"
                         : "bg-red-50 text-red-400 border border-red-200"
-                    } ${step === 6 ? "scale-110 shadow-md" : ""}`}>
+                      } ${step === 6 ? "scale-110 shadow-md" : ""}`}>
                       {d.match ? <Check size={16} strokeWidth={3} /> : <X size={16} />}
                     </span>
                   ) : null}
@@ -402,9 +395,8 @@ export function BB84ProtocolAnimation() {
             aria-label={`Go to step ${s + 1}`}
             key={s}
             onClick={() => setStep(s)}
-            className={`flex-1 h-2 rounded-full transition-all duration-300 cursor-pointer ${
-              step === s ? "bg-gray-600 shadow-sm" : "bg-gray-200 hover:bg-gray-300"
-            }`}
+            className={`flex-1 h-2 rounded-full transition-all duration-300 cursor-pointer ${step === s ? "bg-gray-600 shadow-sm" : "bg-gray-200 hover:bg-gray-300"
+              }`}
           />
         ))}
       </div>

@@ -1,5 +1,7 @@
 # Quantum-Safe Cryptography Learning Tool
 
+[ribardej.github.io/Master-thesis/](https://ribardej.github.io/Master-thesis/)
+
 An interactive, educational platform designed to teach and visualize classical, quantum, and quantum-safe (post-quantum) cryptographic concepts. Developed as part of a Master's Thesis.
 
 ---
@@ -9,13 +11,13 @@ An interactive, educational platform designed to teach and visualize classical, 
 ### 1. 30 Interactive React Visualization Modules
 The platform is powered by an extensive suite of bespoke simulation modules, allowing learners to physically interact with cryptographic operations:
 *   **Classical Ciphers**: Caesar Cipher (interactive shift wheel), Transposition Cipher (visual grid routing).
-*   **Symmetric Encryption**: Interactive AES Round-by-Round Animation, AES Matrix State Transformations.
+*   **Symmetric Encryption**: Interactive AES Round-by-Round Animation
 *   **Asymmetric Key Exchange**: Diffie-Hellman Key Exchange (visual paint-mixing & math), MITM DH Simulation, RSA Key Distribution Flow, Elliptic Curve DH (ECDH).
 *   **Digital Signatures**: Digital Signature Fundamentals, RSA Signatures, DSA & ECDSA Numeric Signatures.
 *   **Classical Trust Infrastructures**: Public Key Infrastructure (PKI) Authority Flow, TLS 1.3 Handshake (Basic & Detailed).
-*   **The Quantum Threat**: FFT vs. QFT (Quantum Fourier Transform) Visual Comparison, Grover's Algorithm Search Space, Shor's Period-Finding Steps (Classical vs. Quantum).
-*   **Post-Quantum Cryptography (PQC)**: Lattice-Based Cryptography (LWE Gaussian Elimination, LWE Math), Kyber KEM (Key Encapsulation Mechanism) Protocol Flow, BDD (Bounded Distance Decoding) Lattice Visual.
-*   **Quantum Key Distribution (QKD)**: BB84 Protocol Simulator (polarization states, bases, and eavesdropping), QKD Channel Simulation.
+*   **The Quantum Threat**: FFT vs. QFT (Quantum Fourier Transform) Visual Comparison.
+*   **Post-Quantum Cryptography (PQC)**: Lattice-Based Cryptography (LWE Gaussian Elimination), Kyber KEM (Key Encapsulation Mechanism) Protocol Flow, BDD (Bounded Distance Decoding) Lattice Visual.
+*   **Quantum Key Distribution (QKD)**: BB84 Protocol Simulator (polarization states, bases, and eavesdropping).
 *   **Quantum-Safe Channels**: Pure PQC Channel, Pure QKD Channel, and Hybrid Classical-PQC TLS Handshake.
 
 ### 2. Double-Module Structured Curriculum

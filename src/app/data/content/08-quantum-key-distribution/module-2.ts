@@ -104,32 +104,10 @@ An eavesdropper monitoring the public channel learns which bases were used, but 
 [COMPONENT: BB84ProtocolAnimation]`
     },
     {
-      title: "Eavesdropping Detection",
+      title: "Eve's Intercept-Resend Attack",
       content: `# Eavesdropping detection
 
-The critical security feature of BB84 is the ability to detect eavesdropping **after** the sifted key is established.
-
-### How an Attacker Attacks
-If an attacker intercepts a photon, he must **measure** it (he cannot copy it due to the No-Cloning Theorem). He then resends a new photon to your friend. But since an attacker doesn't know your basis:
-- He picks a **random basis** to measure
-- With **50% probability**, he picks the wrong basis and **destroys** the original polarization
-- He resends a photon based on his (possibly incorrect) measurement
-
-### The Error Rate
-When an attacker uses the wrong basis, he introduces a detectable error:
-- He gets the wrong bit with 50% probability (wrong basis)
-- Your friend then has a 50% chance of measuring this corrupted photon incorrectly
-
-Overall, an attacker's interception causes a **25% error rate** on the bits he intercepted (probability: $\\frac{1}{2} \\times \\frac{1}{2} = \\frac{1}{4}$).
-
-### Verification
-You and your friend publicly compare a random subset of $n$ sifted-key bits. If the error rate exceeds a threshold, you abort. The probability of an attacker escaping detection is at most $\\left(\\frac{3}{4}\\right)^n$.`
-    },
-    {
-      title: "Eve's Intercept-Resend Attack",
-      content: `# Detecting an intercept-resend attack
-
-Consider a single photon where you send $\\uparrow$ (bit 0) in the rectilinear basis ($\\oplus$):
+The critical security feature of BB84 is the ability to detect eavesdropping **after** the sifted key is established. Consider a single photon where you send $\\uparrow$ (bit 0) in the rectilinear basis ($\\oplus$):
 
 ### Case 1: Attacker picks the correct basis ($\\oplus$)
 - Attacker measures $\\uparrow$ - gets bit 0 (correct)
