@@ -145,6 +145,33 @@ Problems like the Discrete Logarithm Problem contain a **hidden periodic structu
 This converts the hard problem (factoriztion/discrete logarithm) into a **tractable period-finding problem** - solved with an **exponential speedup**.`
     },
     {
+      title: "Quantum Fourier Transform",
+      content: `# The Quantum Fourier Transform (QFT)
+
+The QFT is the quantum analogue of the classical **Discrete Fourier Transform (DFT)**. It is the key building block that makes Shor's algorithm efficient.
+
+### Classical FFT (Fast Fourier Transform)
+- Computes the DFT of $N$ values
+- Complexity: $O(N \\log N)$ operations
+- Processes values **sequentially**
+- The results are amplitudes of the whole frequency domain (list of $N$ values)
+
+### Quantum Fourier Transform
+- Acts on $n$ qubits encoding $N = 2^n$ amplitudes
+- Complexity: $O(n^2) = O(\\log^2 N)$ quantum gates
+- Exploits **superposition** to process all amplitudes simultaneously
+- The result is a single probabilistic measurement of the period
+
+For Shor's algorithm, the QFT efficiently extracts the **period** of the modular function from the quantum state - a task that would require exponential time classically.
+
+Note: The algorithm works exactly when $p-1$ is 2-smooth ($p-1 = 2^k$). For the general case, the QFT size is $q$ where $p < q < 2p$ and $q$ is smooth. Shor proved that with additional techniques (continued fractions), $x$ can still be found with constant measurements.`
+    },
+    {
+      title: "FFT vs QFT Comparison",
+      content: `
+      [COMPONENT: FFTvsQFTComparison]`
+    },
+    {
       title: "Shor's Algorithm: The Periodic Function",
       content: `# Shor's Algorithm: Constructing the Periodic Function
 
@@ -186,33 +213,6 @@ $$ \\frac{1}{(p-1)^2}\\sum_{a,b,c,d=0}^{p-2} e^{\\frac{2\\pi i}{p-1}(ac+bd)}|c, 
 5. **Measure** the state to obtain values of $c$ and $d$
 
 6. Compute $x$ on a classical computer by solving $c - dx \\equiv 0 \\pmod{p-1}$`
-    },
-    {
-      title: "Quantum Fourier Transform",
-      content: `# The Quantum Fourier Transform (QFT)
-
-The QFT is the quantum analogue of the classical **Discrete Fourier Transform (DFT)**. It is the key building block that makes Shor's algorithm efficient.
-
-### Classical FFT (Fast Fourier Transform)
-- Computes the DFT of $N$ values
-- Complexity: $O(N \\log N)$ operations
-- Processes values **sequentially**
-- The results are amplitudes of the whole frequency domain (list of $N$ values)
-
-### Quantum Fourier Transform
-- Acts on $n$ qubits encoding $N = 2^n$ amplitudes
-- Complexity: $O(n^2) = O(\\log^2 N)$ quantum gates
-- Exploits **superposition** to process all amplitudes simultaneously
-- The result is a single probabilistic measurement of the period
-
-For Shor's algorithm, the QFT efficiently extracts the **period** of the modular function from the quantum state - a task that would require exponential time classically.
-
-Note: The algorithm works exactly when $p-1$ is 2-smooth ($p-1 = 2^k$). For the general case, the QFT size is $q$ where $p < q < 2p$ and $q$ is smooth. Shor proved that with additional techniques (continued fractions), $x$ can still be found with constant measurements.`
-    },
-    {
-      title: "FFT vs QFT Comparison",
-      content: `
-      [COMPONENT: FFTvsQFTComparison]`
     },
     {
       title: "Shor's Algorithm for ECDLP",

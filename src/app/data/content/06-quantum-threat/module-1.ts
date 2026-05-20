@@ -92,7 +92,7 @@ export const lesson6: Lesson = {
 
       - **Symmetric Encryption (AES)**: Remains secure, just double the key size
 
-      - **Key Distribution (DH, RSA)**: Completely broken by Shor's algorithm
+      - **Key Distribution (ECDH, RSA)**: Completely broken by Shor's algorithm
 
       - **Digital Signatures (RSA, ECDSA, Certificates)**: Completely broken by Shor's algorithm`
     },

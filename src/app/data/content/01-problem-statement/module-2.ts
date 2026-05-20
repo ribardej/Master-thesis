@@ -73,8 +73,6 @@ export const lesson1: Lesson = {
 - [Applied Cryptography by Bruce Schneier, Second Edition](https://mrajacse.wordpress.com/wp-content/uploads/2012/01/applied-cryptography-2nd-ed-b-schneier.pdf) 
 -- Chapter 1
 
-- [Communication Theory of Secrecy Systems by Claude Shannon (1949)](https://netlab.cs.ucla.edu/script/shannon1949.pdf)
-
 - [La cryptographie militaire (1883)](https://www.petitcolas.net/kerckhoffs/crypto_militaire_1.pdf) 
 -- Auguste Kerckhoffs's original paper formulating his famous principle. (If you speak French)
 

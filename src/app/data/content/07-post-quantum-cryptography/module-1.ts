@@ -19,7 +19,7 @@ export const lesson7: Lesson = {
 -- However it is **not proven** that there can not be efficient quantum, or even classical, algorithms that would break the math problems.
 
 - PQC algorithms run on **classical hardware** - no special hardware or quantum computer is needed
--- They are designed as **drop-in replacements** for existing algorithms like RSA, DH, and ECDSA`
+-- They are designed as **drop-in replacements** for existing algorithms like ECDSA, ECDH, and RSA`
     },
     {
       title: "Post-Quantum Cryptography",

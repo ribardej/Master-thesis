@@ -82,7 +82,7 @@ Two fundamental hard problems on lattices:
       
       - The fastest way to solve BDD (and also LWE) is to consequently convert it to the **Shortest Vector Problem** (SVP), which can be solved more efficiently.
       -- This way of solving LWE is called the Primal attack using a Kannan embedding
-      -- Time complexity is **exponential**, namely $2^{0.292n}$, where $n$ is dimension of the secret vector
+      -- Time complexity is **exponential**, namely $2^{0.292n}$, where $n$ corresponds to dimension of the secret vector
       `
     },
     {
@@ -291,7 +291,7 @@ The structured matrix makes Ring-LWE **more efficient** than standard LWE, while
 
 Parameters: $n=4$, $k=2$, $q=17$, $B=1$. Ring: $R_{17} = \\mathbb{Z}_{17}[x]/(x^4+1)$.
 
-Sample $s(x) = 1 + x - x^3$ ($\\|s\\|_\\infty = 1$, i.e. **small**), and $a_1, a_2 \\in_R R_{17}$, $e_1, e_2 \\in_R S_1$:
+Sample $s(x) = 3 + 7x +13x^2 + 6x^3$, and $a_1, a_2 \\in_R R_{17}$, $e_1, e_2 \\in_R S_1$:
 
 $a_1(x) = 5 + 3x + 12x^2 + 7x^3$, $\\quad e_1(x) = 1 - x^2$
 
@@ -301,7 +301,7 @@ Compute $b_i = a_i \\cdot s + e_i$ in $R_{17}$.
 
 This can be viewed as a **LWE instance** with structured $A$:
 
-$$\\underbrace{\\begin{bmatrix} \\ \\boxed{\\begin{smallmatrix} 5 & 10 & 5 & 14 \\\\\\ 3 & 5 & 10 & 5 \\\\\\ 12 & 3 & 5 & 10 \\\\\\ 7 & 12 & 3 & 5 \\end{smallmatrix} } \\ \\\\\\ \\boxed{\\begin{smallmatrix} 9 & 6 & 15 & 3 \\\\\\ 14 & 9 & 6 & 15 \\\\\\ 2 & 14 & 9 & 6 \\\\\\ 11 & 2 & 14 & 9 \\end{smallmatrix} } \\ \\end{bmatrix}}_{\\text{two anti-circulant blocks}} \\times \\begin{bmatrix} 1 \\\\\\ 1 \\\\\\ 0 \\\\\\ -1 \\end{bmatrix} + \\begin{bmatrix} 1 \\\\\\ 0 \\\\\\ -1 \\\\\\ 0 \\\\\\ -1 \\\\\\ 1 \\\\\\ 0 \\\\\\ 1 \\end{bmatrix} = \\begin{bmatrix} b_1 \\\\\\ b_2 \\end{bmatrix} \\pmod{17}$$
+$$\\underbrace{\\begin{bmatrix} \\ \\boxed{\\begin{smallmatrix} 5 & 10 & 5 & 14 \\\\\\ 3 & 5 & 10 & 5 \\\\\\ 12 & 3 & 5 & 10 \\\\\\ 7 & 12 & 3 & 5 \\end{smallmatrix} } \\ \\\\\\ \\boxed{\\begin{smallmatrix} 9 & 6 & 15 & 3 \\\\\\ 14 & 9 & 6 & 15 \\\\\\ 2 & 14 & 9 & 6 \\\\\\ 11 & 2 & 14 & 9 \\end{smallmatrix} } \\ \\end{bmatrix}}_{\\text{two anti-circulant blocks}} \\times \\begin{bmatrix} 3 \\\\\\ 7 \\\\\\ 13 \\\\\\ 6 \\end{bmatrix} + \\begin{bmatrix} 1 \\\\\\ 0 \\\\\\ -1 \\\\\\ 0 \\\\\\ -1 \\\\\\ 1 \\\\\\ 0 \\\\\\ 1 \\end{bmatrix} = \\begin{bmatrix} b_1 \\\\\\ b_2 \\end{bmatrix} \\pmod{17}$$
 
 Each $\\overline{\\text{circ}}(a_i)$ block is fully determined by a **single polynomial** $a_i$ - this structure is what makes Ring-LWE efficient while the problem remains believed to be as hard as general LWE.`
     },
@@ -343,11 +343,11 @@ $$\\underbrace{\\begin{bmatrix} \\overline{\\text{circ}}(a_{11}) & \\cdots & \\o
 
 Parameters: $n=4$, $k=3$, $\\ell=2$, $q=17$, $B=1$. The secret is a **vector** of polynomials $\\mathbf{s} = (s_1, s_2) \\in R_{17}^2$.
 
-$s_1(x) = 1 - x^2$, $\\quad s_2(x) = x + x^3$ (both with $\\|\\cdot\\|_\\infty \\le 1$)
+$s_1(x) = 3 + 5x^2 + 9x^3, \\quad s_2(x) = 2 + x + 13x^2 + 15x^3$ 
 
 The matrix $A \\in R_{17}^{3 \\times 2}$ has $k \\cdot \\ell = 6$ polynomial entries. Each $a_{ij}$ generates an anti-circulant block. The expanded system $\\mathbf{b} = A\\mathbf{s} + \\mathbf{e}$ becomes once again just a **structured LWE** instance:
 
-$$\\underbrace{\\begin{bmatrix} \\ \\boxed{\\overline{\\text{circ}}(a_{11})} & \\boxed{\\overline{\\text{circ}}(a_{21})} \\ \\\\\\ \\boxed{\\overline{\\text{circ}}(a_{12})} & \\boxed{\\overline{\\text{circ}}(a_{22})} \\ \\\\\\ \\boxed{\\overline{\\text{circ}}(a_{13})} & \\boxed{\\overline{\\text{circ}}(a_{23})} \\ \\end{bmatrix}}_{12 \\times 8} \\times \\underbrace{\\begin{bmatrix} s_1 \\\\\\ s_2 \\end{bmatrix}}_{8 \\times 1} + \\underbrace{\\begin{bmatrix} e_1 \\\\\\ e_2 \\\\\\ e_3 \\end{bmatrix}}_{12 \\times 1} = \\underbrace{\\begin{bmatrix} b_1 \\\\\\ b_2 \\\\\\ b_3 \\end{bmatrix}}_{12 \\times 1} \\pmod{17}$$
+$$\\underbrace{\\begin{bmatrix} \\ \\boxed{\\begin{smallmatrix} 5 & 10 & 5 & 14 \\\\ 3 & 5 & 10 & 5 \\\\ 12 & 3 & 5 & 10 \\\\ 7 & 12 & 3 & 5 \\end{smallmatrix}} \\boxed{\\begin{smallmatrix} 9 & 6 & 15 & 3 \\\\ 14 & 9 & 6 & 15 \\\\ 2 & 14 & 9 & 6 \\\\ 11 & 2 & 14 & 9 \\end{smallmatrix}} \\ \\\\\\ \\boxed{\\begin{smallmatrix} 12 & 13 & 12 & 14 \\\\ 3 & 12 & 13 & 12 \\\\ 5 & 3 & 12 & 13 \\\\ 4 & 5 & 3 & 12 \\end{smallmatrix} }  \\boxed{\\begin{smallmatrix} 11 & 1 & 9 & 14 \\\\ 3 & 11 & 1 & 9 \\\\ 8 & 3 & 11 & 1 \\\\ 16 & 8 & 3 & 11 \\\end{smallmatrix}} \\ \\\\\\ \\boxed{\\begin{smallmatrix} 14 & 0 & 7 & 5 \\\\ 12 & 14 & 0 & 7 \\\\ 10 & 12 & 14 & 0 \\\\ 0 & 10 & 12 & 14 \\end{smallmatrix}}  \\boxed{\\begin{smallmatrix} 15 & 10 & 5 & 14 \\\\ 3 & 15 & 10 & 5 \\\\ 12 & 3 & 15 & 10 \\\\ 7 & 12 & 3 & 15 \\end{smallmatrix} } \\ \\end{bmatrix}}_{12 \\times 8} \\times \\underbrace{\\begin{bmatrix}3 \\\\ 0 \\\\ 5 \\\\ 9 \\\\ 2 \\\\ 1 \\\\ 13 \\\\ 15 \\end{bmatrix}}_{8 \\times 1} + \\underbrace{\\begin{bmatrix} e_1 \\\\\\ e_2 \\\\\\ e_3 \\end{bmatrix}}_{12 \\times 1} = \\underbrace{\\begin{bmatrix} b_1 \\\\\\ b_2 \\\\\\ b_3 \\end{bmatrix}}_{12 \\times 1} \\pmod{17}$$
 
 The $12 \\times 8$ matrix consists of a $3 \\times 2$ **grid of anti-circulant blocks**, each of size $4 \\times 4$.
 - Each block is generated by a single random polynomial → efficient storage and multiplication
@@ -407,9 +407,7 @@ A **KEM** wraps the PKE to produce a shared secret key instead of encrypting arb
 2. Adding **implicit rejection** - if a ciphertext is tampered with, a pseudorandom key is returned instead of failing
 3. Enabling **re-encryption check** - the receiver can verify ciphertext authenticity
 
-This ensures that an attacker **cannot create a valid** ciphertext without knowing the underlying message.
--- In principle, this is the same as the use of HMAC in symmetric encryption
--- However do not confuse this mechanism with proper identity authentication`
+This ensures that an attacker **cannot create a valid** ciphertext without knowing the underlying message.`
     },
     {
       title: "Kyber-KEM",

@@ -76,6 +76,7 @@ export const lesson4: Lesson = {
       -- There is a difference between the two problems
       
       - The public key that needs to be transfered usually stays **valid for years**. Unlike the symmetric key, which lasts only during one session.
+      -- Also, the public key can and should be public by definition, unlike the symmetric key 
 
       - This life-span of the key makes it reasonable for us to create a **Public Key Infrastructure** using **digital certificates** to bind a public key with an identity.`
     },
