@@ -129,12 +129,12 @@ The tool contains a comprehensive course structured into **9 Interactive Chapter
 |---|---|---|---|---|
 | **01** | **Problem Statement** | Communication channels, Alice/Bob scenario | `01-problem-statement/module-1` | `01-problem-statement/module-2` |
 | **02** | **Symmetric Encryption** | Caesar cipher, Transposition wheel, AES Matrix | `02-symmetric-encryption/module-1` | `02-symmetric-encryption/module-2` |
-| **03** | **Key Distribution** | DH paint mixing, DH numerical, RSA flow, ECDH | `03-key-distribution-algorithms/module-1` | `03-key-distribution-algorithms/module-2` |
-| **04** | **Digital Signatures** | Signature signing flow, RSA, DSA, ECDSA math | `04-digital-signatures/module-1` | `04-digital-signatures/module-2` |
-| **05** | **Classical Public Channel** | CA hierarchies, TLS 1.3 Handshake flows | `05-securing-public-channel-classically/module-1` | `05-securing-public-channel-classically/module-2` |
-| **06** | **Quantum Threat** | Shor's Algorithm QFT visualizer, Grover's steps | `06-quantum-threat/module-1` | `06-quantum-threat/module-2` |
-| **07** | **Post-Quantum Cryptography** | LWE matrix steps, BDD visual, Kyber KEM flow | `07-post-quantum-cryptography/module-1` | `07-post-quantum-cryptography/module-2` |
-| **08** | **Quantum Key Distribution** | Photon polarizers, BB84 protocol + Eve eavesdrop | `08-quantum-key-distribution/module-1` | `08-quantum-key-distribution/module-2` |
+| **03** | **Key Distribution** | DH paint mixing, MITM attack, RSA flow, ECDH | `03-key-distribution-algorithms/module-1` | `03-key-distribution-algorithms/module-2` |
+| **04** | **Digital Signatures** | CA hierarchies, RSA, DSA, ECDSA math | `04-digital-signatures/module-1` | `04-digital-signatures/module-2` |
+| **05** | **Classical Public Channel** | TLS 1.3 Handshake flows | `05-securing-public-channel-classically/module-1` | `05-securing-public-channel-classically/module-2` |
+| **06** | **Quantum Threat** | QFT visualizer | `06-quantum-threat/module-1` | `06-quantum-threat/module-2` |
+| **07** | **Post-Quantum Cryptography** | LWE matrix steps, Kyber KEM flow | `07-post-quantum-cryptography/module-1` | `07-post-quantum-cryptography/module-2` |
+| **08** | **Quantum Key Distribution** | BB84 protocol + Eve eavesdrop | `08-quantum-key-distribution/module-1` | `08-quantum-key-distribution/module-2` |
 | **09** | **Quantum-Safe Channels** | PQC, QKD, and Hybrid TLS Handshake models | `09-quantum-safe-public-channel-establishment/module-1` | `09-quantum-safe-public-channel-establishment/module-2` |
 
 ---
