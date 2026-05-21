@@ -12,7 +12,7 @@ export const lesson7: Lesson = {
       title: "Post-Quantum Cryptography",
       content: `# The core idea behind Post-Quantum Cryptography (PQC)
 
-- In the previous chapter, we saw that **Shor's algorithm** breaks RSA and (EC)DH by exploiting the **hidden periodic structure** of their underlying mathematical problems using the **Quantum Fourier Transform**
+- In the previous chapter, we mentioned that **Shor's algorithm** breaks RSA and (EC)DH by exploiting the **hidden periodic structure** of their underlying mathematical problems using the **Quantum Fourier Transform**
 
 - PQC algorithms are designed around mathematical problems that are believed to **lack any exploitable periodic structure**
 -- Without a secret period to find, Shor's algorithm offers **no advantage**

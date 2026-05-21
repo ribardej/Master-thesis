@@ -44,7 +44,7 @@ In a hybrid scheme, the client and server perform **two independent key exchange
 3. Client decapsulates: $SS_2 = \\text{Decaps}(dk_c, ct)$
 
 ### Combined Secret
-The final shared secret is derived by concatenating and hashing both:
+The final shared secret is derived by concatenating and hashing both (or more generally derived by a Key Derivation Function):
 $$ SS_{\\text{hybrid}} = \\text{KDF}(SS_1 \\| SS_2) $$
 
 If either $SS_1$ or $SS_2$ remains secret, the combined $SS_{\\text{hybrid}}$ is secure.`

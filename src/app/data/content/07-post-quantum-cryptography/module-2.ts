@@ -50,7 +50,7 @@ First introduced by Oded Regev in 2005. 18 of 49 first-round NIST PQC submission
 
 Given $A \\in_R \\mathbb{Z}_q^{m \\times n}$ and $b = As + e \\pmod{q}$, find $s$.
 
-$$\\underbrace{\\begin{bmatrix} & & \\\\\\\\ & A & \\\\\\\\ & & \\end{bmatrix}}_{m \\times n} \\times \\underbrace{\\begin{bmatrix} \\\\\\ s \\\\\\ \\end{bmatrix}}_{n \\times 1} + \\underbrace{\\begin{bmatrix} \\\\\\\\ e \\\\\\\\\\ \\end{bmatrix}}_{m \\times 1} = \\underbrace{\\begin{bmatrix} \\\\\\\\\ b \\\\\\\\\\ \\end{bmatrix}}_{m \\times 1} \\pmod{q}$$
+$$\\underbrace{\\begin{bmatrix} & & \\\\\\\\ & A & \\\\\\\\ & &  \\end{bmatrix}}_{m \\times n} \\times \\underbrace{\\begin{bmatrix} \\\\\\ s \\\\\\ \\end{bmatrix}}_{n \\times 1} + \\underbrace{\\begin{bmatrix} \\\\\\\\ e \\\\\\\\\\ \\end{bmatrix}}_{m \\times 1} = \\underbrace{\\begin{bmatrix} \\\\\\\\\ b \\\\\\\\\\ \\end{bmatrix}}_{m \\times 1} \\pmod{q}$$
 
 Without the error $e$, this is just a system of linear equations - solvable by Gaussian elimination. The small error $e$ makes the problem **computationally hard**.`
     },
@@ -129,7 +129,7 @@ Introduced by Lindner-Peikert (2011). **Encrypts just one bit** Parameters: $(n,
 **Decryption (You):**
 1. Compute $m = \\text{Round}_q(c_2 - s^T c_1)$
 
-Where $\\text{Round}_q(x) = \\begin{cases} 0, & \\text{if } -q/4 \\le x \\text{ mods } q \\le  q/4\\\\ 1, & else \\end{cases} $`
+Where $\\text{Round}_q(x) = \\begin{cases} 0, & \\text{if } -q/4 \\le (x \\text{ mods } q) \\le  q/4\\\\ 1, & else \\end{cases} $`
     },
     {
       title: "LWE-based PKE: The Idea",
@@ -139,9 +139,9 @@ Where $\\text{Round}_q(x) = \\begin{cases} 0, & \\text{if } -q/4 \\le x \\text{ 
 
 - All secret vectors and errors are **small** (bounded by $B$), so their products remain small.
 
-- **Extra noise** in form of $b^T r = s^T A^T r$ and $A^T r$ is added to the ciphertexts so it is indistinguishable from random.
+- **Extra noise** in form of $(b^T r = s^T A^T r + e^T r)$ and $A^T r$ is added to the ciphertexts so it is indistinguishable from random.
 -- This "big" noise is why the ciphertexts appear random modulo $q$
--- The noise **cancels out** in the decryption process.
+-- The noise almost completely **cancels out** in the decryption process.
 
 - After decryption the remaining noise consisits from only products of small vectors
 -- The rounding function can then distinguish between $0$ and $\\lceil q/2 \\rfloor$.`
@@ -166,6 +166,10 @@ Since $s, e, r, z, z'$ are all bounded by $B$, the total error $E$ satisfies $|E
 -- Decryption succeeds when $|E| < q/4$, which holds for appropriate parameter choices
 -- If $m=0$: the result is close to $0$ → $\\text{Round}_q$ outputs $0$
 -- If $m=1$: the result is close to $\\lceil q/2 \\rfloor$ → $\\text{Round}_q$ outputs $1$`
+    },
+    {
+      title: "Visualizing the encryption process",
+      content: `[COMPONENT: LWEEncryptionViz]`
     },
     {
       title: "Motivation for Ring-LWE",

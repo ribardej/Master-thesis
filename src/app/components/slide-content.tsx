@@ -28,6 +28,7 @@ import { HybridTLSHandshakeAnimation } from "./animations/hybrid-tls-handshake";
 import { LWEGaussianEliminationAnimation } from "./animations/lwe-gaussian-elimination";
 import { KyberKEMFlowAnimation } from "./animations/kyber-kem-flow";
 import { BDDLatticeImage } from "./animations/bdd-lattice-image";
+import { LWEEncryptionVizAnimation } from "./animations/lwe-encryption-viz";
 
 export function SlideContent({ content }: { content: string }) {
   const lines = content.trim().split("\n");
@@ -294,6 +295,8 @@ export function SlideContent({ content }: { content: string }) {
           elements.push(<KyberKEMFlowAnimation key={key++} />);
         } else if (componentName === "BDDLatticeImage") {
           elements.push(<BDDLatticeImage key={key++} />);
+        } else if (componentName === "LWEEncryptionViz") {
+          elements.push(<LWEEncryptionVizAnimation key={key++} />);
         }
         // Additional components can be registered here in the future
       }

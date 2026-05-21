@@ -89,13 +89,13 @@ export function QKDChannelAnimation() {
       {/* Main diagram */}
       <div className="relative flex justify-between items-start">
 
-        {/* Alice */}
+        {/* You */}
         <div className="relative z-10 flex flex-col items-center gap-2 w-28">
           <div className={`w-16 h-16 rounded-full flex items-center justify-center border-4 border-white shadow-md transition-all duration-500 ${isEncrypted ? "bg-emerald-100" : "bg-sky-100"
             }`}>
             <Monitor size={28} className={isEncrypted ? "text-emerald-600" : "text-sky-600"} />
           </div>
-          <p className="font-bold text-gray-800 text-sm">Alice</p>
+          <p className="font-bold text-gray-800 text-sm">You</p>
           <div className="flex flex-col items-center gap-1 min-h-[4rem]">
             {step >= 1 && (
               <div className={`flex items-center gap-1 text-[10px] font-medium transition-all duration-500 ${step === 1 ? "text-amber-600 scale-110" : "text-amber-600"}`}>
@@ -252,13 +252,13 @@ export function QKDChannelAnimation() {
           </div>
         </div>
 
-        {/* Bob */}
+        {/* Your Friend */}
         <div className="relative z-10 flex flex-col items-center gap-2 w-28">
           <div className={`w-16 h-16 rounded-full flex items-center justify-center border-4 border-white shadow-md transition-all duration-500 ${isEncrypted ? "bg-emerald-100" : "bg-violet-100"
             }`}>
-            <Server size={28} className={isEncrypted ? "text-emerald-600" : "text-violet-600"} />
+            <Monitor size={28} className={isEncrypted ? "text-emerald-600" : "text-sky-600"} />
           </div>
-          <p className="font-bold text-gray-800 text-sm">Bob</p>
+          <p className="font-bold text-gray-800 text-sm">Your Friend</p>
           <div className="flex flex-col items-center gap-1 min-h-[4rem]">
             {step >= 1 && (
               <div className={`flex items-center gap-1 text-[10px] font-medium transition-all duration-500 ${step === 1 ? "text-amber-600 scale-110" : "text-amber-600"}`}>
@@ -300,10 +300,10 @@ export function QKDChannelAnimation() {
 
       {/* Step explanations */}
       <div className="mt-4 bg-white p-3 rounded-lg border text-sm text-gray-600 text-center min-h-[3.5rem] flex items-center justify-center shadow-sm">
-        {step === 0 && <p><strong>Setup:</strong> Alice and Bob are connected by a <strong>dedicated quantum fiber</strong> for photon transmission and a <strong>public classical channel</strong> for sifting.</p>}
-        {step === 1 && <p><strong>Step 1:</strong> Alice sends <strong>polarized photons</strong> to Bob through the dedicated quantum fiber (BB84 protocol).</p>}
-        {step === 2 && <p><strong>Step 2:</strong> Alice and Bob compare <strong>measurement bases</strong> over the public channel. Matching-basis bits form the sifted key.</p>}
-        {step === 3 && <p><strong>Step 3:</strong> After error correction and privacy amplification, Alice and Bob share an identical <strong>quantum-derived key</strong>.</p>}
+        {step === 0 && <p><strong>Setup:</strong> You and your friend are connected by a <strong>dedicated quantum fiber</strong> for photon transmission and a <strong>public classical channel</strong> for sifting.</p>}
+        {step === 1 && <p><strong>Step 1:</strong> You send <strong>polarized photons</strong> to your friend through the dedicated quantum fiber (BB84 protocol).</p>}
+        {step === 2 && <p><strong>Step 2:</strong> You and your friend compare <strong>measurement bases</strong> over the public channel. Matching-basis bits form the sifted key.</p>}
+        {step === 3 && <p><strong>Step 3:</strong> After error correction and privacy amplification, you and your friend share an identical <strong>quantum-derived key</strong>.</p>}
         {step === 4 && <p><strong>Step 4:</strong> They use the shared key for <strong>AES-256 encryption</strong>. Data travels over the public internet, encrypted with the QKD-derived key.</p>}
         {step === 5 && <p><strong>Limitation:</strong> QKD provides <strong>no authentication</strong>. Without additional mechanisms (pre-shared keys or classical signatures), a MITM attack is possible.</p>}
       </div>

@@ -357,7 +357,7 @@ function ScaleComparison({ active }: { active: boolean }) {
       </div>
       <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
         <div className="text-[10px] font-semibold text-amber-600 uppercase tracking-wider mb-2 text-center">
-          Quantum QFT
+          Quantum FT
         </div>
         <div className="space-y-1.5">
           <div className="flex justify-between text-[10px]">
@@ -483,7 +483,7 @@ export function FFTvsQFTComparisonAnimation() {
         {/* ─── QFT Panel ─── */}
         <div className={`bg-white rounded-lg border p-4 transition-all duration-500 ${step >= 8 ? "border-amber-300 shadow-md" : "border-gray-200"}`}>
           <div className="text-center mb-2">
-            <span className="text-sm font-bold text-amber-700 uppercase tracking-wider">Quantum QFT</span>
+            <span className="text-sm font-bold text-amber-700 uppercase tracking-wider">Quantum FT</span>
             <div className="text-[10px] text-gray-400 mt-0.5">Quantum Fourier Transform</div>
           </div>
 
@@ -551,7 +551,7 @@ export function FFTvsQFTComparisonAnimation() {
         {step === 7 && <p><strong>FFT Complete:</strong> All 8 complex amplitude bins are computed sequentially. The output is exactly the full Fourier Transform.</p>}
         {step === 8 && <p><strong>QFT — Initialization:</strong> The exact same 8 values are encoded as amplitudes of just 3 qubits in a superposition. The entire array exists simultaneously.</p>}
         {step === 9 && <p><strong>QFT — Processing:</strong> Quantum gates manipulate the phase of the qubits. Instead of explicit amplitude values, this shapes the <strong>probability amplitudes</strong> of measuring specific frequencies.</p>}
-        {step === 10 && <p><strong>QFT — Measurement:</strong> By measuring, the quantum state <strong>collapses</strong>. We observe exactly ONE frequency, with outcomes distributed according to the probabilities. You do <strong>not</strong> get the amplitudes, only a random sample index!</p>}
+        {step === 10 && <p><strong>QFT — Measurement:</strong> By measuring, the quantum state <strong>collapses</strong>. We observe exactly ONE frequency, with outcomes distributed according to the probabilities. You do <strong>not</strong> obtain the full frequency spectrum, only a random sample index!</p>}
         {step === 11 && <p><strong>At cryptographic scale (N = 2²⁵⁶):</strong> FFT needs ≈ 2²⁶⁴ operations — physically impossible. QFT needs only ≈ 65,536 gates to measure one sample frequency. While you only get one index per run, a few runs are enough to uncover the period in Shor{"'"}s algorithm.</p>}
       </div>
 

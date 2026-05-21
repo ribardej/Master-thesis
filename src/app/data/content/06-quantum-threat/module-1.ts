@@ -31,7 +31,7 @@ export const lesson6: Lesson = {
       - In fact, the hardness of both the **prime factorization problem** and **discrete logarithm problem** was shown to be greatly reduced by the **General Number Field Sieve** (NFS) algorithm.
 
       - **NFS can not** be used to solve the **ECDH/ECDSA**. That is the reason why RSA and DH/DSA need to use much larger keys to achieve the same level of security as ECDH/ECDSA.
-      -- This is the reason why Elliptic curve cryptography is the most popular.
+      -- This is the reason why Elliptic curve cryptography became the most popular.
       
       - However it might be the case that an algorithm **easily solving** all these problems even on **classical computers** exists.
       -- We simply have not discovered it yet`
