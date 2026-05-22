@@ -85,7 +85,7 @@ export function CaesarCipherAnimation() {
   const getDescription = () => {
     if (isDecryption) {
       if (currStep === 0) return "Decryption phase. We received the ciphertext.";
-      if (currStep === 1) return "Mapping the ciphertext to integers (A=0, B=1... Z=25).";
+      if (currStep === 1) return "Mapping the ciphertext to integers (A=0, B=1... Z=25). Therefore all the operations are modulo 26";
       if (currStep >= 2 && currStep < 2 + N) {
         const idx = currStep - 2;
         const s = sourceInts[idx];
@@ -100,7 +100,7 @@ export function CaesarCipherAnimation() {
       if (currStep === 2 + N) return "Converting the numeric results back to alphabet letters.";
     } else {
       if (currStep === 0) return "Encryption phase. Starting with the plaintext.";
-      if (currStep === 1) return "Mapping the plaintext to integers (A=0, B=1... Z=25).";
+      if (currStep === 1) return "Mapping the plaintext to integers (A=0, B=1... Z=25). Therefore all the operations are modulo 26";
       if (currStep >= 2 && currStep < 2 + N) {
         const idx = currStep - 2;
         const s = sourceInts[idx];
@@ -158,16 +158,15 @@ export function CaesarCipherAnimation() {
       <div className="flex items-start justify-center gap-2 min-h-[220px]">
         {plainChars.map((_, idx) => {
           const showSourceInt = currStep >= 1;
-          const showTargetInt = currStep >= 2 + N || (Math.max(0, currStep - 2) >= idx && currStep>1);
+          const showTargetInt = currStep >= 2 + N || (Math.max(0, currStep - 2) >= idx && currStep > 1);
           const showTargetChar = currStep >= 2 + N;
           const isActive = activeOpIndex === idx;
 
           return (
             <div
               key={idx}
-              className={`flex flex-col items-center gap-1 transition-all duration-300 ${
-                isActive ? "ring-2 ring-blue-500 rounded-lg p-1 bg-blue-50/50 scale-105" : "p-1"
-              }`}
+              className={`flex flex-col items-center gap-1 transition-all duration-300 ${isActive ? "ring-2 ring-blue-500 rounded-lg p-1 bg-blue-50/50 scale-105" : "p-1"
+                }`}
             >
               {/* Source Char row */}
               <div className="w-10 h-10 flex items-center justify-center font-bold text-xl bg-gray-50 border-2 border-gray-300 rounded shadow-sm text-gray-800 uppercase">
@@ -214,13 +213,12 @@ export function CaesarCipherAnimation() {
             <button
               key={s}
               onClick={() => setStep(s)}
-              className={`flex-1 h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                step === s
-                  ? s >= 3 + N ? "bg-purple-600 shadow-sm" : "bg-green-600 shadow-sm"
-                  : s >= 3 + N
+              className={`flex-1 h-2 rounded-full transition-all duration-300 cursor-pointer ${step === s
+                ? s >= 3 + N ? "bg-purple-600 shadow-sm" : "bg-green-600 shadow-sm"
+                : s >= 3 + N
                   ? "bg-purple-200 hover:bg-purple-300"
                   : "bg-green-200 hover:bg-green-300"
-              }`}
+                }`}
             />
           ))}
         </div>

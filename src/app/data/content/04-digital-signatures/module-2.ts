@@ -324,6 +324,19 @@ $$`
       [COMPONENT: ECDSANumeric]`
     },
     {
+      title: "EdDSA: Introduction",
+      content: `# Edwards-curve Digital Signature Algorithm (EdDSA)
+
+EdDSA is a modern, high-performance digital signature scheme based on a specific family of elliptic curves - **Edwards curves**. It was designed to overcome many of the pitfalls of ECDSA.
+
+### Key Advantages over ECDSA:
+- **Deterministic Signing:** EdDSA does not require a random number generator during signing. Instead, the per-message secret is derived deterministically using a cryptographic hash function. This completely eliminates the risk of private key leakage due to poor randomness.
+- **High Performance:** EdDSA uses highly optimized curves (like **Curve25519**) that are designed to be fast and resistant to side-channel attacks by default.
+- **Simpler Implementation:** Its design makes it much easier to implement securely compared to ECDSA.
+
+The most widely used instance is **Ed25519**, which provides 128-bit security using only 32-byte public keys and 64-byte signatures. It is increasingly becoming the standard for modern cryptographic protocols like TLS 1.3.`
+    },
+    {
       title: "Comparison: RSA vs DSA vs ECDSA",
       content: `# Comparing Signature Algorithms
 
