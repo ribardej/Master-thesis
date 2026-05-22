@@ -8,7 +8,7 @@ An interactive, educational platform designed to teach and visualize classical, 
 
 ## Key Highlights
 
-### 1. 30 Interactive React Visualization Modules
+### 1. Interactive React Visualization Modules
 The platform is powered by an extensive suite of bespoke simulation modules, allowing learners to physically interact with cryptographic operations:
 *   **Classical Ciphers**: Caesar Cipher (interactive shift wheel), Transposition Cipher (visual grid routing).
 *   **Symmetric Encryption**: Interactive AES Round-by-Round Animation
@@ -122,44 +122,29 @@ npx playwright codegen http://localhost:5173
 
 ```text
 src/
-├── app/
-│   ├── App.tsx                   # Root component
-│   ├── routes.tsx                # Client-side route declarations (Hash Routing)
-│   ├── components/               # Shareable layouts & rendering
-│   │   ├── course-navigation.tsx # Slide control buttons (Previous / Next)
-│   │   ├── course-sidebar.tsx    # Expandable modules & lessons drawer
-│   │   ├── slide-content.tsx     # Custom MD + LaTeX + Component Parser Engine
-│   │   └── animations/           # 30 interactive cryptographic modules
-│   │       ├── caesar-cipher.tsx
-│   │       ├── aes-round-animation.tsx
-│   │       ├── dh-key-distribution.tsx
-│   │       ├── bb84-protocol.tsx
-│   │       ├── kyber-kem-flow.tsx
-│   │       └── ...
-│   ├── pages/                    # Main page views
-│   │   ├── course-layout.tsx     # Structural wrapping (Sidebar + Main Content)
-│   │   ├── lesson.tsx            # Orchestrator for loading lessons/slides
-│   │   └── ...
-│   └── data/                     # Content management
-│       ├── types.ts              # Core types (Course, Module, Lesson, Slide)
-│       ├── course-data.ts        # Main aggregator of course routes
-│       ├── module-1.ts           # Module 1 (Overview) chapters mapping
-│       ├── module-2.ts           # Module 2 (Detailed) chapters mapping
-│       └── content/              # Chapters divided into standalone directories
-│           ├── 01-problem-statement/
-│           ├── 02-symmetric-encryption/
-│           ├── 03-key-distribution-algorithms/
-│           ├── 04-digital-signatures/
-│           ├── 05-securing-public-channel-classically/
-│           ├── 06-quantum-threat/
-│           ├── 07-post-quantum-cryptography/
-│           ├── 08-quantum-key-distribution/
-│           └── 09-quantum-safe-public-channel-establishment/
-└── styles/                       # Base and custom themes
-    ├── index.css                 # Standard application layout
-    ├── tailwind.css              # Tailwind imports
-    ├── theme.css                 # Color scheme and design system tokens
-    └── fonts.css                 # Typography rules
+├── main.tsx                 # Application entry point
+├── styles/                  # Global CSS and theme
+└── app/
+    ├── App.tsx              # Root component (router provider)
+    ├── routes.tsx           # Hash-based route definitions
+    ├── pages/
+    │   ├── course-layout.tsx   # Layout: sidebar + content area
+    │   ├── lesson.tsx          # Resolves lesson/slide from URL
+    │   └── not-found.tsx       # 404 fallback
+    ├── components/
+    │   ├── course-sidebar.tsx   # Navigation panel
+    │   ├── course-navigation.tsx # Bottom bar with arrows/progress
+    │   ├── slide-content.tsx    # Markdown-like content renderer
+    │   └── animations/          # 30+ interactive animation components
+    └── data/
+        ├── types.ts            # Core data model interfaces
+        ├── course-data.ts      # Course assembly and helper functions
+        ├── module-1.ts         # Module 1 lesson imports
+        ├── module-2.ts         # Module 2 lesson imports
+        └── content/            # 9 chapter directories, each with
+            ├── 01-problem-statement/    # module-1.ts and module-2.ts
+            ├── 02-symmetric-encryption/
+            └── ...
 ```
 
 ---
