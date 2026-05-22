@@ -39,6 +39,7 @@ Complex algorithms are supplemented with standard mathematical notation. The pla
 *   **Language**: [TypeScript](https://www.typescriptlang.org/) — End-to-end type safety and code predictability
 *   **Math Rendering**: [KaTeX](https://katex.org/) & [React-KaTeX](https://github.com/talyssonoc/react-katex) — Fast math typesetting
 *   **Icons**: [Lucide React](https://lucide.dev/) — Consistent, responsive vector iconography
+*   **Testing**: [Playwright](https://playwright.dev/) — Cross-browser E2E testing (Chromium, Firefox, WebKit)
 
 ---
 
@@ -71,6 +72,48 @@ The output directory will be `dist/`, containing highly-optimized HTML, JS, and 
 Verify the production build locally:
 ```bash
 npm run preview
+```
+
+---
+
+## Testing
+
+The project uses [Playwright](https://playwright.dev/) for end-to-end testing across **Chromium**, **Firefox**, and **WebKit** (Safari).
+
+### Setup
+After installing project dependencies, install the Playwright browser binaries:
+```bash
+npx playwright install
+```
+
+### Running Tests
+Run the full test suite across all three browsers:
+```bash
+npm test
+```
+
+Run tests in a single browser for faster iteration:
+```bash
+npm run test:chromium
+```
+
+Launch the interactive Playwright UI for debugging and visual test exploration:
+```bash
+npm run test:ui
+```
+
+### Test Structure
+Tests are located in the `e2e/` directory and are configured via [`playwright.config.ts`](playwright.config.ts). The config automatically starts the Vite dev server before running tests, so no manual server startup is needed.
+
+```text
+e2e/
+└── app.spec.ts    # Core functionality tests (homepage, navigation, routing)
+```
+
+### Writing New Tests
+Add new `*.spec.ts` files to the `e2e/` directory. Playwright will automatically discover and run them. Use the [Playwright codegen](https://playwright.dev/docs/codegen) tool to record interactions:
+```bash
+npx playwright codegen http://localhost:5173
 ```
 
 ---
