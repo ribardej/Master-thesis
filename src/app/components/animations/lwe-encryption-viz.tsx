@@ -12,14 +12,14 @@ const B = 2;
 const HQ = Math.round(Q / 2); // 57
 const STEPS = 6;
 
-const LABELS = ["Key Gen", "Encrypt params", "Encrypt", "Decrypt", "Expand", "Result"];
+const LABELS = ["1) Key Gen", "2) Obtain PK, select encryption secrets", "3) Encrypt", "4) Decrypt", "5) Expand", "6) Result"];
 const DESCS = [
   "b = As + e (mod 113)",
-  "Sample r, z, z\u2032",
+  "Obtain the Public Key (A, b), sample r, z, z\u2032 and scale the message bit",
   "Encryption can be viewed as another instance of the LWE problem (mod 113)",
-  "Decrypt: (bottom) \u2212 s\u1d40 \u00d7 (top)",
+  "Decrypt: c2 \u2212 s\u1d40 \u00d7 c1 (or visually: bottom \u2212 s\u1d40 \u00d7 top)",
   "s\u1d40A\u1d40 = (b \u2212 e)\u1d40 = b\u1d40 \u2212 e\u1d40",
-  "b\u1d40r cancels \u2192 small error E \u2192 Round",
+  "b\u1d40r cancels \u2192 small error E introduced \u2192 Round",
 ];
 
 /* ── Colors ── */
@@ -120,7 +120,7 @@ function Sep({ color = "#d1d5db" }: { color?: string }) {
 function MsgToggle({ m, set }: { m: number; set: (m: number) => void }) {
   return (
     <div className="flex items-center gap-2">
-      <span className="text-xs text-gray-500 font-medium">Message:</span>
+      <span className="text-xs text-gray-500 font-medium">Choose message:</span>
       {[0, 1].map(v => (
         <button key={v} onClick={() => set(v)}
           className={`px-2.5 py-1 rounded text-xs font-mono font-bold border cursor-pointer transition-all ${m === v ? 'shadow-sm' : 'bg-gray-50 text-gray-400 border-gray-200 hover:bg-gray-100'}`}
@@ -227,33 +227,21 @@ export function LWEEncryptionVizAnimation() {
     <div className="flex flex-col items-center w-full max-w-4xl mx-auto p-4 bg-white rounded-xl shadow-sm border border-gray-100 text-sm overflow-hidden">
       {/* Header */}
       <div className="flex w-full items-center justify-between mb-2 px-2">
-        <h3 className="text-lg font-bold text-gray-800 m-0">Tou Example of LWE Encryption Process (n=3, q=113, B=2)</h3>
+        <h3 className="text-lg font-bold text-gray-800 m-0">Toy Example of LWE Encryption Process (n=3, q=113, B=2)</h3>
         <button onClick={regenerate}
           className="flex items-center gap-1.5 text-xs text-gray-600 hover:text-indigo-600 bg-gray-50 px-3 py-1.5 rounded border shadow-sm cursor-pointer transition-colors">
           <RotateCcw size={14} /> Regenerate
         </button>
       </div>
 
-      {/* Step indicator */}
-      <div className="w-full flex items-center justify-center gap-0.5 mb-1.5 px-2">
-        {LABELS.map((label, i) => (
-          <React.Fragment key={i}>
-            <button onClick={() => setStep(i)} className="flex flex-col items-center gap-0.5 cursor-pointer bg-transparent border-none p-0">
-              <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold border-2 transition-all ${i === step ? "bg-indigo-600 text-white border-indigo-600 shadow" :
-                i < step ? "bg-indigo-100 text-indigo-600 border-indigo-300" :
-                  "bg-gray-100 text-gray-400 border-gray-200"}`}>{i + 1}</div>
-              <span className={`text-[8px] font-medium transition-colors ${i === step ? "text-indigo-600" : i < step ? "text-indigo-400" : "text-gray-400"}`}>{label}</span>
-            </button>
-            {i < STEPS - 1 && <div className={`flex-1 h-0.5 mx-0.5 rounded mt-[-10px] ${i < step ? "bg-indigo-300" : "bg-gray-200"}`} />}
-          </React.Fragment>
-        ))}
+      {/* Step description */}
+      <div className="min-h-[60px] flex flex-col items-center justify-center w-full px-4 mb-4 mt-2">
+        <span className="text-xs font-bold text-indigo-500 uppercase tracking-widest mb-1.5">{LABELS[step]}</span>
+        <p className="text-xs text-gray-700 text-center font-mono leading-relaxed max-w-2xl">{DESCS[step]}</p>
       </div>
 
-      {/* One-line description */}
-      <p className="text-xs text-gray-400 mb-2 font-mono">{DESCS[step]}</p>
-
-      {/* Message toggle (step 1+) */}
-      {step >= 1 && <div className="mb-3"><MsgToggle m={v.m} set={toggleMsg} /></div>}
+      {/* Message toggle (step 1 only) */}
+      {step === 1 && <div className="mb-3"><MsgToggle m={v.m} set={toggleMsg} /></div>}
 
       {/* Content */}
       <div className="w-full min-h-[300px] flex flex-col items-center justify-center px-2">
@@ -267,10 +255,15 @@ export function LWEEncryptionVizAnimation() {
 
       {/* Progress */}
       <div className="mt-4 w-full flex gap-1 px-4">
-        {Array.from({ length: STEPS }, (_, i) => (
-          <button key={i} onClick={() => setStep(i)}
-            className={`flex-1 h-2 rounded-full transition-all cursor-pointer ${step === i ? "bg-indigo-600 shadow-sm" : i < step ? "bg-indigo-300 hover:bg-indigo-400" : "bg-gray-200 hover:bg-gray-300"}`} />
-        ))}
+        {Array.from({ length: STEPS }, (_, i) => {
+          const isDecryption = [0, 3, 4, 5].includes(i);
+          const activeColor = isDecryption ? "bg-emerald-600 shadow-sm" : "bg-indigo-600 shadow-sm";
+          const pastColor = isDecryption ? "bg-emerald-300 hover:bg-emerald-400" : "bg-indigo-300 hover:bg-indigo-400";
+          return (
+            <button key={i} onClick={() => setStep(i)}
+              className={`flex-1 h-2 rounded-full transition-all cursor-pointer ${step === i ? activeColor : i < step ? pastColor : "bg-gray-200 hover:bg-gray-300"}`} />
+          );
+        })}
       </div>
       <div className="mt-2 w-full flex justify-between items-center text-xs text-gray-400 px-4">
         <span>Step {step + 1} / {STEPS}</span>
@@ -321,20 +314,41 @@ function Step0({ v }: { v: V }) {
 
 function Step1({ v }: { v: V }) {
   return (
-    <div className="flex items-center gap-6">
-      <Bk color={CL.r} label="r">
-        {v.r.map((val, i) => <div key={i}><Num v={val} color={CL.r} /></div>)}
-      </Bk>
-      <Bk color={CL.z} label="z">
-        {v.z.map((val, i) => <div key={i}><Num v={val} color={CL.z} /></div>)}
-      </Bk>
-      <Bk color={CL.z} label="z&apos;">
-        <Num v={v.zp} color={CL.z} />
-      </Bk>
-      <div className="flex flex-col items-center gap-0.5">
-        <span className="text-[11px] tracking-wider" style={{ color: CL.m }}>m · ⌈q/2⌋</span>
-        <span className="font-mono text-sm font-bold px-2 py-1 rounded"
-          style={{ color: CL.m, backgroundColor: CL.mb }}>{v.m} · {HQ} = {v.m * HQ}</span>
+    <div className="flex items-center gap-8">
+      {/* Public Key (Left) */}
+      <div className="flex flex-col items-center gap-2 pr-8 border-r-2 border-gray-100 border-dashed">
+        <div className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Public Key</div>
+        <div className="flex items-center gap-3">
+          <Bk color={CL.A} label="A">
+            {v.A.map((row, i) => (
+              <div key={i} className="flex">{row.map((val, j) => <Num key={j} v={val} color={CL.A} w={36} />)}</div>
+            ))}
+          </Bk>
+          <Bk color={CL.b} label="b">
+            {v.b.map((val, i) => <div key={i}><Num v={val} color={CL.b} /></div>)}
+          </Bk>
+        </div>
+      </div>
+
+      {/* Encryption Secrets (Right) */}
+      <div className="flex flex-col items-center gap-2">
+        <div className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Encryption Secrets</div>
+        <div className="flex items-center gap-6">
+          <Bk color={CL.r} label="r">
+            {v.r.map((val, i) => <div key={i}><Num v={val} color={CL.r} /></div>)}
+          </Bk>
+          <Bk color={CL.z} label="z">
+            {v.z.map((val, i) => <div key={i}><Num v={val} color={CL.z} /></div>)}
+          </Bk>
+          <Bk color={CL.z} label="z&apos;">
+            <Num v={v.zp} color={CL.z} />
+          </Bk>
+          <div className="flex flex-col items-center gap-0.5">
+            <span className="text-[11px] tracking-wider" style={{ color: CL.m }}>m · ⌈q/2⌋</span>
+            <span className="font-mono text-sm font-bold px-2 py-1 rounded"
+              style={{ color: CL.m, backgroundColor: CL.mb }}>{v.m} · {HQ} = {v.m * HQ}</span>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -374,6 +388,14 @@ function Step2({ v }: { v: V }) {
           </div>
         </div>
       </div>
+
+      <OpS>=</OpS>
+      <Bk color={CL.g} dashed label="[ c1 | c2' ]">
+        {v.c1.map((val, i) => <div key={i}><Num v={val} color={CL.g} w={36} /></div>)}
+        <Sep color={CL.g + '60'} />
+        <div><Num v={v.c2} color={CL.g} w={36} /></div>
+      </Bk>
+
     </div>
   );
 }
@@ -385,24 +407,26 @@ function Step3({ v }: { v: V }) {
     <div className="flex flex-col items-center gap-3">
       {/* Top: bᵀr + z' + m·57 */}
       <div className="flex items-center gap-2">
-        <div className="flex items-center gap-1">
-          <BtRow v={v} />
-          <OpS>×</OpS>
-          <RCol v={v} />
-        </div>
-        <OpS>+</OpS>
-        <ZpMsg v={v} />
+        <Bracket>
+          <div className="flex items-center gap-1">
+            <BtRow v={v} />
+            <OpS>×</OpS>
+            <RCol v={v} />
+          </div>
+          <OpS>+</OpS>
+          <ZpMsg v={v} />
+        </Bracket>
       </div>
 
       {/* Minus bar */}
-      <div className="w-[80%] h-[3px] bg-gray-800 rounded-full" />
+      <OpS>-</OpS>
 
       {/* Bottom: sᵀ × ( Aᵀ × r + z ) */}
       <div className="flex items-center gap-2">
         <StRow v={v} />
         <OpS>×</OpS>
         <Bracket>
-          <Bk color={CL.A} dashed label="Aᵀ">
+          <Bk color={CL.A} label="Aᵀ">
             {v.AT.map((row, i) => (
               <div key={i} className="flex">{row.map((val, j) => <Num key={j} v={val} color={CL.A} w={36} />)}</div>
             ))}
@@ -410,7 +434,7 @@ function Step3({ v }: { v: V }) {
           <OpS>×</OpS>
           <RCol v={v} />
           <OpS>+</OpS>
-          <ZCol v={v} dashed />
+          <ZCol v={v} />
         </Bracket>
       </div>
     </div>
@@ -424,44 +448,48 @@ function Step4({ v }: { v: V }) {
     <div className="flex flex-col items-center gap-3">
       {/* Top: bᵀr + z' + m·57 */}
       <div className="flex items-center gap-2">
-        <div className="flex items-center gap-1">
-          <BtRow v={v} />
-          <OpS>×</OpS>
-          <RCol v={v} />
-        </div>
-        <OpS>+</OpS>
-        <ZpMsg v={v} />
+        <Bracket>
+          <div className="flex items-center gap-1">
+            <BtRow v={v} />
+            <OpS>×</OpS>
+            <RCol v={v} />
+          </div>
+          <OpS>+</OpS>
+          <ZpMsg v={v} />
+        </Bracket>
       </div>
 
       {/* Minus bar */}
-      <div className="w-[80%] h-[3px] bg-gray-800 rounded-full" />
+      <OpS>-</OpS>
 
       {/* Bottom: bᵀr  −  eᵀr  +  sᵀz */}
       <div className="flex items-center gap-1.5">
-        {/* bᵀr */}
-        <div className="flex items-center gap-1">
-          <BtRow v={v} />
-          <OpS>×</OpS>
-          <RCol v={v} />
-        </div>
+        <Bracket>
+          {/* bᵀr */}
+          <div className="flex items-center gap-1">
+            <BtRow v={v} />
+            <OpS>×</OpS>
+            <RCol v={v} />
+          </div>
 
-        <OpS>-</OpS>
+          <OpS>-</OpS>
 
-        {/* eᵀr */}
-        <div className="flex items-center gap-1">
-          <EtRow v={v} />
-          <OpS>×</OpS>
-          <RCol v={v} />
-        </div>
+          {/* eᵀr */}
+          <div className="flex items-center gap-1">
+            <EtRow v={v} />
+            <OpS>×</OpS>
+            <RCol v={v} />
+          </div>
 
-        <OpS>+</OpS>
+          <OpS>+</OpS>
 
-        {/* sᵀz */}
-        <div className="flex items-center gap-1">
-          <StRow v={v} />
-          <OpS>×</OpS>
-          <ZCol v={v} dashed />
-        </div>
+          {/* sᵀz */}
+          <div className="flex items-center gap-1">
+            <StRow v={v} />
+            <OpS>×</OpS>
+            <ZCol v={v} />
+          </div>
+        </Bracket>
       </div>
     </div>
   );
@@ -490,12 +518,13 @@ function Step5({ v }: { v: V }) {
             <RCol v={v} />
             <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] bg-red-500 rounded" />
           </div>
-          <OpS>+</OpS>
-          <ZpMsg v={v} />
+          <Bracket>
+            <ZpMsg v={v} />
+          </Bracket>
         </div>
 
-        {/* Minus bar (faded) */}
-        <div className="w-[80%] h-[3px] bg-gray-800 rounded-full opacity-30" />
+        {/* Minus bar */}
+        <OpS>-</OpS>
 
         {/* Bottom: bᵀr FADED | eᵀr + sᵀz bright */}
         <div className="flex items-center gap-1.5">
@@ -506,21 +535,23 @@ function Step5({ v }: { v: V }) {
             <div className="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-[2px] bg-red-500 rounded" />
           </div>
 
-          <OpS>-</OpS>
+          <Bracket>
+            <div className="flex items-center gap-1">
 
-          <div className="flex items-center gap-1">
-            <EtRow v={v} />
-            <OpS>×</OpS>
-            <RCol v={v} />
-          </div>
+              <OpS>-</OpS>
+              <EtRow v={v} />
+              <OpS>×</OpS>
+              <RCol v={v} />
+            </div>
 
-          <OpS>+</OpS>
+            <OpS>+</OpS>
 
-          <div className="flex items-center gap-1">
-            <StRow v={v} />
-            <OpS>×</OpS>
-            <ZCol v={v} dashed />
-          </div>
+            <div className="flex items-center gap-1">
+              <StRow v={v} />
+              <OpS>×</OpS>
+              <ZCol v={v} />
+            </div>
+          </Bracket>
         </div>
       </div>
 

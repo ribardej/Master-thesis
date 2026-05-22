@@ -427,7 +427,7 @@ Domain parameters: $n=256, q, k, \\eta_1, \\eta_2$, hash functions $G$ (512-bit 
 **Encapsulation (Your friend):**
 1. Select $m \\in_R \\{0,1\\}^{256}$
 2. Compute $(K, R) = G(m, H(ek))$
-3. Encrypt $m$ with Kyber-PKE using $R$ as the deterministic seed → ciphertext $c$
+3. Encrypt $m$ with Kyber-PKE using $R$ as the deterministic parameter seed → ciphertext $c$
 4. Output shared key $K$ and ciphertext $c$
 
 **Decapsulation (You):**
