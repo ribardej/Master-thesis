@@ -162,9 +162,7 @@ The QFT is the quantum analogue of the classical **Discrete Fourier Transform (D
 - Exploits **superposition** to process all amplitudes simultaneously
 - The result is a single probabilistic measurement of the period
 
-For Shor's algorithm, the QFT efficiently extracts the **period** of the modular function from the quantum state - a task that would require exponential time classically.
-
-Note: The algorithm works exactly when $p-1$ is 2-smooth ($p-1 = 2^k$). For the general case, the QFT size is $q$ where $p < q < 2p$ and $q$ is smooth. Shor proved that with additional techniques (continued fractions), $x$ can still be found with constant measurements.`
+For Shor's algorithm, the QFT efficiently extracts the **period** of the modular function from the quantum state - a task that would require exponential time classically.`
     },
     {
       title: "FFT vs QFT Comparison",
@@ -212,7 +210,9 @@ $$ \\frac{1}{(p-1)^2}\\sum_{a,b,c,d=0}^{p-2} e^{\\frac{2\\pi i}{p-1}(ac+bd)}|c, 
 
 5. **Measure** the state to obtain values of $c$ and $d$
 
-6. Compute $x$ on a classical computer by solving $c - dx \\equiv 0 \\pmod{p-1}$`
+6. Compute $x$ on a classical computer by solving $c - dx \\equiv 0 \\pmod{p-1}$
+
+Note: The algorithm works exactly when $p-1$ is 2-smooth ($p-1 = 2^k$). For the general case, the QFT size is $q$ where $p < q < 2p$ and $q$ is smooth. Shor proved that with additional techniques (continued fractions), $x$ can still be found with constant measurements.`
     },
     {
       title: "Shor's Algorithm for ECDLP",

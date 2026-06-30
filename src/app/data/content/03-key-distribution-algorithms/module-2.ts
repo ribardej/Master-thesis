@@ -191,8 +191,10 @@ where $c$ is the resulting ciphertext. It's crucial that message $m$ is represen
 Your friend receives $c$ and recovers the original message $m$ using his **Private Key** $(d, n)$:
 $$ m = c^d \\pmod n $$
 
-**Why this works** (Euler's theorem):  
-$$ c^d \\equiv (m^e)^d \\equiv m^{ed} \\equiv m^{k\\cdot\\phi(n)+1} \\equiv m^1 \\equiv m \\pmod n $$`
+**Why this works** (Euler's theorem for $m$ coprime with $n$):  
+$$ c^d \\equiv (m^e)^d \\equiv m^{ed} \\equiv m^{k\\cdot\\phi(n)+1} \\equiv m^1 \\equiv m \\pmod n $$
+
+For cases where $\\gcd(m, n) \\neq 1$ (either $p$ or $q$), the proof involves residual calculations using the Chinese remainder theorem.`
     },
     {
       title: "RSA for Key Distribution",
@@ -224,9 +226,7 @@ While all three algorithms can be used to distribute keys, their approaches and 
 
 Both **Diffie-Hellman (DH)** and **Elliptic-Curve Diffie-Hellman (ECDH)** anonymously establish a shared secret using the Discrete Logarithm Problem (DLP). 
 
-The best known algorithm attacking both traditional DH and RSA (the General Number Field Sieve) runs with sub-exponential complexity. However, **no sub-exponential algorithm exists for breaking the Elliptic Curve version (ECDLP)**.
-
-Because of this, ECDH requires much smaller keys to achieve the exact same security level. 
+The best known algorithm attacking both traditional DH and RSA (the General Number Field Sieve) runs with sub-exponential complexity. However, **no sub-exponential algorithm exists for breaking the Elliptic Curve version (ECDLP)**. Therefore, ECDH requires much smaller keys to achieve the exact same security level. 
 
 **NIST Recommended Key Equivalencies:**
 - **80-bit security:** RSA / DH = 1024 bits | ECDH = 160 bits
